@@ -28,7 +28,8 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    return response.data
+    // 直接返回完整响应，由各API自行处理
+    return response
   },
   (error) => {
     if (error.response) {

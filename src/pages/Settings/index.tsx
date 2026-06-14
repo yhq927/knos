@@ -71,28 +71,40 @@ const Settings: React.FC = () => {
   const fetchMembers = async () => {
     try {
       const response = await membersApi.getList()
-      setMembers(response.data.list)
+      const result = response.data
+      if (result.code === 0) {
+        setMembers(result.data.list)
+      }
     } catch (error) {}
   }
 
   const fetchBusinessUnits = async () => {
     try {
       const response = await businessUnitsApi.getList()
-      setBusinessUnits(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setBusinessUnits(result.data)
+      }
     } catch (error) {}
   }
 
   const fetchPlanInfo = async () => {
     try {
       const response = await billingApi.getPlan()
-      setPlanInfo(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setPlanInfo(result.data)
+      }
     } catch (error) {}
   }
 
   const fetchUsageInfo = async () => {
     try {
       const response = await billingApi.getUsage()
-      setUsageInfo(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setUsageInfo(result.data)
+      }
     } catch (error) {}
   }
 
@@ -556,7 +568,10 @@ const Settings: React.FC = () => {
                   type="primary"
                   onClick={async () => {
                     const response = await billingApi.upgrade('pro')
-                    window.location.href = response.data.paymentUrl
+                    const result = response.data
+                    if (result.code === 0) {
+                      window.location.href = result.data.paymentUrl
+                    }
                   }}
                   style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',

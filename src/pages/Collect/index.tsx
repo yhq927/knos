@@ -55,9 +55,12 @@ const Collect: React.FC = () => {
   const fetchGoals = async () => {
     try {
       const response = await collectApi.getGoals()
-      setGoals(response.data)
-      const inProgress = response.data.find((g: Goal) => g.status === 'in_progress')
-      if (inProgress) setCurrentGoal(inProgress)
+      const result = response.data
+      if (result.code === 0) {
+        setGoals(result.data)
+        const inProgress = result.data.find((g: Goal) => g.status === 'in_progress')
+        if (inProgress) setCurrentGoal(inProgress)
+      }
     } catch (error) {
       console.error('获取采集目标失败:', error)
     }
@@ -67,7 +70,10 @@ const Collect: React.FC = () => {
     setLoading(true)
     try {
       const response = await collectApi.getCurrentQuestion()
-      setCurrentQuestion(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setCurrentQuestion(result.data)
+      }
     } catch (error) {
       console.error('获取当前问题失败:', error)
     } finally {

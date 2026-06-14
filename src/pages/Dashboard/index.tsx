@@ -31,7 +31,10 @@ const Dashboard: React.FC = () => {
   const fetchStats = async () => {
     try {
       const response = await enterpriseApi.getStats()
-      setStats(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setStats(result.data)
+      }
     } catch (error) {
       console.error('获取统计数据失败:', error)
     } finally {

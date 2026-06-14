@@ -62,8 +62,11 @@ const Knowledge: React.FC = () => {
         keyword,
         businessUnitId: selectedUnit,
       })
-      setKnowledgeList(response.data.list)
-      setTotal(response.data.total)
+      const result = response.data
+      if (result.code === 0) {
+        setKnowledgeList(result.data.list)
+        setTotal(result.data.total)
+      }
     } catch (error) {
       console.error('获取知识列表失败:', error)
     } finally {
@@ -74,7 +77,10 @@ const Knowledge: React.FC = () => {
   const fetchBusinessUnits = async () => {
     try {
       const response = await businessUnitsApi.getList()
-      setBusinessUnits(response.data)
+      const result = response.data
+      if (result.code === 0) {
+        setBusinessUnits(result.data)
+      }
     } catch (error) {
       console.error('获取业务单元失败:', error)
     }

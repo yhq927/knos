@@ -47,10 +47,16 @@ const Analytics: React.FC = () => {
         analyticsApi.getUncoveredQuestions(10),
         analyticsApi.getUserRanking(10),
       ])
-      setOverview(overviewRes.data)
-      setHotQuestions(hotRes.data)
-      setUncoveredQuestions(uncoveredRes.data)
-      setUserRanking(rankingRes.data)
+      
+      const overviewResult = overviewRes.data
+      const hotResult = hotRes.data
+      const uncoveredResult = uncoveredRes.data
+      const rankingResult = rankingRes.data
+
+      if (overviewResult.code === 0) setOverview(overviewResult.data)
+      if (hotResult.code === 0) setHotQuestions(hotResult.data)
+      if (uncoveredResult.code === 0) setUncoveredQuestions(uncoveredResult.data)
+      if (rankingResult.code === 0) setUserRanking(rankingResult.data)
     } catch (error) {
       console.error('获取统计数据失败:', error)
     } finally {

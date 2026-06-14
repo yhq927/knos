@@ -43,8 +43,11 @@ const UploadPage: React.FC = () => {
     setLoading(true)
     try {
       const response = await uploadApi.getList({ page, pageSize })
-      setFileList(response.data.list)
-      setTotal(response.data.total)
+      const result = response.data
+      if (result.code === 0) {
+        setFileList(result.data.list)
+        setTotal(result.data.total)
+      }
     } catch (error) {
       console.error('获取文件列表失败:', error)
     } finally {

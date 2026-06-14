@@ -35,10 +35,15 @@ const Register: React.FC = () => {
     setLoading(true)
     try {
       const response = await authApi.register(values)
-      const { user, token, enterprise } = response.data.data || response.data
-      setAuth(user, token, enterprise)
-      message.success('注册成功')
-      navigate('/dashboard')
+      const result = response.data
+      if (result.code === 0) {
+        const { user, token, enterprise } = result.data
+        setAuth(user, token, enterprise)
+        message.success('注册成功')
+        navigate('/dashboard')
+      } else {
+        message.error(result.message || '注册失败')
+      }
     } catch (error: any) {
       message.error(error.response?.data?.message || '注册失败')
     } finally {
