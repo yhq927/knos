@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// 模拟用户数据库（与register共享）
-const users: Array<{
+// 共享内存数据库（与register共享）
+const USERS_DB: Record<string, {
   id: string
   email: string
   password: string
@@ -10,9 +10,8 @@ const users: Array<{
   industry: string
   size?: string
   createdAt: string
-}> = [
-  // 预置测试用户
-  {
+}> = {
+  'test@example.com': {
     id: 'user_test',
     email: 'test@example.com',
     password: '12345678',
@@ -21,13 +20,13 @@ const users: Array<{
     industry: 'technology',
     createdAt: new Date().toISOString()
   }
-]
+}
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // 设置CORS头
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
@@ -38,7 +37,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { email, password } = req.body
+    const { email, password } = req.body || {}
 
     // 验证必填字段
     if (!email || !password) {
@@ -49,38 +48,47 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 查找用户
-    const user = users.find(u => u.email === email && u.password === password)
-    if (!user) {
+    const user = USERS_DB[email]
+    if (!user || user.password !== password) {
       return res.status(401).json({
         code: 401,
         message: '邮箱或密码错误'
       })
     }
 
-    // 生成模拟token
-    const token = `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    // 生成token
+    const token = `token_${user.id}_${Date.now()}`
 
-    // 返回用户信息（不包含密码）
-    const { password: _, ...userInfo } = user
-
+    // 返回用户信息
     return res.status(200).json({
       code: 0,
       message: '登录成功',
       data: {
-        user: userInfo,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: 'admin',
+          enterpriseId: `ent_${user.id}`
+        },
         token,
         enterprise: {
           id: `ent_${user.id}`,
           name: user.companyName,
           industry: user.industry,
-          slug: user.companyName.toLowerCase().replace(/\s+/g, '-').substr(0, 20),
+          size: user.size || '',
+          slug: user.companyName.toLowerCase().replace(/[^a-z0-9]/g, '-').substr(0, 20),
           planType: 'free',
-          settings: {},
+          settings: {
+            publicEnabled: false,
+            welcomeMessage: '您好，我是您的智能助手，请问您想了解什么？'
+          },
           createdAt: user.createdAt
         }
       }
     })
   } catch (error) {
+    console.error('Login error:', error)
     return res.status(500).json({
       code: 500,
       message: '服务器错误'

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// 模拟用户数据库
-const users: Array<{
+// 共享内存数据库（注意：这是临时方案，生产环境应使用数据库）
+const USERS_DB: Record<string, {
   id: string
   email: string
   password: string
@@ -10,13 +10,23 @@ const users: Array<{
   industry: string
   size?: string
   createdAt: string
-}> = []
+}> = {
+  'test@example.com': {
+    id: 'user_test',
+    email: 'test@example.com',
+    password: '12345678',
+    name: '测试用户',
+    companyName: '测试公司',
+    industry: 'technology',
+    createdAt: new Date().toISOString()
+  }
+}
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // 设置CORS头
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
@@ -27,7 +37,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { email, password, companyName, industry, size } = req.body
+    const { email, password, companyName, industry, size } = req.body || {}
 
     // 验证必填字段
     if (!email || !password || !companyName || !industry) {
@@ -55,8 +65,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 检查邮箱是否已注册
-    const existingUser = users.find(u => u.email === email)
-    if (existingUser) {
+    if (USERS_DB[email]) {
       return res.status(400).json({
         code: 400,
         message: '该邮箱已注册'
@@ -64,10 +73,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 创建用户
+    const userId = `user_${Date.now()}`
     const user = {
-      id: `user_${Date.now()}`,
+      id: userId,
       email,
-      password, // 实际应用中需要加密
+      password,
       name: email.split('@')[0],
       companyName,
       industry,
@@ -75,33 +85,41 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       createdAt: new Date().toISOString()
     }
 
-    users.push(user)
+    USERS_DB[email] = user
 
-    // 生成模拟token
-    const token = `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    // 生成token
+    const token = `token_${userId}_${Date.now()}`
 
-    // 返回用户信息（不包含密码）
-    const { password: _, ...userInfo } = user
-
+    // 返回用户信息
     return res.status(200).json({
       code: 0,
       message: '注册成功',
       data: {
-        user: userInfo,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: 'admin',
+          enterpriseId: `ent_${userId}`
+        },
         token,
         enterprise: {
-          id: `ent_${Date.now()}`,
+          id: `ent_${userId}`,
           name: companyName,
           industry,
-          size,
-          slug: companyName.toLowerCase().replace(/\s+/g, '-').substr(0, 20),
+          size: size || '',
+          slug: companyName.toLowerCase().replace(/[^a-z0-9]/g, '-').substr(0, 20),
           planType: 'free',
-          settings: {},
+          settings: {
+            publicEnabled: false,
+            welcomeMessage: '您好，我是您的智能助手，请问您想了解什么？'
+          },
           createdAt: new Date().toISOString()
         }
       }
     })
   } catch (error) {
+    console.error('Register error:', error)
     return res.status(500).json({
       code: 500,
       message: '服务器错误'
