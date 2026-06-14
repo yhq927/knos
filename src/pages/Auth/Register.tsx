@@ -89,26 +89,61 @@ const Register: React.FC = () => {
           flex: 1,
           minHeight: '100vh',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '40px',
+          flexDirection: 'column',
+          padding: '20px 40px',
           position: 'relative',
           zIndex: 1,
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 480,
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: 24,
-            padding: '48px 40px',
-            backdropFilter: 'blur(20px)',
-          }}
-        >
-          {/* Logo */}
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+        {/* 顶部导航 */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '10px 0',
+          marginBottom: '20px'
+        }}>
+          <Link to="/" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            textDecoration: 'none'
+          }}>
+            <div style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 16,
+              fontWeight: 700,
+              color: '#fff'
+            }}>K</div>
+            <span style={{ color: '#fff', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
+          </Link>
+        </div>
+
+        {/* 表单容器 */}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 24,
+              padding: '48px 40px',
+              backdropFilter: 'blur(20px)',
+            }}
+          >
+            {/* Logo */}
+            <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <div
               style={{
                 width: 56,
@@ -395,6 +430,7 @@ const Register: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
       </div>
 
       {/* 响应式样式 */}

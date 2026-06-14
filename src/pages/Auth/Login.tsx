@@ -36,43 +36,78 @@ const Login: React.FC = () => {
     <div style={{
       minHeight: '100vh',
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+      flexDirection: 'column',
       background: '#0a0a0a',
       padding: '20px'
     }}>
+      {/* 顶部导航 */}
       <div style={{
-        width: '100%',
-        maxWidth: 420,
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 24,
-        padding: '48px 40px',
-        backdropFilter: 'blur(20px)'
+        display: 'flex',
+        alignItems: 'center',
+        padding: '10px 20px',
+        marginBottom: '20px'
       }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+        <Link to="/" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          textDecoration: 'none'
+        }}>
           <div style={{
-            width: 56,
-            height: 56,
-            borderRadius: 16,
+            width: 32,
+            height: 32,
+            borderRadius: 8,
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 24,
-            fontWeight: 800,
-            color: '#fff',
-            margin: '0 auto 20px'
-          }}>
-            K
+            fontSize: 16,
+            fontWeight: 700,
+            color: '#fff'
+          }}>K</div>
+          <span style={{ color: '#fff', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
+        </Link>
+      </div>
+
+      {/* 登录表单 */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: 420,
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 24,
+          padding: '48px 40px',
+          backdropFilter: 'blur(20px)'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{
+              width: 56,
+              height: 56,
+              borderRadius: 16,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 24,
+              fontWeight: 800,
+              color: '#fff',
+              margin: '0 auto 20px'
+            }}>
+              K
+            </div>
+            <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+              登录账号
+            </Title>
+            <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+              登录以继续使用 KnosAI
+            </Text>
           </div>
-          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
-            登录账号
-          </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
-            登录以继续使用 KnosAI
-          </Text>
-        </div>
 
         <Form
           name="login"

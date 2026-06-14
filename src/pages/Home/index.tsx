@@ -301,6 +301,23 @@ const Home: React.FC = () => {
             KnosAI
           </span>
         </div>
+
+        {/* 导航菜单 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="nav-menu">
+          <a href="#features" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            功能特性
+          </a>
+          <a href="#use-cases" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            使用场景
+          </a>
+          <a href="#pricing" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            定价方案
+          </a>
+          <a href="#faq" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            FAQ
+          </a>
+        </div>
+
         <Space size={12}>
           <Button
             type="text"
@@ -452,7 +469,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* 客户能做什么 */}
-        <div style={{ padding: '120px 24px', background: '#0a0a0a' }}>
+        <div id="use-cases" style={{ padding: '120px 24px', background: '#0a0a0a' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 80 }}>
               <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
@@ -636,7 +653,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* 知识库构建特色 */}
-        <div style={{ padding: '120px 24px', background: '#111' }}>
+        <div id="features" style={{ padding: '120px 24px', background: '#111' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 80 }}>
               <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
@@ -806,7 +823,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* 定价方案 */}
-        <div style={{ padding: '120px 24px', background: 'linear-gradient(180deg, #0a0a0a 0%, #111 100%)' }}>
+        <div id="pricing" style={{ padding: '120px 24px', background: 'linear-gradient(180deg, #0a0a0a 0%, #111 100%)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 80 }}>
               <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
@@ -901,7 +918,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* FAQ */}
-        <div style={{ padding: '120px 24px', background: '#111' }}>
+        <div id="faq" style={{ padding: '120px 24px', background: '#111' }}>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 60 }}>
               <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
