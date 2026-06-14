@@ -4,7 +4,7 @@ import { message } from 'antd'
 
 // 创建axios实例
 const api: AxiosInstance = axios.create({
-  baseURL: '/api/v1',
+  baseURL: '/api',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export const authApi = {
   login: (data: { email: string; password: string }) =>
     api.post('/auth/login', data),
   
-  register: (data: { email: string; password: string; companyName: string; industry: string }) =>
+  register: (data: { email: string; password: string; companyName: string; industry: string; size?: string }) =>
     api.post('/auth/register', data),
   
   forgotPassword: (email: string) =>

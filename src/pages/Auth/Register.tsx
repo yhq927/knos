@@ -35,7 +35,7 @@ const Register: React.FC = () => {
     setLoading(true)
     try {
       const response = await authApi.register(values)
-      const { user, token, enterprise } = response.data
+      const { user, token, enterprise } = response.data.data || response.data
       setAuth(user, token, enterprise)
       message.success('注册成功')
       navigate('/dashboard')

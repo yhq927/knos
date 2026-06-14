@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     setLoading(true)
     try {
       const response = await authApi.login(values)
-      const { user, token, enterprise } = response.data
+      const { user, token, enterprise } = response.data.data || response.data
       setAuth(user, token, enterprise)
       message.success('登录成功')
       navigate('/dashboard')
