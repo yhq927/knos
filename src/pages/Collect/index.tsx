@@ -17,7 +17,7 @@ import {
   FormOutlined,
   CheckCircleOutlined,
   RightOutlined,
-  SkipOutlined,
+  ForwardOutlined,
   ReloadOutlined,
 } from '@ant-design/icons'
 import { collectApi } from '@/services/api'
@@ -256,7 +256,7 @@ const Collect: React.FC = () => {
                       提交回答
                     </Button>
                     <Button
-                      icon={<SkipOutlined />}
+                      icon={<ForwardOutlined />}
                       onClick={handleSkipQuestion}
                     >
                       跳过此题
