@@ -31,31 +31,37 @@ const { Panel } = Collapse
 const Home: React.FC = () => {
   const navigate = useNavigate()
 
-  // 用户故事
+  // 客户案例 - 聚焦知识库构建特色
   const userStories = [
     {
       icon: <ShopOutlined />,
       industry: '连锁餐饮',
       company: '某知名连锁品牌',
-      story: '我们有200+门店，新员工培训一直是痛点。使用KnosAI后，新员工可以直接问AI，3天就能上手，培训周期缩短了60%。',
-      result: '培训周期缩短60%',
+      buildMethod: 'AI引导采集 + 文档上传',
+      story: '200+门店的运营经验分散在各店长脑子里，之前尝试用Word文档整理，3个月才录入50条。用KnosAI的AI引导采集，**2天就沉淀了300+条知识**，AI会主动问"新员工如何快速上手？""高峰期如何排班？"，把隐性经验变成显性知识。',
+      beforeBuild: '3个月，50条知识',
+      afterBuild: '2天，300+条知识',
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    },
-    {
-      icon: <MedicineBoxOutlined />,
-      industry: '医疗健康',
-      company: '某三甲医院',
-      story: '医疗知识更新快，医生需要快速查询最新诊疗方案。KnosAI帮我们建立了智能知识库，医生问诊效率提升了40%。',
-      result: '问诊效率提升40%',
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     },
     {
       icon: <BankOutlined />,
       industry: '金融服务',
       company: '某城商银行',
-      story: '合规知识复杂且更新频繁，客户经理经常答不上来。现在客户问题AI秒回，客户满意度提升了35%。',
-      result: '客户满意度提升35%',
+      buildMethod: '文档自动解析',
+      story: '银行有大量合规文档、产品手册、培训资料，**200+份PDF文档**。之前人工整理要2个月，现在用KnosAI的文档解析功能，**上传后自动提取知识点，3天完成全部入库**。AI还能自动识别文档中的FAQ和操作流程。',
+      beforeBuild: '2个月，人工整理',
+      afterBuild: '3天，自动解析入库',
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    },
+    {
+      icon: <MedicineBoxOutlined />,
+      industry: '医疗健康',
+      company: '某三甲医院',
+      buildMethod: 'AI引导 + 行业知识库',
+      story: '医疗知识更新快，科室经验难传承。KnosAI预置了**医疗行业知识库**，新医生进来就有基础，再用AI引导采集补充科室特色经验。**1周内建好科室知识库**，老医生退休前的经验都沉淀下来了。',
+      beforeBuild: '经验随人走，无法沉淀',
+      afterBuild: '1周建好科室知识库',
+      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     },
   ]
 
@@ -502,7 +508,7 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* 用户故事 */}
+        {/* 客户案例 - 聚焦知识库构建 */}
         <div style={{ padding: '120px 24px', background: 'linear-gradient(180deg, #0a0a0a 0%, #111 100%)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 80 }}>
@@ -510,8 +516,11 @@ const Home: React.FC = () => {
                 客户案例
               </Text>
               <Title style={{ color: '#fff', fontSize: 48, marginTop: 16, fontWeight: 800 }}>
-                他们都在用KnosAI
+                知识库构建，从未如此简单
               </Title>
+              <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 18, maxWidth: 700, margin: '16px auto 0' }}>
+                传统方式需要数月才能建好的知识库，用KnosAI只需几天
+              </Paragraph>
             </div>
 
             <Row gutter={[24, 24]}>
@@ -557,20 +566,67 @@ const Home: React.FC = () => {
                         </Tag>
                       </div>
                     </div>
-                    <Paragraph style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 20 }}>
+
+                    {/* 构建方式标签 */}
+                    <div style={{ marginBottom: 16 }}>
+                      <Tag
+                        style={{
+                          background: 'rgba(249, 115, 22, 0.2)',
+                          border: '1px solid rgba(249, 115, 22, 0.3)',
+                          color: '#F97316',
+                          borderRadius: 100,
+                          padding: '4px 12px',
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      >
+                        <ThunderboltOutlined /> {story.buildMethod}
+                      </Tag>
+                    </div>
+
+                    <Paragraph style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>
                       "{story.story}"
                     </Paragraph>
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        borderRadius: 12,
-                        background: 'rgba(67, 233, 123, 0.1)',
-                        border: '1px solid rgba(67, 233, 123, 0.2)',
-                      }}
-                    >
-                      <Text style={{ color: '#43e97b', fontWeight: 600 }}>
-                        <RiseOutlined /> {story.result}
-                      </Text>
+
+                    {/* 构建效果对比 */}
+                    <div style={{ display: 'flex', gap: 12 }}>
+                      <div
+                        style={{
+                          flex: 1,
+                          padding: '12px',
+                          borderRadius: 12,
+                          background: 'rgba(245, 158, 11, 0.1)',
+                          border: '1px solid rgba(245, 158, 11, 0.2)',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, display: 'block', marginBottom: 4 }}>
+                          传统方式
+                        </Text>
+                        <Text style={{ color: '#F59E0B', fontWeight: 600, fontSize: 13 }}>
+                          {story.beforeBuild}
+                        </Text>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', color: '#667eea' }}>
+                        <ArrowRightOutlined />
+                      </div>
+                      <div
+                        style={{
+                          flex: 1,
+                          padding: '12px',
+                          borderRadius: 12,
+                          background: 'rgba(67, 233, 123, 0.1)',
+                          border: '1px solid rgba(67, 233, 123, 0.2)',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, display: 'block', marginBottom: 4 }}>
+                          使用KnosAI
+                        </Text>
+                        <Text style={{ color: '#43e97b', fontWeight: 600, fontSize: 13 }}>
+                          {story.afterBuild}
+                        </Text>
+                      </div>
                     </div>
                   </Card>
                 </Col>
@@ -579,17 +635,97 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* 飞轮效应 */}
+        {/* 知识库构建特色 */}
         <div style={{ padding: '120px 24px', background: '#111' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 80 }}>
               <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
-                飞轮效应
+                核心特色
               </Text>
               <Title style={{ color: '#fff', fontSize: 48, marginTop: 16, fontWeight: 800 }}>
-                越用越聪明的正循环
+                三种方式，快速构建知识库
               </Title>
               <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 18, maxWidth: 700, margin: '16px auto 0' }}>
+                无论你的知识在哪里，KnosAI都能帮你快速沉淀
+              </Paragraph>
+            </div>
+
+            <Row gutter={[24, 24]} style={{ marginBottom: 60 }}>
+              {[
+                {
+                  icon: <RobotOutlined />,
+                  title: 'AI引导采集',
+                  desc: 'AI主动提问，引导团队成员把隐性经验变成显性知识',
+                  features: ['动态生成问题', '目标导向采集', '10分钟上手'],
+                  gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                },
+                {
+                  icon: <CloudUploadOutlined />,
+                  title: '文档自动解析',
+                  desc: '上传现有文档，AI自动提取知识点，结构化入库',
+                  features: ['支持PDF/Word/Excel', '智能分块提取', '批量处理'],
+                  gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                },
+                {
+                  icon: <BookOutlined />,
+                  title: '行业知识库',
+                  desc: '预置行业最佳实践，新企业进来就有基础，不用从零开始',
+                  features: ['行业模板', '持续更新', '脱敏安全'],
+                  gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                },
+              ].map((item, index) => (
+                <Col xs={24} lg={8} key={index}>
+                  <Card
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: 20,
+                      height: '100%',
+                    }}
+                    bodyStyle={{ padding: 32 }}
+                  >
+                    <div
+                      style={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: 18,
+                        background: item.gradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: 28,
+                        color: '#fff',
+                        marginBottom: 20,
+                      }}
+                    >
+                      {item.icon}
+                    </div>
+                    <Title level={3} style={{ color: '#fff', marginBottom: 12 }}>{item.title}</Title>
+                    <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.8, marginBottom: 20 }}>
+                      {item.desc}
+                    </Paragraph>
+                    <div>
+                      {item.features.map((feature, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                          <CheckCircleOutlined style={{ color: '#43e97b', fontSize: 14 }} />
+                          <Text style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>{feature}</Text>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+
+            {/* 飞轮效应 */}
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
+                飞轮效应
+              </Text>
+              <Title style={{ color: '#fff', fontSize: 36, marginTop: 16, fontWeight: 800 }}>
+                越用越聪明的正循环
+              </Title>
+              <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 700, margin: '16px auto 0' }}>
                 你贡献的经验，会让整个行业知识库更完善 —— 而完善的行业知识库，又会反过来服务你的企业。
               </Paragraph>
             </div>
