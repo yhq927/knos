@@ -10,7 +10,6 @@ import {
   message,
   Typography,
   Modal,
-  List,
 } from 'antd'
 import {
   InboxOutlined,
@@ -19,7 +18,6 @@ import {
   FilePdfOutlined,
   FileExcelOutlined,
   ReloadOutlined,
-  DeleteOutlined,
   EyeOutlined,
 } from '@ant-design/icons'
 import { uploadApi } from '@/services/api'
@@ -54,7 +52,6 @@ const UploadPage: React.FC = () => {
     }
   }
 
-  // 上传配置
   const uploadProps = {
     name: 'file',
     multiple: true,
@@ -81,7 +78,6 @@ const UploadPage: React.FC = () => {
     },
   }
 
-  // 重新解析
   const handleReparse = async (id: string) => {
     try {
       await uploadApi.reparse(id)
@@ -92,22 +88,19 @@ const UploadPage: React.FC = () => {
     }
   }
 
-  // 获取文件图标
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.includes('pdf')) return <FilePdfOutlined style={{ color: '#ff4d4f' }} />
-    if (mimeType.includes('word') || mimeType.includes('document')) return <FileTextOutlined style={{ color: '#1890ff' }} />
-    if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return <FileExcelOutlined style={{ color: '#52c41a' }} />
-    return <FileTextOutlined />
+    if (mimeType.includes('pdf')) return <FilePdfOutlined style={{ color: '#f5576c' }} />
+    if (mimeType.includes('word') || mimeType.includes('document')) return <FileTextOutlined style={{ color: '#4facfe' }} />
+    if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return <FileExcelOutlined style={{ color: '#43e97b' }} />
+    return <FileTextOutlined style={{ color: '#667eea' }} />
   }
 
-  // 格式化文件大小
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B'
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
     return (bytes / 1024 / 1024).toFixed(1) + ' MB'
   }
 
-  // 表格列定义
   const columns = [
     {
       title: '文件名',
@@ -116,7 +109,7 @@ const UploadPage: React.FC = () => {
       render: (text: string, record: FileUpload) => (
         <Space>
           {getFileIcon(record.mimeType)}
-          <Text>{text}</Text>
+          <Text style={{ color: '#fff' }}>{text}</Text>
         </Space>
       ),
     },
@@ -124,7 +117,7 @@ const UploadPage: React.FC = () => {
       title: '大小',
       dataIndex: 'fileSize',
       key: 'fileSize',
-      render: (size: number) => formatFileSize(size),
+      render: (size: number) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{formatFileSize(size)}</Text>,
     },
     {
       title: '状态',
@@ -132,17 +125,33 @@ const UploadPage: React.FC = () => {
       key: 'status',
       render: (status: string, record: FileUpload) => {
         const statusMap: Record<string, { color: string; label: string }> = {
-          pending: { color: 'default', label: '等待中' },
-          processing: { color: 'processing', label: '解析中' },
-          completed: { color: 'success', label: '已完成' },
-          failed: { color: 'error', label: '失败' },
+          pending: { color: '#666', label: '等待中' },
+          processing: { color: '#667eea', label: '解析中' },
+          completed: { color: '#43e97b', label: '已完成' },
+          failed: { color: '#f5576c', label: '失败' },
         }
         const item = statusMap[status] || statusMap.pending
         return (
           <div>
-            <Tag color={item.color}>{item.label}</Tag>
+            <Tag
+              style={{
+                background: `${item.color}20`,
+                border: `1px solid ${item.color}40`,
+                color: item.color,
+                borderRadius: 100,
+              }}
+            >
+              {item.label}
+            </Tag>
             {status === 'processing' && (
-              <Progress percent={record.progress} size="small" style={{ marginTop: 4 }} />
+              <Progress
+                percent={record.progress}
+                size="small"
+                showInfo={false}
+                strokeColor="#667eea"
+                trailColor="rgba(255,255,255,0.1)"
+                style={{ marginTop: 8 }}
+              />
             )}
           </div>
         )
@@ -154,11 +163,11 @@ const UploadPage: React.FC = () => {
       key: 'parsedCount',
       render: (count: number, record: FileUpload) => (
         record.status === 'completed' ? (
-          <Text>提取 {count} 条知识</Text>
+          <Text style={{ color: '#43e97b' }}>提取 {count} 条知识</Text>
         ) : record.status === 'failed' ? (
-          <Text type="danger">{record.errorMessage || '解析失败'}</Text>
+          <Text style={{ color: '#f5576c' }}>{record.errorMessage || '解析失败'}</Text>
         ) : (
-          <Text type="secondary">-</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.3)' }}>-</Text>
         )
       ),
     },
@@ -166,7 +175,7 @@ const UploadPage: React.FC = () => {
       title: '上传时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (text: string) => new Date(text).toLocaleString('zh-CN'),
+      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{new Date(text).toLocaleString('zh-CN')}</Text>,
     },
     {
       title: '操作',
@@ -178,6 +187,7 @@ const UploadPage: React.FC = () => {
               type="text"
               icon={<ReloadOutlined />}
               onClick={() => handleReparse(record.id)}
+              style={{ color: '#667eea' }}
             >
               重试
             </Button>
@@ -190,6 +200,7 @@ const UploadPage: React.FC = () => {
                 setPreviewFile(record)
                 setPreviewVisible(true)
               }}
+              style={{ color: '#667eea' }}
             >
               查看
             </Button>
@@ -200,33 +211,71 @@ const UploadPage: React.FC = () => {
   ]
 
   return (
-    <div className="page-container fade-in">
-      <Card>
-        <div style={{ marginBottom: 24 }}>
-          <Title level={4}>
-            <UploadOutlined style={{ marginRight: 8 }} />
+    <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
+      <Card
+        style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 20,
+        }}
+        bodyStyle={{ padding: 32 }}
+      >
+        <div style={{ marginBottom: 32 }}>
+          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+            <UploadOutlined style={{ marginRight: 12 }} />
             文档上传
           </Title>
-          <Text type="secondary">
+          <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>
             上传文档文件，系统自动解析并提取知识
           </Text>
         </div>
 
         {/* 上传区域 */}
-        <Card style={{ marginBottom: 24 }}>
-          <Dragger {...uploadProps}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">点击或拖拽文件到此区域上传</p>
-            <p className="ant-upload-hint">
-              支持 Word、PDF、Excel、Markdown、TXT 格式，单文件最大 100MB
-            </p>
+        <Card
+          style={{
+            background: 'rgba(255,255,255,0.02)',
+            border: '2px dashed rgba(102, 126, 234, 0.3)',
+            borderRadius: 16,
+            marginBottom: 32,
+          }}
+          bodyStyle={{ padding: 0 }}
+        >
+          <Dragger {...uploadProps} style={{ background: 'transparent' }}>
+            <div style={{ padding: '60px 0' }}>
+              <div
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 20,
+                  background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 24px',
+                }}
+              >
+                <InboxOutlined style={{ fontSize: 40, color: '#667eea' }} />
+              </div>
+              <Title level={4} style={{ color: '#fff', marginBottom: 8 }}>
+                点击或拖拽文件到此区域上传
+              </Title>
+              <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+                支持 Word、PDF、Excel、Markdown、TXT 格式，单文件最大 100MB
+              </Text>
+            </div>
           </Dragger>
         </Card>
 
         {/* 文件列表 */}
-        <Card title="上传记录">
+        <Card
+          title={<span style={{ color: '#fff' }}>上传记录</span>}
+          style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 16,
+          }}
+          bodyStyle={{ padding: 0 }}
+        >
           <Table
             columns={columns}
             dataSource={fileList}
@@ -238,7 +287,7 @@ const UploadPage: React.FC = () => {
               total,
               showSizeChanger: true,
               showQuickJumper: true,
-              showTotal: (total) => `共 ${total} 个文件`,
+              showTotal: (total) => <span style={{ color: 'rgba(255,255,255,0.5)' }}>共 {total} 个文件</span>,
               onChange: (page, pageSize) => {
                 setPage(page)
                 setPageSize(pageSize)
@@ -280,6 +329,39 @@ const UploadPage: React.FC = () => {
           </div>
         )}
       </Modal>
+
+      <style>{`
+        .ant-upload-drag {
+          background: transparent !important;
+          border: none !important;
+        }
+        .ant-table {
+          background: transparent !important;
+        }
+        .ant-table-thead > tr > th {
+          background: rgba(255,255,255,0.05) !important;
+          color: rgba(255,255,255,0.8) !important;
+          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        }
+        .ant-table-tbody > tr > td {
+          color: rgba(255,255,255,0.7) !important;
+          border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        }
+        .ant-table-tbody > tr:hover > td {
+          background: rgba(102, 126, 234, 0.1) !important;
+        }
+        .ant-pagination .ant-pagination-item {
+          background: rgba(255,255,255,0.05) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        .ant-pagination .ant-pagination-item a {
+          color: rgba(255,255,255,0.7) !important;
+        }
+        .ant-pagination .ant-pagination-item-active {
+          background: #667eea !important;
+          border-color: #667eea !important;
+        }
+      `}</style>
     </div>
   )
 }

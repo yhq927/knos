@@ -13,13 +13,10 @@ import {
   Modal,
   Popconfirm,
   Switch,
-  ColorPicker,
   Typography,
-  Divider,
 } from 'antd'
 import {
   SettingOutlined,
-  UserOutlined,
   KeyOutlined,
   TeamOutlined,
   ShopOutlined,
@@ -34,7 +31,7 @@ const { Title, Text, Paragraph } = Typography
 const { TextArea } = Input
 
 const Settings: React.FC = () => {
-  const { enterprise, setEnterprise } = useAuthStore()
+  const { enterprise } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [members, setMembers] = useState<any[]>([])
   const [businessUnits, setBusinessUnits] = useState<any[]>([])
@@ -55,8 +52,6 @@ const Settings: React.FC = () => {
     fetchBusinessUnits()
     fetchPlanInfo()
     fetchUsageInfo()
-    
-    // 初始化表单
     if (enterprise) {
       basicForm.setFieldsValue({
         name: enterprise.name,
@@ -77,39 +72,30 @@ const Settings: React.FC = () => {
     try {
       const response = await membersApi.getList()
       setMembers(response.data.list)
-    } catch (error) {
-      console.error('获取成员列表失败:', error)
-    }
+    } catch (error) {}
   }
 
   const fetchBusinessUnits = async () => {
     try {
       const response = await businessUnitsApi.getList()
       setBusinessUnits(response.data)
-    } catch (error) {
-      console.error('获取业务单元失败:', error)
-    }
+    } catch (error) {}
   }
 
   const fetchPlanInfo = async () => {
     try {
       const response = await billingApi.getPlan()
       setPlanInfo(response.data)
-    } catch (error) {
-      console.error('获取套餐信息失败:', error)
-    }
+    } catch (error) {}
   }
 
   const fetchUsageInfo = async () => {
     try {
       const response = await billingApi.getUsage()
       setUsageInfo(response.data)
-    } catch (error) {
-      console.error('获取使用量失败:', error)
-    }
+    } catch (error) {}
   }
 
-  // 保存基本信息
   const handleSaveBasic = async () => {
     try {
       const values = await basicForm.validateFields()
@@ -123,7 +109,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 保存API Key
   const handleSaveApiKey = async () => {
     try {
       const values = await apiKeyForm.validateFields()
@@ -137,7 +122,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 测试API Key
   const handleTestApiKey = async (provider: string) => {
     try {
       const apiKey = apiKeyForm.getFieldValue(provider)
@@ -152,7 +136,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 邀请成员
   const handleInvite = async () => {
     try {
       const values = await inviteForm.validateFields()
@@ -166,7 +149,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 更新成员角色
   const handleUpdateRole = async (id: string, role: string) => {
     try {
       await membersApi.updateRole(id, role)
@@ -177,7 +159,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 移除成员
   const handleRemoveMember = async (id: string) => {
     try {
       await membersApi.remove(id)
@@ -188,7 +169,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 创建/编辑业务单元
   const handleSaveUnit = async () => {
     try {
       const values = await unitForm.validateFields()
@@ -208,7 +188,6 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 删除业务单元
   const handleDeleteUnit = async (id: string) => {
     try {
       await businessUnitsApi.delete(id)
@@ -219,31 +198,30 @@ const Settings: React.FC = () => {
     }
   }
 
-  // 复制Widget代码
   const handleCopyWidgetCode = () => {
     const code = `<script src="https://widget.knosai.com/v1/loader.js" data-enterprise="${enterprise?.slug}" data-position="bottom-right"></script>`
     navigator.clipboard.writeText(code)
     message.success('代码已复制到剪贴板')
   }
 
-  // 复制访问链接
   const handleCopyLink = () => {
     const link = `https://knosai.com/p/${enterprise?.slug}`
     navigator.clipboard.writeText(link)
     message.success('链接已复制到剪贴板')
   }
 
-  // 成员列表列定义
   const memberColumns = [
     {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
+      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
+      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{text}</Text>,
     },
     {
       title: '角色',
@@ -266,7 +244,7 @@ const Settings: React.FC = () => {
       title: '加入时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (text: string) => new Date(text).toLocaleDateString('zh-CN'),
+      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
     },
     {
       title: '操作',
@@ -278,32 +256,38 @@ const Settings: React.FC = () => {
           okText="确定"
           cancelText="取消"
         >
-          <Button type="text" danger>
-            移除
-          </Button>
+          <Button type="text" danger style={{ color: '#f5576c' }}>移除</Button>
         </Popconfirm>
       ),
     },
   ]
 
-  // 业务单元列定义
   const unitColumns = [
     {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
+      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
     },
     {
       title: '描述',
       dataIndex: 'description',
       key: 'description',
+      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{text}</Text>,
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => (
-        <Tag color={status === 'active' ? 'success' : 'default'}>
+        <Tag
+          style={{
+            background: status === 'active' ? 'rgba(67, 233, 123, 0.2)' : 'rgba(255,255,255,0.1)',
+            border: `1px solid ${status === 'active' ? 'rgba(67, 233, 123, 0.3)' : 'rgba(255,255,255,0.15)'}`,
+            color: status === 'active' ? '#43e97b' : 'rgba(255,255,255,0.5)',
+            borderRadius: 100,
+          }}
+        >
           {status === 'active' ? '启用' : '禁用'}
         </Tag>
       ),
@@ -320,6 +304,7 @@ const Settings: React.FC = () => {
               unitForm.setFieldsValue(record)
               setUnitModalVisible(true)
             }}
+            style={{ color: '#667eea' }}
           >
             编辑
           </Button>
@@ -329,25 +314,17 @@ const Settings: React.FC = () => {
             okText="确定"
             cancelText="取消"
           >
-            <Button type="text" danger>
-              删除
-            </Button>
+            <Button type="text" danger style={{ color: '#f5576c' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
     },
   ]
 
-  // Tab项
   const tabItems = [
     {
       key: 'basic',
-      label: (
-        <span>
-          <SettingOutlined />
-          基本信息
-        </span>
-      ),
+      label: <span><SettingOutlined /> 基本信息</span>,
       children: (
         <Form form={basicForm} layout="vertical">
           <Form.Item name="name" label="企业名称" rules={[{ required: true }]}>
@@ -391,7 +368,18 @@ const Settings: React.FC = () => {
             <Input placeholder="请输入联系邮箱" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" onClick={handleSaveBasic} loading={loading}>
+            <Button
+              type="primary"
+              onClick={handleSaveBasic}
+              loading={loading}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 600,
+                height: 44,
+              }}
+            >
               保存
             </Button>
           </Form.Item>
@@ -400,12 +388,7 @@ const Settings: React.FC = () => {
     },
     {
       key: 'apikey',
-      label: (
-        <span>
-          <KeyOutlined />
-          API Key
-        </span>
-      ),
+      label: <span><KeyOutlined /> API Key</span>,
       children: (
         <Form form={apiKeyForm} layout="vertical">
           <Form.Item name="openai" label="OpenAI API Key">
@@ -424,7 +407,18 @@ const Settings: React.FC = () => {
             } />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" onClick={handleSaveApiKey} loading={loading}>
+            <Button
+              type="primary"
+              onClick={handleSaveApiKey}
+              loading={loading}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 600,
+                height: 44,
+              }}
+            >
               保存
             </Button>
           </Form.Item>
@@ -433,16 +427,20 @@ const Settings: React.FC = () => {
     },
     {
       key: 'members',
-      label: (
-        <span>
-          <TeamOutlined />
-          成员管理
-        </span>
-      ),
+      label: <span><TeamOutlined /> 成员管理</span>,
       children: (
         <div>
           <div style={{ marginBottom: 16 }}>
-            <Button type="primary" onClick={() => setInviteModalVisible(true)}>
+            <Button
+              type="primary"
+              onClick={() => setInviteModalVisible(true)}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 600,
+              }}
+            >
               邀请成员
             </Button>
           </div>
@@ -452,20 +450,24 @@ const Settings: React.FC = () => {
     },
     {
       key: 'units',
-      label: (
-        <span>
-          <ShopOutlined />
-          业务单元
-        </span>
-      ),
+      label: <span><ShopOutlined /> 业务单元</span>,
       children: (
         <div>
           <div style={{ marginBottom: 16 }}>
-            <Button type="primary" onClick={() => {
-              setEditingUnit(null)
-              unitForm.resetFields()
-              setUnitModalVisible(true)
-            }}>
+            <Button
+              type="primary"
+              onClick={() => {
+                setEditingUnit(null)
+                unitForm.resetFields()
+                setUnitModalVisible(true)
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 600,
+              }}
+            >
               新建业务单元
             </Button>
           </div>
@@ -475,12 +477,7 @@ const Settings: React.FC = () => {
     },
     {
       key: 'public',
-      label: (
-        <span>
-          <GlobalOutlined />
-          对外服务
-        </span>
-      ),
+      label: <span><GlobalOutlined /> 对外服务</span>,
       children: (
         <Form form={publicForm} layout="vertical">
           <Form.Item name="publicEnabled" label="开启对外服务" valuePropName="checked">
@@ -510,11 +507,21 @@ const Settings: React.FC = () => {
             </Space>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" onClick={async () => {
-              const values = await publicForm.validateFields()
-              await enterpriseApi.update({ settings: values })
-              message.success('保存成功')
-            }}>
+            <Button
+              type="primary"
+              onClick={async () => {
+                const values = await publicForm.validateFields()
+                await enterpriseApi.update({ settings: values })
+                message.success('保存成功')
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 600,
+                height: 44,
+              }}
+            >
               保存
             </Button>
           </Form.Item>
@@ -523,58 +530,74 @@ const Settings: React.FC = () => {
     },
     {
       key: 'billing',
-      label: (
-        <span>
-          <CreditCardOutlined />
-          套餐与账单
-        </span>
-      ),
+      label: <span><CreditCardOutlined /> 套餐与账单</span>,
       children: (
         <div>
-          <Card title="当前套餐" style={{ marginBottom: 16 }}>
+          <Card
+            title="当前套餐"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 16,
+              marginBottom: 16,
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <Title level={4} style={{ marginBottom: 0 }}>
+                <Title level={4} style={{ color: '#fff', marginBottom: 0 }}>
                   {planInfo?.planType === 'pro' ? '专业版' : '免费版'}
                 </Title>
-                <Text type="secondary">
+                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {planInfo?.planType === 'pro' ? '¥299/月' : '¥0'}
                 </Text>
               </div>
               {planInfo?.planType !== 'pro' && (
-                <Button type="primary" onClick={async () => {
-                  const response = await billingApi.upgrade('pro')
-                  window.location.href = response.data.paymentUrl
-                }}>
+                <Button
+                  type="primary"
+                  onClick={async () => {
+                    const response = await billingApi.upgrade('pro')
+                    window.location.href = response.data.paymentUrl
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    border: 'none',
+                    borderRadius: 10,
+                    fontWeight: 600,
+                  }}
+                >
                   升级到专业版
                 </Button>
               )}
             </div>
           </Card>
-          <Card title="使用情况">
+          <Card
+            title="使用情况"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 16,
+            }}
+          >
             <div style={{ marginBottom: 16 }}>
-              <Text>AI问答配额</Text>
+              <Text style={{ color: '#fff' }}>AI问答配额</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text type="secondary">
+                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {usageInfo?.aiUsed || 0} / {usageInfo?.aiLimit || 50} 次
-                </Text>
-                <Text type="secondary">
-                  {usageInfo?.aiLimit ? Math.round((usageInfo.aiUsed / usageInfo.aiLimit) * 100) : 0}%
                 </Text>
               </div>
             </div>
             <div style={{ marginBottom: 16 }}>
-              <Text>存储空间</Text>
+              <Text style={{ color: '#fff' }}>存储空间</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text type="secondary">
+                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {usageInfo?.storageUsed || 0} MB / {usageInfo?.storageLimit || 500} MB
                 </Text>
               </div>
             </div>
             <div>
-              <Text>成员数量</Text>
+              <Text style={{ color: '#fff' }}>成员数量</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text type="secondary">
+                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {usageInfo?.memberCount || 1} / {usageInfo?.memberLimit || 10} 人
                 </Text>
               </div>
@@ -586,14 +609,21 @@ const Settings: React.FC = () => {
   ]
 
   return (
-    <div className="page-container fade-in">
-      <Card>
-        <div style={{ marginBottom: 24 }}>
-          <Title level={4}>
-            <SettingOutlined style={{ marginRight: 8 }} />
+    <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
+      <Card
+        style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 20,
+        }}
+        bodyStyle={{ padding: 32 }}
+      >
+        <div style={{ marginBottom: 32 }}>
+          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+            <SettingOutlined style={{ marginRight: 12 }} />
             设置
           </Title>
-          <Text type="secondary">
+          <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>
             管理企业配置、API Key、成员权限、对外服务等
           </Text>
         </div>
@@ -649,6 +679,56 @@ const Settings: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
+
+      <style>{`
+        .ant-tabs .ant-tabs-tab {
+          color: rgba(255,255,255,0.5) !important;
+        }
+        .ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+          color: #667eea !important;
+        }
+        .ant-tabs .ant-tabs-ink-bar {
+          background: #667eea !important;
+        }
+        .ant-table {
+          background: transparent !important;
+        }
+        .ant-table-thead > tr > th {
+          background: rgba(255,255,255,0.05) !important;
+          color: rgba(255,255,255,0.8) !important;
+          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        }
+        .ant-table-tbody > tr > td {
+          color: rgba(255,255,255,0.7) !important;
+          border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        }
+        .ant-table-tbody > tr:hover > td {
+          background: rgba(102, 126, 234, 0.1) !important;
+        }
+        .ant-input,
+        .ant-input-password,
+        .ant-select-selector {
+          background: rgba(255,255,255,0.05) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          color: #fff !important;
+        }
+        .ant-input::placeholder,
+        .ant-select-selection-placeholder {
+          color: rgba(255,255,255,0.3) !important;
+        }
+        .ant-input:focus,
+        .ant-input-password:focus,
+        .ant-select-focused .ant-select-selector {
+          border-color: #667eea !important;
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+        }
+        .ant-select-arrow {
+          color: rgba(255,255,255,0.3) !important;
+        }
+        .ant-form-item-label > label {
+          color: rgba(255,255,255,0.8) !important;
+        }
+      `}</style>
     </div>
   )
 }
