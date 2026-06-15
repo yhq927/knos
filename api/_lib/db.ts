@@ -49,6 +49,33 @@ const enterprises: Record<string, {
   }
 };
 
+// Business Units
+const businessUnits: Record<string, {
+  id: string;
+  enterpriseId: string;
+  name: string;
+  description: string;
+  status: string;
+  createdAt: string;
+}> = {
+  'bu1': {
+    id: 'bu1',
+    enterpriseId: 'ent_test',
+    name: '技术部',
+    description: '负责产品研发',
+    status: 'active',
+    createdAt: new Date().toISOString()
+  },
+  'bu2': {
+    id: 'bu2',
+    enterpriseId: 'ent_test',
+    name: '市场部',
+    description: '负责市场推广',
+    status: 'active',
+    createdAt: new Date().toISOString()
+  }
+};
+
 const knowledge: Record<string, {
   id: string;
   enterpriseId: string;
@@ -110,6 +137,9 @@ export const getEnterpriseById = (id: string) => enterprises[id];
 export const getKnowledgeByEnterprise = (enterpriseId: string) => 
   Object.values(knowledge).filter(k => k.enterpriseId === enterpriseId);
 
+export const getBusinessUnitsByEnterprise = (enterpriseId: string) =>
+  Object.values(businessUnits).filter(bu => bu.enterpriseId === enterpriseId);
+
 export const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET) as {
@@ -127,4 +157,4 @@ export const generateToken = (payload: any) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 };
 
-export { JWT_SECRET, users, enterprises, knowledge };
+export { JWT_SECRET, users, enterprises, knowledge, businessUnits };
