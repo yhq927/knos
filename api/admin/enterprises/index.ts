@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, getEnterpriseById, Enterprise } from '../../../_lib/db';
+import { enterprises, getEnterpriseById, Enterprise } from '../../_lib/db';
 
 // 验证管理员token
 function verifyAdminToken(token: string): boolean {

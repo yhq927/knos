@@ -186,5 +186,4 @@ export const generateToken = (payload: any) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 };
 
-export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads };
-export type { User, Enterprise, KnowledgeEntry, BusinessUnit, FileUpload };
+export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads, User, Enterprise, KnowledgeEntry, BusinessUnit, FileUpload };
