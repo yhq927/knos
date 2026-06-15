@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, getEnterpriseById } from '../../../_lib/db';
+import { enterprises, getEnterpriseById, Enterprise } from '../../../_lib/db';
 
 // 验证管理员token
 function verifyAdminToken(token: string): boolean {
@@ -31,7 +31,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     // GET - 获取企业列表
     if (req.method === 'GET') {
       const { limit } = req.query;
-      let enterpriseList = Object.values(enterprises);
+      let enterpriseList: Enterprise[] = Object.values(enterprises);
       
       // 添加status字段（如果没有）
       enterpriseList = enterpriseList.map(e => ({

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, getEnterpriseById, getKnowledgeByEnterprise } from '../../_lib/db';
+import { enterprises, getEnterpriseById, getKnowledgeByEnterprise, Enterprise } from '../../_lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -19,7 +19,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 查找企业
-    const enterprise = Object.values(enterprises).find(e => e.slug === slug);
+    const enterprise: Enterprise | undefined = Object.values(enterprises).find(e => e.slug === slug);
     if (!enterprise) {
       return res.status(404).json({ code: 404, message: '企业不存在' });
     }

@@ -1,10 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'knosai-secret-key-2024';
-
-// In-memory database
-const users: Record<string, {
+// Type definitions
+export interface User {
   id: string;
   email: string;
   password: string;
@@ -12,7 +10,63 @@ const users: Record<string, {
   role: string;
   enterpriseId: string;
   createdAt: string;
-}> = {
+}
+
+export interface Enterprise {
+  id: string;
+  name: string;
+  industry: string;
+  size: string;
+  slug: string;
+  planType: string;
+  status?: string;
+  settings: any;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface KnowledgeEntry {
+  id: string;
+  enterpriseId: string;
+  title: string;
+  content: string;
+  contentType: string;
+  visibility: string;
+  status: string;
+  version: number;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BusinessUnit {
+  id: string;
+  enterpriseId: string;
+  name: string;
+  description: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface FileUpload {
+  id: string;
+  enterpriseId: string;
+  userId: string;
+  filename: string;
+  originalName: string;
+  fileSize: number;
+  mimeType: string;
+  status: string;
+  progress: number;
+  parsedCount: number;
+  errorMessage: string;
+  createdAt: string;
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'knosai-secret-key-2024';
+
+// In-memory database
+const users: Record<string, User> = {
   'test@example.com': {
     id: 'user_test',
     email: 'test@example.com',
@@ -24,16 +78,7 @@ const users: Record<string, {
   }
 };
 
-const enterprises: Record<string, {
-  id: string;
-  name: string;
-  industry: string;
-  size: string;
-  slug: string;
-  planType: string;
-  settings: any;
-  createdAt: string;
-}> = {
+const enterprises: Record<string, Enterprise> = {
   'ent_test': {
     id: 'ent_test',
     name: '测试公司',
@@ -50,30 +95,10 @@ const enterprises: Record<string, {
 };
 
 // File uploads
-const fileUploads: Record<string, {
-  id: string;
-  enterpriseId: string;
-  userId: string;
-  filename: string;
-  originalName: string;
-  fileSize: number;
-  mimeType: string;
-  status: string;
-  progress: number;
-  parsedCount: number;
-  errorMessage: string;
-  createdAt: string;
-}> = {};
+const fileUploads: Record<string, FileUpload> = {};
 
 // Business Units
-const businessUnits: Record<string, {
-  id: string;
-  enterpriseId: string;
-  name: string;
-  description: string;
-  status: string;
-  createdAt: string;
-}> = {
+const businessUnits: Record<string, BusinessUnit> = {
   'bu1': {
     id: 'bu1',
     enterpriseId: 'ent_test',
@@ -92,19 +117,7 @@ const businessUnits: Record<string, {
   }
 };
 
-const knowledge: Record<string, {
-  id: string;
-  enterpriseId: string;
-  title: string;
-  content: string;
-  contentType: string;
-  visibility: string;
-  status: string;
-  version: number;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}> = {
+const knowledge: Record<string, KnowledgeEntry> = {
   'k1': {
     id: 'k1',
     enterpriseId: 'ent_test',
@@ -174,3 +187,4 @@ export const generateToken = (payload: any) => {
 };
 
 export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads };
+export type { User, Enterprise, KnowledgeEntry, BusinessUnit, FileUpload };
