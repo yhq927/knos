@@ -1,34 +1,36 @@
-const { cors, fail, parsePath } = require('../_lib/response')
+const { cors, fail } = require('../_lib/response')
 const authHandler = require('./auth')
 const enterprisesHandler = require('./enterprises')
 const statsHandler = require('./stats')
 
-// 统一入口：根据路径分发到对应 handler
-// /api/admin/auth/*      → auth.js
-// /api/admin/enterprises → enterprises.js
-// /api/admin/stats       → stats.js
+// 统一入口：Vercel rewrite 将 /api/admin/* 统一转发到此文件
+// 由于 rewrite 后 req.url 不可靠，根据请求特征路由
 
 module.exports = async (req, res) => {
   if (cors(req, res)) return
 
-  const { segments } = parsePath(req)
-  const sub = segments[0]
+  const body = req.body || {}
 
-  if (sub === 'auth') {
-    // 去掉 "auth" 前缀，让 auth handler 看到干净的路径
-    req.url = '/' + segments.slice(1).join('/')
+  // POST + { username, password } → 登录
+  if (req.method === 'POST' && body.username && body.password) {
     return authHandler(req, res)
   }
 
-  if (sub === 'enterprises') {
-    req.url = '/' + segments.slice(1).join('/')
+  // POST + 无 username → 可能是邀请等其他 auth 操作
+  if (req.method === 'POST') {
+    return authHandler(req, res)
+  }
+
+  // GET + 带 query.id → 企业详情/编辑
+  if (req.method === 'GET' && req.query && req.query.id) {
     return enterprisesHandler(req, res)
   }
 
-  if (sub === 'stats') {
-    req.url = '/' + segments.slice(1).join('/')
-    return statsHandler(req, res)
+  // PUT → 企业更新
+  if (req.method === 'PUT') {
+    return enterprisesHandler(req, res)
   }
 
-  return fail(res, 404, 404, 'Admin API not found')
+  // GET 默认 → 统计
+  return statsHandler(req, res)
 }
