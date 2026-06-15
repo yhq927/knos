@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcryptjs';
 
 // User interface
 export interface User {
@@ -85,10 +86,11 @@ class Database {
 
     // Create test user
     const userId = 'user_test';
+    const hashedPassword = bcrypt.hashSync('12345678', 10);
     const user: User = {
       id: userId,
       email: 'test@example.com',
-      password: '$2a$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', // hashed '12345678'
+      password: hashedPassword,
       name: '测试用户',
       role: 'admin',
       enterpriseId,
