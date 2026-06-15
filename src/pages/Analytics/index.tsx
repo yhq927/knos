@@ -209,7 +209,7 @@ const Analytics: React.FC = () => {
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 20,
         }}
-        bodyStyle={{ padding: 32 }}
+        styles={{ body: { padding: 32 } }}
       >
         <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
@@ -276,7 +276,7 @@ const Analytics: React.FC = () => {
                     border: '1px solid rgba(255,255,255,0.08)',
                     borderRadius: 16,
                   }}
-                  bodyStyle={{ padding: 24 }}
+                  styles={{ body: { padding: 24 } }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                     <div
@@ -331,7 +331,7 @@ const Analytics: React.FC = () => {
                   border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 16,
                 }}
-                bodyStyle={{ padding: 0 }}
+                styles={{ body: { padding: 0 } }}
               >
                 <Table
                   columns={hotQuestionColumns}
@@ -357,7 +357,7 @@ const Analytics: React.FC = () => {
                   border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 16,
                 }}
-                bodyStyle={{ padding: 0 }}
+                styles={{ body: { padding: 0 } }}
               >
                 <Table
                   columns={uncoveredQuestionColumns}
@@ -384,7 +384,7 @@ const Analytics: React.FC = () => {
               borderRadius: 16,
               marginTop: 16,
             }}
-            bodyStyle={{ padding: 0 }}
+            styles={{ body: { padding: 0 } }}
           >
             <Table
               columns={userRankingColumns}

@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
           borderRadius: 20,
           marginBottom: 24,
         }}
-        bodyStyle={{ padding: 32 }}
+        styles={{ body: { padding: 32 } }}
       >
         <Row align="middle" gutter={24}>
           <Col flex="auto">
@@ -177,7 +177,7 @@ const Dashboard: React.FC = () => {
                 border: '1px solid rgba(255,255,255,0.08)',
                 borderRadius: 16,
               }}
-              bodyStyle={{ padding: 24 }}
+              styles={{ body: { padding: 24 } }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                 <div
@@ -234,7 +234,7 @@ const Dashboard: React.FC = () => {
                 borderRadius: 16,
                 cursor: 'pointer',
               }}
-              bodyStyle={{ padding: 24, textAlign: 'center' }}
+              styles={{ body: { padding: 24, textAlign: 'center' } }}
             >
               <div
                 style={{
@@ -271,7 +271,7 @@ const Dashboard: React.FC = () => {
               border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: 16,
             }}
-            bodyStyle={{ padding: 0 }}
+            styles={{ body: { padding: 0 } }}
           >
             <List
               dataSource={recentActivities}
@@ -326,7 +326,7 @@ const Dashboard: React.FC = () => {
               borderRadius: 16,
               height: '100%',
             }}
-            bodyStyle={{ padding: 24, textAlign: 'center' }}
+            styles={{ body: { padding: 24, textAlign: 'center' } }}
           >
             <div style={{ marginBottom: 24 }}>
               <div

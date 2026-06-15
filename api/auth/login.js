@@ -1,28 +1,38 @@
-const { users, enterprises } = require('../db');
+const { cors, success, fail } = require('../_lib/response')
+const { ensureSeed } = require('../_lib/seed')
+const { signToken, comparePassword, sanitizeUser } = require('../_lib/auth')
+const models = require('../_lib/models')
 
-module.exports = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+module.exports = async (req, res) => {
+  if (cors(req, res)) return
+  if (req.method !== 'POST') return fail(res, 405, 405, 'Method not allowed')
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ code: 405, message: 'Method not allowed' });
+  await ensureSeed()
 
-  const { email, password } = req.body || {};
-  if (!email || !password) return res.status(400).json({ code: 400, message: '请输入邮箱和密码' });
-
-  const user = users[email];
-  if (!user || user.password !== password) {
-    return res.status(401).json({ code: 401, message: '邮箱或密码错误' });
+  const { email, password } = req.body || {}
+  if (!email || !password) {
+    return fail(res, 400, 400, '请输入邮箱和密码')
   }
 
-  const enterprise = enterprises[user.enterpriseId];
-  const token = 'token_' + user.id + '_' + Date.now();
-  const { password: _, ...userInfo } = user;
+  const user = await models.users.findByEmail(email)
+  if (!user) {
+    return fail(res, 401, 401, '邮箱或密码错误')
+  }
 
-  return res.status(200).json({
-    code: 0,
-    message: '登录成功',
-    data: { user: userInfo, token, enterprise }
-  });
-};
+  // 兼容旧的明文密码（无 passwordHash 字段）与新的哈希密码
+  const ok = user.passwordHash
+    ? await comparePassword(password, user.passwordHash)
+    : user.password === password
+  if (!ok) {
+    return fail(res, 401, 401, '邮箱或密码错误')
+  }
+
+  const enterprise = await models.enterprises.findById(user.enterpriseId)
+  const token = signToken(user)
+
+  return success(res, {
+    user: sanitizeUser(user),
+    token,
+    enterprise,
+  }, '登录成功')
+}

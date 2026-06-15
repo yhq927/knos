@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    { "source": "/api/knowledge/:path+", "destination": "/api/knowledge" },
+    { "source": "/api/enterprise/:path+", "destination": "/api/enterprise" },
+    { "source": "/api/members/:path+", "destination": "/api/members" },
+    { "source": "/api/business-units/:path+", "destination": "/api/business-units" },
+    { "source": "/api/upload/:path+", "destination": "/api/upload" },
+    { "source": "/api/analytics/:path+", "destination": "/api/analytics" },
+    { "source": "/api/billing/:path+", "destination": "/api/billing" },
+    { "source": "/api/chat/:path+", "destination": "/api/chat" },
+    { "source": "/api/collect/:path+", "destination": "/api/collect" },
+    { "source": "/api/notifications/:path+", "destination": "/api/notifications" },
+    { "source": "/api/public/:path+", "destination": "/api/public" },
+    { "source": "/api/admin/:path+", "destination": "/api/admin" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}

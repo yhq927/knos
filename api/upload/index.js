@@ -1,56 +1,98 @@
-const { fileUploads, users } = require('../db');
+const { cors, success, fail, parsePath } = require('../_lib/response')
+const { requireAuth } = require('../_lib/auth')
+const models = require('../_lib/models')
 
-module.exports = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// GET    /                文件列表
+// POST   /                上传（模拟接收）
+// GET    /:id/status      文件状态
+// POST   /:id/reparse     重新解析
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
+module.exports = async (req, res) => {
+  if (cors(req, res)) return
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ code: 401, message: '未提供认证Token' });
-  }
+  const user = await requireAuth(req, res)
+  if (!user) return
 
-  const token = authHeader.substring(7);
-  const parts = token.split('_');
-  if (parts.length < 3) {
-    return res.status(401).json({ code: 401, message: 'Token无效' });
-  }
+  const { segments, query } = parsePath(req)
+  const enterpriseId = user.enterpriseId
+  const body = req.body || {}
 
-  const userId = parts[1];
-  const user = Object.values(users).find(u => u.id === 'user_' + userId);
-  if (!user) {
-    return res.status(401).json({ code: 401, message: '用户不存在' });
-  }
-
-  const enterpriseId = user.enterpriseId;
-
-  if (req.method === 'GET') {
-    const uploads = Object.values(fileUploads)
-      .filter(f => f.enterpriseId === enterpriseId)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    return res.status(200).json({ code: 0, message: 'success', data: { list: uploads, total: uploads.length } });
-  }
-
-  if (req.method === 'POST') {
-    const { filename, fileSize, mimeType } = req.body;
-    if (!filename) return res.status(400).json({ code: 400, message: '文件名不能为空' });
-    const id = 'file_' + Date.now();
-    fileUploads[id] = {
-      id, enterpriseId, userId: user.id,
-      filename, originalName: filename, fileSize, mimeType,
-      status: 'processing', progress: 0, parsedCount: 0, createdAt: new Date().toISOString()
-    };
-    setTimeout(() => {
-      if (fileUploads[id]) {
-        fileUploads[id].status = 'completed';
-        fileUploads[id].progress = 100;
-        fileUploads[id].parsedCount = Math.floor(Math.random() * 10) + 1;
+  // ---- 列表 ----
+  if (req.method === 'GET' && segments.length === 0) {
+    const result = await models.fileUploads.paginate(
+      { enterpriseId },
+      {
+        page: Number(query.page) || 1,
+        pageSize: Number(query.pageSize) || 20,
+        sortBy: 'createdAt',
+        sortOrder: 'desc',
       }
-    }, 3000);
-    return res.status(200).json({ code: 0, message: '上传成功', data: fileUploads[id] });
+    )
+    return success(res, { list: result.list, total: result.total }, undefined, {
+      page: result.page,
+      pageSize: result.pageSize,
+      total: result.total,
+    })
   }
 
-  return res.status(405).json({ code: 405, message: 'Method not allowed' });
-};
+  // ---- 文件状态 ----
+  if (req.method === 'GET' && segments.length === 2 && segments[1] === 'status') {
+    const file = await models.fileUploads.findOne({ id: segments[0], enterpriseId })
+    if (!file) return fail(res, 404, 404, '文件不存在')
+    return success(res, file)
+  }
+
+  // ---- 重新解析 ----
+  if (req.method === 'POST' && segments.length === 2 && segments[1] === 'reparse') {
+    const file = await models.fileUploads.findOne({ id: segments[0], enterpriseId })
+    if (!file) return fail(res, 404, 404, '文件不存在')
+    await models.fileUploads.update(segments[0], { status: 'processing', progress: 0 })
+    // 模拟异步解析
+    setTimeout(async () => {
+      await models.fileUploads.update(segments[0], {
+        status: 'completed',
+        progress: 100,
+        parsedCount: Math.floor(Math.random() * 10) + 1,
+      })
+    }, 3000)
+    return success(res, null, '已重新提交解析')
+  }
+
+  // ---- 上传 ----
+  if (req.method === 'POST' && segments.length === 0) {
+    const { filename, originalName, fileSize, mimeType } = body
+    const fname = originalName || filename || 'unnamed'
+    const id = models.genId('file')
+    const file = await models.fileUploads.insert({
+      id,
+      enterpriseId,
+      userId: user.id,
+      filename: fname,
+      originalName: fname,
+      fileSize: fileSize || 0,
+      mimeType: mimeType || 'application/octet-stream',
+      storagePath: '',
+      status: 'processing',
+      progress: 0,
+      parsedCount: 0,
+    })
+    // 模拟异步解析
+    setTimeout(async () => {
+      await models.fileUploads.update(id, {
+        status: 'completed',
+        progress: 100,
+        parsedCount: Math.floor(Math.random() * 10) + 1,
+      })
+    }, 3000)
+    await models.activities.log(enterpriseId, '上传了文档', {
+      userId: user.id,
+      user: user.name,
+      resourceType: 'file',
+      resourceId: id,
+      details: { filename: fname },
+    })
+    return success(res, file, '上传成功')
+  }
+
+  return fail(res, 405, 405, 'Method not allowed')
+}

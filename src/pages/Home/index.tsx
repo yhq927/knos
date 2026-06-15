@@ -493,7 +493,7 @@ const Home: React.FC = () => {
                       borderRadius: 20,
                       height: '100%',
                     }}
-                    bodyStyle={{ padding: 32 }}
+                    styles={{ body: { padding: 32 } }}
                     hoverable
                   >
                     <div
@@ -550,7 +550,7 @@ const Home: React.FC = () => {
                       borderRadius: 20,
                       height: '100%',
                     }}
-                    bodyStyle={{ padding: 32 }}
+                    styles={{ body: { padding: 32 } }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
                       <div
@@ -699,7 +699,7 @@ const Home: React.FC = () => {
                       borderRadius: 20,
                       height: '100%',
                     }}
-                    bodyStyle={{ padding: 32 }}
+                    styles={{ body: { padding: 32 } }}
                   >
                     <div
                       style={{
@@ -758,7 +758,7 @@ const Home: React.FC = () => {
                       width: 220,
                       textAlign: 'center',
                     }}
-                    bodyStyle={{ padding: 24 }}
+                    styles={{ body: { padding: 24 } }}
                   >
                     <div
                       style={{
@@ -810,7 +810,7 @@ const Home: React.FC = () => {
                 borderRadius: 20,
                 overflow: 'hidden',
               }}
-              bodyStyle={{ padding: 0 }}
+              styles={{ body: { padding: 0 } }}
             >
               <Table
                 columns={competitorColumns}
@@ -850,7 +850,7 @@ const Home: React.FC = () => {
                       height: '100%',
                       position: 'relative',
                     }}
-                    bodyStyle={{ padding: 32 }}
+                    styles={{ body: { padding: 32 } }}
                   >
                     {plan.popular && (
                       <div

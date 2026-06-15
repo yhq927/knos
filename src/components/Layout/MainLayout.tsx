@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
+import { authApi } from '@/services/api'
 
 const { Header, Sider, Content } = Layout
 
@@ -89,7 +90,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       icon: <LogoutOutlined />,
       label: '退出登录',
       danger: true,
-      onClick: () => {
+      onClick: async () => {
+        try { await authApi.logout() } catch {}
         logout()
         navigate('/login')
       },

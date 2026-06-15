@@ -290,7 +290,7 @@ const Knowledge: React.FC = () => {
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 20,
         }}
-        bodyStyle={{ padding: 24 }}
+        styles={{ body: { padding: 24 } }}
       >
         <Row gutter={24}>
           {/* 左侧树形导航 */}

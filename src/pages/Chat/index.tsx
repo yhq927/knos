@@ -194,7 +194,7 @@ const Chat: React.FC = () => {
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 20,
         }}
-        bodyStyle={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 }}
+        styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 } }}
       >
         {/* 消息列表 */}
         <div style={{ flex: 1, overflow: 'auto', padding: '24px' }}>

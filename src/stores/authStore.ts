@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import type { User, Enterprise } from '@/types'
 
 interface AuthState {
@@ -7,12 +7,14 @@ interface AuthState {
   token: string | null
   enterprise: Enterprise | null
   isAuthenticated: boolean
-  
+  _hydrated: boolean
+
   // Actions
   setAuth: (user: User, token: string, enterprise: Enterprise) => void
   setUser: (user: User) => void
   setEnterprise: (enterprise: Enterprise) => void
   setToken: (token: string) => void
+  setHydrated: (v: boolean) => void
   logout: () => void
 }
 
@@ -23,6 +25,7 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       enterprise: null,
       isAuthenticated: false,
+      _hydrated: false,
 
       setAuth: (user, token, enterprise) => {
         set({
@@ -45,6 +48,10 @@ export const useAuthStore = create<AuthState>()(
         set({ token })
       },
 
+      setHydrated: (v) => {
+        set({ _hydrated: v })
+      },
+
       logout: () => {
         set({
           user: null,
@@ -56,9 +63,18 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'knosai-auth',
+      storage: createJSONStorage(() => localStorage),
+      // 持久化 token + user + enterprise，刷新后保持登录态
       partialize: (state) => ({
         token: state.token,
+        user: state.user,
+        enterprise: state.enterprise,
+        isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        // 标记 hydration 完成，让 AuthRoute 可以判断
+        state?.setHydrated(true)
+      },
     }
   )
 )

@@ -131,13 +131,7 @@ const AdminDashboard: React.FC = () => {
           >
             企业管理
           </Button>
-          <Button
-            icon={<UserOutlined />}
-            onClick={() => navigate('/admin/users')}
-            style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}
-          >
-            用户管理
-          </Button>
+          {/* 用户管理功能暂未开放 */}
           <Button
             icon={<LogoutOutlined />}
             onClick={handleLogout}

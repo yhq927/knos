@@ -1,31 +1,32 @@
-const { enterprises } = require('../db');
+const { cors, success, fail, parsePath } = require('../_lib/response')
+const { requireAdmin } = require('../_lib/auth')
+const models = require('../_lib/models')
 
-module.exports = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// GET  /       企业列表
+// PUT  /:id    更新企业（通过 query id）
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
+module.exports = async (req, res) => {
+  if (cors(req, res)) return
+  if (!(await requireAdmin(req, res))) return
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ code: 401, message: '未提供认证Token' });
-  }
+  const { query } = parsePath(req)
+  const body = req.body || {}
 
   if (req.method === 'GET') {
-    const list = Object.values(enterprises).map(e => ({ ...e, status: e.status || 'active' }));
-    list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    return res.status(200).json({ code: 0, message: 'success', data: { list, total: list.length } });
+    const all = await models.enterprises.find()
+    all.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    const limit = Number(query.limit) || all.length
+    return success(res, { list: all.slice(0, limit), total: all.length })
   }
 
   if (req.method === 'PUT') {
-    const { id } = req.query;
-    if (!id) return res.status(400).json({ code: 400, message: '缺少企业ID' });
-    const enterprise = enterprises[id];
-    if (!enterprise) return res.status(404).json({ code: 404, message: '企业不存在' });
-    Object.assign(enterprise, req.body, { updatedAt: new Date().toISOString() });
-    return res.status(200).json({ code: 0, message: '更新成功', data: enterprise });
+    const id = query.id
+    if (!id) return fail(res, 400, 400, '缺少企业ID')
+    const enterprise = await models.enterprises.findById(id)
+    if (!enterprise) return fail(res, 404, 404, '企业不存在')
+    const updated = await models.enterprises.update(id, body)
+    return success(res, updated, '更新成功')
   }
 
-  return res.status(405).json({ code: 405, message: 'Method not allowed' });
-};
+  return fail(res, 405, 405, 'Method not allowed')
+}

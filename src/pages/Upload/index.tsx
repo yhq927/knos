@@ -221,7 +221,7 @@ const UploadPage: React.FC = () => {
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 20,
         }}
-        bodyStyle={{ padding: 32 }}
+        styles={{ body: { padding: 32 } }}
       >
         <div style={{ marginBottom: 32 }}>
           <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
@@ -241,7 +241,7 @@ const UploadPage: React.FC = () => {
             borderRadius: 16,
             marginBottom: 32,
           }}
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           <Dragger {...uploadProps} style={{ background: 'transparent' }}>
             <div style={{ padding: '60px 0' }}>
@@ -277,7 +277,7 @@ const UploadPage: React.FC = () => {
             border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 16,
           }}
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           <Table
             columns={columns}

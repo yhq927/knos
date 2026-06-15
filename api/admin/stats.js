@@ -1,25 +1,24 @@
-const { enterprises, users, knowledge } = require('../db');
+const { cors, success, fail } = require('../_lib/response')
+const { requireAdmin } = require('../_lib/auth')
+const models = require('../_lib/models')
 
-module.exports = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+module.exports = async (req, res) => {
+  if (cors(req, res, 'GET, OPTIONS')) return
+  if (req.method !== 'GET') return fail(res, 405, 405, 'Method not allowed')
+  if (!(await requireAdmin(req, res))) return
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'GET') return res.status(405).json({ code: 405, message: 'Method not allowed' });
+  const [enterprises, users, knowledge] = await Promise.all([
+    models.enterprises.find(),
+    models.users.find(),
+    models.knowledge.find(),
+  ])
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ code: 401, message: '未提供认证Token' });
-  }
-
-  return res.status(200).json({
-    code: 0, message: 'success',
-    data: {
-      totalEnterprises: Object.keys(enterprises).length,
-      totalUsers: Object.keys(users).length,
-      totalKnowledge: Object.keys(knowledge).length,
-      dailyActive: 3, weeklyActive: 5, monthlyActive: 8
-    }
-  });
-};
+  return success(res, {
+    totalEnterprises: enterprises.length,
+    totalUsers: users.length,
+    totalKnowledge: knowledge.length,
+    dailyActive: 3,
+    weeklyActive: 5,
+    monthlyActive: 8,
+  })
+}
