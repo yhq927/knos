@@ -16,6 +16,11 @@ const Upload = lazy(() => import('./pages/Upload'))
 const Settings = lazy(() => import('./pages/Settings'))
 const Analytics = lazy(() => import('./pages/Analytics'))
 
+// 平台管理后台页面
+const AdminLogin = lazy(() => import('./pages/Admin/Login'))
+const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'))
+const AdminEnterprises = lazy(() => import('./pages/Admin/Enterprises'))
+
 // 加载中组件
 const Loading = () => (
   <div style={{ 
@@ -108,6 +113,11 @@ function App() {
             </AuthRoute>
           }
         />
+
+        {/* 平台管理后台 */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/enterprises" element={<AdminEnterprises />} />
 
         {/* 404页面 */}
         <Route path="*" element={<div>404 - 页面不存在</div>} />
