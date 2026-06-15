@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       const pending = goals.find((g) => g.status === 'pending')
       if (pending) {
         await models.collectGoals.update(pending.id, { status: 'in_progress' })
-        const q = pending.questions?.[pending.progress || 0]
+        const q = pending.questions && pending.questions[pending.progress || 0]
         if (q) {
           return success(res, {
             id: `${pending.id}_q${pending.progress || 0}`,
@@ -51,14 +51,14 @@ module.exports = async (req, res) => {
     }
 
     const qIndex = inProgress.progress || 0
-    const q = inProgress.questions?.[qIndex]
+    const q = inProgress.questions && inProgress.questions[qIndex]
     if (!q) {
       // 当前目标问题用完，标记完成，看下一个
       await models.collectGoals.update(inProgress.id, { status: 'completed' })
       const nextPending = goals.find((g) => g.status === 'pending')
       if (nextPending) {
         await models.collectGoals.update(nextPending.id, { status: 'in_progress' })
-        const nq = nextPending.questions?.[0]
+        const nq = nextPending.questions && nextPending.questions[0]
         if (nq) {
           return success(res, {
             id: `${nextPending.id}_q0`,
@@ -106,7 +106,7 @@ module.exports = async (req, res) => {
     }
 
     // 自动创建知识条目（将回答沉淀为知识）
-    const question = goal.questions?.[goal.progress || 0] || ''
+    const question = (goal.questions && goal.questions[goal.progress || 0]) || ''
     await models.knowledge.create({
       enterpriseId,
       title: `采集知识：${question.slice(0, 40)}`,

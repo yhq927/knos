@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   const enterprise = await models.enterprises.findById(enterpriseId)
 
   if (req.method === 'GET' && segments[0] === 'plan') {
-    const planType = enterprise?.planType || 'free'
+    const planType = (enterprise && enterprise.planType) || 'free'
     return success(res, {
       planType,
       name: planType === 'pro' ? '专业版' : planType === 'enterprise' ? '企业版' : '免费版',
@@ -34,15 +34,16 @@ module.exports = async (req, res) => {
   if (req.method === 'GET' && segments[0] === 'usage') {
     const knowledgeList = await models.knowledge.find({ enterpriseId })
     const members = await models.users.find({ enterpriseId })
+    const isPro = enterprise && enterprise.planType === 'pro'
     return success(res, {
       aiUsed: 23,
-      aiLimit: enterprise?.planType === 'pro' ? 1000 : 50,
+      aiLimit: isPro ? 1000 : 50,
       storageUsed: 128,
-      storageLimit: enterprise?.planType === 'pro' ? 10000 : 500,
+      storageLimit: isPro ? 10000 : 500,
       memberCount: members.length,
-      memberLimit: enterprise?.planType === 'pro' ? 9999 : 10,
+      memberLimit: isPro ? 9999 : 10,
       knowledgeCount: knowledgeList.length,
-      knowledgeLimit: enterprise?.planType === 'pro' ? 99999 : 500,
+      knowledgeLimit: isPro ? 99999 : 500,
     })
   }
 

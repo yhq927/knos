@@ -127,7 +127,7 @@ module.exports = {
       const v = await this.getVersion(knowledgeId, version)
       if (!v) return null
       const current = await knowledgeRepo.findById(knowledgeId)
-      const nextVersion = (current?.version || 1) + 1
+      const nextVersion = ((current && current.version) || 1) + 1
       const updated = await knowledgeRepo.update(knowledgeId, {
         title: v.title,
         content: v.content,
@@ -141,7 +141,7 @@ module.exports = {
         title: v.title,
         content: v.content,
         metadata: v.metadata || {},
-        createdBy: user ? user.id : current?.createdBy,
+        createdBy: user ? user.id : (current && current.createdBy),
         note: `回滚到 v${version}`,
       })
       return updated

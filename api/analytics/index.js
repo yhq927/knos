@@ -109,7 +109,7 @@ module.exports = async (req, res) => {
     const limit = Number(query.limit) || 10
     // 未覆盖：低置信度或无来源的问题
     const uncovered = messages
-      .filter((m) => m.role === 'assistant' && (m.confidence === 'low' || !m.sources?.length))
+      .filter((m) => m.role === 'assistant' && (m.confidence === 'low' || !(m.sources && m.sources.length)))
       .map((m) => {
         const userMsg = messages.find(
           (um) => um.role === 'user' && um.conversationId === m.conversationId && new Date(um.createdAt) < new Date(m.createdAt)
