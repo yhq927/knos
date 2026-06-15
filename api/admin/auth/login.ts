@@ -33,7 +33,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
     const admin = adminUsers[username];
     if (!admin || admin.password !== password) {
-      return res.status(401).json({ code: 401, message: '账号或密码错误' });
+      return res.status(401).json({ code: 401, message: '账号或密码错�? });
     }
 
     // 生成简单token
@@ -53,6 +53,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (error) {
     console.error('Admin login error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

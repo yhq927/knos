@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, getKnowledgeByEnterprise, knowledge } from '../../_lib/db';
+import { verifyToken, getKnowledgeByEnterprise, knowledge } from '../../lib/db';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -43,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { title, content, contentType, visibility } = req.body;
       
       if (!title || !content || !contentType) {
-        return res.status(400).json({ code: 400, message: '请填写所有必填字段' });
+        return res.status(400).json({ code: 400, message: '请填写所有必填字�? });
       }
 
       const id = `k_${Date.now()}`;
@@ -73,6 +73,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ code: 405, message: 'Method not allowed' });
   } catch (error) {
     console.error('Knowledge error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

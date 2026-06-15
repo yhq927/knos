@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, getEnterpriseById } from '../../_lib/db';
+import { enterprises, getEnterpriseById } from '../../lib/db';
 
 // 验证管理员token
 function verifyAdminToken(token: string): boolean {
@@ -31,7 +31,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     // GET - 获取企业列表
     if (req.method === 'GET') {
       const { limit } = req.query;
-      let enterpriseList: Enterprise[] = Object.values(enterprises);
+      let enterpriseList: any[] = Object.values(enterprises);
       
       // 添加status字段（如果没有）
       enterpriseList = enterpriseList.map(e => ({
@@ -68,7 +68,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
       const enterprise = enterprises[id];
       if (!enterprise) {
-        return res.status(404).json({ code: 404, message: '企业不存在' });
+        return res.status(404).json({ code: 404, message: '企业不存�? });
       }
 
       const updateData = req.body;
@@ -84,6 +84,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ code: 405, message: 'Method not allowed' });
   } catch (error) {
     console.error('Admin enterprises error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

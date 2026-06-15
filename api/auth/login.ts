@@ -59,18 +59,18 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     // Find user
     const user = users[email];
     if (!user) {
-      return res.status(401).json({ code: 401, message: '邮箱或密码错误' });
+      return res.status(401).json({ code: 401, message: '邮箱或密码错�? });
     }
 
     // Simple password comparison (for testing)
     if (password !== user.password) {
-      return res.status(401).json({ code: 401, message: '邮箱或密码错误' });
+      return res.status(401).json({ code: 401, message: '邮箱或密码错�? });
     }
 
     // Get enterprise
     const enterprise = enterprises[user.enterpriseId];
     if (!enterprise) {
-      return res.status(404).json({ code: 404, message: '企业不存在' });
+      return res.status(404).json({ code: 404, message: '企业不存�? });
     }
 
     // Generate simple token (for testing)
@@ -90,6 +90,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (error) {
     console.error('Login error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, getBusinessUnitsByEnterprise, businessUnits } from '../../_lib/db';
+import { verifyToken, getBusinessUnitsByEnterprise, businessUnits } from '../../lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -39,7 +39,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       const { name, description } = req.body;
 
       if (!name) {
-        return res.status(400).json({ code: 400, message: '请输入业务单元名称' });
+        return res.status(400).json({ code: 400, message: '请输入业务单元名�? });
       }
 
       const id = `bu_${Date.now()}`;
@@ -70,7 +70,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
       const unit = businessUnits[id];
       if (!unit || unit.enterpriseId !== decoded.enterpriseId) {
-        return res.status(404).json({ code: 404, message: '业务单元不存在' });
+        return res.status(404).json({ code: 404, message: '业务单元不存�? });
       }
 
       const { name, description, status } = req.body;
@@ -94,7 +94,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
       const unit = businessUnits[id];
       if (!unit || unit.enterpriseId !== decoded.enterpriseId) {
-        return res.status(404).json({ code: 404, message: '业务单元不存在' });
+        return res.status(404).json({ code: 404, message: '业务单元不存�? });
       }
 
       delete businessUnits[id];
@@ -108,6 +108,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ code: 405, message: 'Method not allowed' });
   } catch (error) {
     console.error('Business units error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

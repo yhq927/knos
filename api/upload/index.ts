@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, fileUploads } from '../../_lib/db';
+import { verifyToken, fileUploads } from '../../lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -48,8 +48,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(400).json({ code: 400, message: '缺少文件信息' });
       }
 
-      // 检查文件类型
-      const allowedTypes = [
+      // 检查文件类�?      const allowedTypes = [
         'application/pdf',
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -63,8 +62,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(400).json({ code: 400, message: '不支持的文件类型' });
       }
 
-      // 检查文件大小（免费版20MB，付费版100MB）
-      const maxSize = 20 * 1024 * 1024;
+      // 检查文件大小（免费�?0MB，付费版100MB�?      const maxSize = 20 * 1024 * 1024;
       if (fileSize > maxSize) {
         return res.status(400).json({ code: 400, message: '文件大小超过限制' });
       }
@@ -106,6 +104,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ code: 405, message: 'Method not allowed' });
   } catch (error) {
     console.error('Upload error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

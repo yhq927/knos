@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, getKnowledgeByEnterprise } from '../../_lib/db';
+import { verifyToken, getKnowledgeByEnterprise } from '../../lib/db';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -52,8 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         code: 0,
         message: 'success',
         data: [
-          { question: '如何注册账号？', count: 45, lastAsked: new Date().toISOString() },
-          { question: '支持哪些文件格式？', count: 38, lastAsked: new Date().toISOString() },
+          { question: '如何注册账号�?, count: 45, lastAsked: new Date().toISOString() },
+          { question: '支持哪些文件格式�?, count: 38, lastAsked: new Date().toISOString() },
           { question: '如何邀请团队成员？', count: 32, lastAsked: new Date().toISOString() },
           { question: '免费版有什么限制？', count: 28, lastAsked: new Date().toISOString() },
           { question: '如何导出知识库？', count: 25, lastAsked: new Date().toISOString() }
@@ -67,9 +67,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         code: 0,
         message: 'success',
         data: [
-          { question: '如何进行数据备份？', count: 15, lastAsked: new Date().toISOString() },
+          { question: '如何进行数据备份�?, count: 15, lastAsked: new Date().toISOString() },
           { question: '支持多语言吗？', count: 12, lastAsked: new Date().toISOString() },
-          { question: '如何自定义AI模型？', count: 10, lastAsked: new Date().toISOString() }
+          { question: '如何自定义AI模型�?, count: 10, lastAsked: new Date().toISOString() }
         ]
       });
     }
@@ -92,6 +92,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ code: 404, message: 'Not found' });
   } catch (error) {
     console.error('Analytics error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

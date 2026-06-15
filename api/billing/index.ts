@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, getEnterpriseById, getKnowledgeByEnterprise } from '../../_lib/db';
+import { verifyToken, getEnterpriseById, getKnowledgeByEnterprise } from '../../lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -26,7 +26,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const enterprise = getEnterpriseById(decoded.enterpriseId);
     if (!enterprise) {
-      return res.status(404).json({ code: 404, message: '企业不存在' });
+      return res.status(404).json({ code: 404, message: '企业不存�? });
     }
 
     const knowledgeList = getKnowledgeByEnterprise(decoded.enterpriseId);
@@ -37,22 +37,22 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       
       const plans: Record<string, any> = {
         free: {
-          name: '免费版',
+          name: '免费�?,
           price: 0,
           period: '永久',
-          features: ['1个企业', '10个成员', '500条知识', '50次AI试用', '单文件20MB']
+          features: ['1个企�?, '10个成�?, '500条知�?, '50次AI试用', '单文�?0MB']
         },
         pro: {
-          name: '专业版',
+          name: '专业�?,
           price: 299,
-          period: '月',
-          features: ['不限成员', '不限知识', '1000次AI问答/月', '单文件100MB', '对外服务功能']
+          period: '�?,
+          features: ['不限成员', '不限知识', '1000次AI问答/�?, '单文�?00MB', '对外服务功能']
         },
         enterprise: {
-          name: '企业版',
+          name: '企业�?,
           price: 0,
           period: '面议',
-          features: ['专业版全部功能', 'SSO单点登录', '私有部署', '专属客户经理']
+          features: ['专业版全部功�?, 'SSO单点登录', '私有部署', '专属客户经理']
         }
       };
 
@@ -66,8 +66,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // GET /api/billing/usage - 获取使用量
-    if (req.method === 'GET' && req.url?.includes('/usage')) {
+    // GET /api/billing/usage - 获取使用�?    if (req.method === 'GET' && req.url?.includes('/usage')) {
       const planType = enterprise.planType || 'free';
       
       const limits: Record<string, any> = {
@@ -108,7 +107,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       const { planType } = req.body;
 
       if (!planType || !['pro', 'enterprise'].includes(planType)) {
-        return res.status(400).json({ code: 400, message: '无效的套餐类型' });
+        return res.status(400).json({ code: 400, message: '无效的套餐类�? });
       }
 
       // 模拟升级成功
@@ -127,6 +126,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ code: 404, message: 'Not found' });
   } catch (error) {
     console.error('Billing error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

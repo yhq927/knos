@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, users, knowledge } from '../../_lib/db';
+import { enterprises, users, knowledge } from '../../lib/db';
 
 // 验证管理员token
 function verifyAdminToken(token: string): boolean {
@@ -52,6 +52,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (error) {
     console.error('Admin stats error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }

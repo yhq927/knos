@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { enterprises, getEnterpriseById, getKnowledgeByEnterprise } from '../../_lib/db';
+import { enterprises, getEnterpriseById, getKnowledgeByEnterprise } from '../../lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -21,12 +21,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     // 查找企业
     const enterprise: any = Object.values(enterprises).find(e => e.slug === slug);
     if (!enterprise) {
-      return res.status(404).json({ code: 404, message: '企业不存在' });
+      return res.status(404).json({ code: 404, message: '企业不存�? });
     }
 
-    // 检查是否开启对外服务
-    if (!enterprise.settings?.publicEnabled) {
-      return res.status(403).json({ code: 403, message: '该企业未开启对外服务' });
+    // 检查是否开启对外服�?    if (!enterprise.settings?.publicEnabled) {
+      return res.status(403).json({ code: 403, message: '该企业未开启对外服�? });
     }
 
     // GET /api/public/:slug - 获取企业公开信息
@@ -64,7 +63,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       const { message } = req.body;
 
       if (!message) {
-        return res.status(400).json({ code: 400, message: '请输入问题' });
+        return res.status(400).json({ code: 400, message: '请输入问�? });
       }
 
       // 获取公开知识
@@ -91,6 +90,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ code: 404, message: 'Not found' });
   } catch (error) {
     console.error('Public API error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错误' });
+    return res.status(500).json({ code: 500, message: '服务器错�? });
   }
 }
