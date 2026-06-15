@@ -49,6 +49,22 @@ const enterprises: Record<string, {
   }
 };
 
+// File uploads
+const fileUploads: Record<string, {
+  id: string;
+  enterpriseId: string;
+  userId: string;
+  filename: string;
+  originalName: string;
+  fileSize: number;
+  mimeType: string;
+  status: string;
+  progress: number;
+  parsedCount: number;
+  errorMessage: string;
+  createdAt: string;
+}> = {};
+
 // Business Units
 const businessUnits: Record<string, {
   id: string;
@@ -157,4 +173,4 @@ export const generateToken = (payload: any) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 };
 
-export { JWT_SECRET, users, enterprises, knowledge, businessUnits };
+export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads };
