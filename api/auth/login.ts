@@ -1,8 +1,41 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import bcrypt from 'bcryptjs';
-import { getUserByEmail, getEnterpriseById, generateToken, users, enterprises } from '../_lib/db';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+// 简单的用户数据库（测试用）
+const users: Record<string, {
+  id: string;
+  email: string;
+  password: string;
+  name: string;
+  role: string;
+  enterpriseId: string;
+}> = {
+  'test@example.com': {
+    id: 'user_test',
+    email: 'test@example.com',
+    password: '12345678',
+    name: '测试用户',
+    role: 'admin',
+    enterpriseId: 'ent_test'
+  }
+};
+
+const enterprises: Record<string, any> = {
+  'ent_test': {
+    id: 'ent_test',
+    name: '测试公司',
+    industry: 'technology',
+    size: '11-50',
+    slug: 'test-company',
+    planType: 'free',
+    settings: {
+      publicEnabled: false,
+      welcomeMessage: '您好，我是您的智能助手，请问您想了解什么？'
+    },
+    createdAt: new Date().toISOString()
+  }
+};
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -24,30 +57,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Find user
-    const user = getUserByEmail(email);
+    const user = users[email];
     if (!user) {
       return res.status(401).json({ code: 401, message: '邮箱或密码错误' });
     }
 
-    // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    // Simple password comparison (for testing)
+    if (password !== user.password) {
       return res.status(401).json({ code: 401, message: '邮箱或密码错误' });
     }
 
     // Get enterprise
-    const enterprise = getEnterpriseById(user.enterpriseId);
+    const enterprise = enterprises[user.enterpriseId];
     if (!enterprise) {
       return res.status(404).json({ code: 404, message: '企业不存在' });
     }
 
-    // Generate token
-    const token = generateToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-      enterpriseId: enterprise.id
-    });
+    // Generate simple token (for testing)
+    const token = `token_${user.id}_${Date.now()}`;
 
     // Return user info (without password)
     const { password: _, ...userInfo } = user;
