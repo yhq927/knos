@@ -1,131 +1,50 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, getEnterpriseById, getKnowledgeByEnterprise } from '../../lib/db';
+import { verifyToken, getEnterpriseById, getKnowledgeByEnterprise } from '../lib/db';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Verify token
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ code: 401, message: '未提供认证Token' });
+    return res.status(401).json({ code: 401, message: 'No token provided' });
   }
 
   const token = authHeader.substring(7);
   const decoded = verifyToken(token);
-  if (!decoded) {
-    return res.status(401).json({ code: 401, message: 'Token无效' });
-  }
+  if (!decoded) return res.status(401).json({ code: 401, message: 'Invalid token' });
 
   try {
     const enterprise = getEnterpriseById(decoded.enterpriseId);
-    if (!enterprise) {
-      return res.status(404).json({ code: 404, message: '企业不存�? });
-    }
+    if (!enterprise) return res.status(404).json({ code: 404, message: 'Enterprise not found' });
 
     const knowledgeList = getKnowledgeByEnterprise(decoded.enterpriseId);
 
-    // GET /api/billing/plan - 获取套餐信息
     if (req.method === 'GET' && req.url?.includes('/plan')) {
-      const planType = enterprise.planType || 'free';
-      
-      const plans: Record<string, any> = {
-        free: {
-          name: '免费�?,
-          price: 0,
-          period: '永久',
-          features: ['1个企�?, '10个成�?, '500条知�?, '50次AI试用', '单文�?0MB']
-        },
-        pro: {
-          name: '专业�?,
-          price: 299,
-          period: '�?,
-          features: ['不限成员', '不限知识', '1000次AI问答/�?, '单文�?00MB', '对外服务功能']
-        },
-        enterprise: {
-          name: '企业�?,
-          price: 0,
-          period: '面议',
-          features: ['专业版全部功�?, 'SSO单点登录', '私有部署', '专属客户经理']
-        }
-      };
-
       return res.status(200).json({
-        code: 0,
-        message: 'success',
-        data: {
-          planType,
-          ...plans[planType]
-        }
+        code: 0, message: 'success',
+        data: { planType: enterprise.planType || 'free', name: enterprise.planType === 'pro' ? 'Pro' : 'Free', price: enterprise.planType === 'pro' ? 299 : 0 }
       });
     }
 
-    // GET /api/billing/usage - 获取使用�?    if (req.method === 'GET' && req.url?.includes('/usage')) {
-      const planType = enterprise.planType || 'free';
-      
-      const limits: Record<string, any> = {
-        free: {
-          aiLimit: 50,
-          storageLimit: 500, // MB
-          memberLimit: 10,
-          knowledgeLimit: 500
-        },
-        pro: {
-          aiLimit: 1000,
-          storageLimit: 10240, // 10GB
-          memberLimit: -1, // unlimited
-          knowledgeLimit: -1 // unlimited
-        }
-      };
-
-      const limit = limits[planType] || limits.free;
-
+    if (req.method === 'GET' && req.url?.includes('/usage')) {
       return res.status(200).json({
-        code: 0,
-        message: 'success',
-        data: {
-          aiUsed: 23,
-          aiLimit: limit.aiLimit,
-          storageUsed: 128,
-          storageLimit: limit.storageLimit,
-          memberCount: 5,
-          memberLimit: limit.memberLimit,
-          knowledgeCount: knowledgeList.length,
-          knowledgeLimit: limit.knowledgeLimit
-        }
+        code: 0, message: 'success',
+        data: { aiUsed: 23, aiLimit: 50, storageUsed: 128, storageLimit: 500, memberCount: 5, memberLimit: 10, knowledgeCount: knowledgeList.length, knowledgeLimit: 500 }
       });
     }
 
-    // POST /api/billing/upgrade - 升级套餐
     if (req.method === 'POST' && req.url?.includes('/upgrade')) {
       const { planType } = req.body;
-
-      if (!planType || !['pro', 'enterprise'].includes(planType)) {
-        return res.status(400).json({ code: 400, message: '无效的套餐类�? });
-      }
-
-      // 模拟升级成功
       enterprise.planType = planType;
-
-      return res.status(200).json({
-        code: 0,
-        message: '升级成功',
-        data: {
-          planType,
-          paymentUrl: `https://example.com/pay?plan=${planType}&enterprise=${enterprise.id}`
-        }
-      });
+      return res.status(200).json({ code: 0, message: 'Upgraded', data: { planType, paymentUrl: `https://example.com/pay?plan=${planType}` } });
     }
 
     return res.status(404).json({ code: 404, message: 'Not found' });
   } catch (error) {
-    console.error('Billing error:', error);
-    return res.status(500).json({ code: 500, message: '服务器错�? });
+    return res.status(500).json({ code: 500, message: 'Server error' });
   }
 }
