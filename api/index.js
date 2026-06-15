@@ -452,9 +452,6 @@ module.exports = async (req, res) => {
 
     // ---- ADMIN（平台管理，需 admin token）----
     if (module === 'admin') {
-      const token = (req.headers.authorization || '').replace('Bearer ', '')
-      if (!token.startsWith('admin_token_')) return err(401, 401, '管理员Token无效')
-
       const adminUsers = { admin: { id: 'admin_001', username: 'admin', password: 'admin123', role: 'super_admin' } }
       const sub = subSegments[0]
 
@@ -466,6 +463,10 @@ module.exports = async (req, res) => {
         if (!admin || admin.password !== password) return err(401, 401, '账号或密码错误')
         return ok({ user: { id: admin.id, username: admin.username, role: admin.role }, token: 'admin_token_' + admin.id + '_' + Date.now() }, '登录成功')
       }
+
+      // 其他 admin 接口需要 admin token
+      const token = (req.headers.authorization || '').replace('Bearer ', '')
+      if (!token.startsWith('admin_token_')) return err(401, 401, '管理员Token无效')
 
       if (sub === 'stats' && req.method === 'GET') {
         const [ents, usrs, knw] = await Promise.all([models.enterprises.find(), models.users.find(), models.knowledge.find()])
