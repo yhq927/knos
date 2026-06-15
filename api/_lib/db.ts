@@ -1,72 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Type definitions
-export interface User {
-  id: string;
-  email: string;
-  password: string;
-  name: string;
-  role: string;
-  enterpriseId: string;
-  createdAt: string;
-}
-
-export interface Enterprise {
-  id: string;
-  name: string;
-  industry: string;
-  size: string;
-  slug: string;
-  planType: string;
-  status?: string;
-  settings: any;
-  createdAt: string;
-  updatedAt?: string;
-}
-
-export interface KnowledgeEntry {
-  id: string;
-  enterpriseId: string;
-  title: string;
-  content: string;
-  contentType: string;
-  visibility: string;
-  status: string;
-  version: number;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface BusinessUnit {
-  id: string;
-  enterpriseId: string;
-  name: string;
-  description: string;
-  status: string;
-  createdAt: string;
-}
-
-export interface FileUpload {
-  id: string;
-  enterpriseId: string;
-  userId: string;
-  filename: string;
-  originalName: string;
-  fileSize: number;
-  mimeType: string;
-  status: string;
-  progress: number;
-  parsedCount: number;
-  errorMessage: string;
-  createdAt: string;
-}
-
 const JWT_SECRET = process.env.JWT_SECRET || 'knosai-secret-key-2024';
 
-// In-memory database
-const users: Record<string, User> = {
+// 用户数据
+const users: Record<string, any> = {
   'test@example.com': {
     id: 'user_test',
     email: 'test@example.com',
@@ -78,7 +16,8 @@ const users: Record<string, User> = {
   }
 };
 
-const enterprises: Record<string, Enterprise> = {
+// 企业数据
+const enterprises: Record<string, any> = {
   'ent_test': {
     id: 'ent_test',
     name: '测试公司',
@@ -86,6 +25,7 @@ const enterprises: Record<string, Enterprise> = {
     size: '11-50',
     slug: 'test-company',
     planType: 'free',
+    status: 'active',
     settings: {
       publicEnabled: false,
       welcomeMessage: '您好，我是您的智能助手，请问您想了解什么？'
@@ -94,30 +34,8 @@ const enterprises: Record<string, Enterprise> = {
   }
 };
 
-// File uploads
-const fileUploads: Record<string, FileUpload> = {};
-
-// Business Units
-const businessUnits: Record<string, BusinessUnit> = {
-  'bu1': {
-    id: 'bu1',
-    enterpriseId: 'ent_test',
-    name: '技术部',
-    description: '负责产品研发',
-    status: 'active',
-    createdAt: new Date().toISOString()
-  },
-  'bu2': {
-    id: 'bu2',
-    enterpriseId: 'ent_test',
-    name: '市场部',
-    description: '负责市场推广',
-    status: 'active',
-    createdAt: new Date().toISOString()
-  }
-};
-
-const knowledge: Record<string, KnowledgeEntry> = {
+// 知识库数据
+const knowledge: Record<string, any> = {
   'k1': {
     id: 'k1',
     enterpriseId: 'ent_test',
@@ -159,24 +77,41 @@ const knowledge: Record<string, KnowledgeEntry> = {
   }
 };
 
-// Helper functions
+// 业务单元数据
+const businessUnits: Record<string, any> = {
+  'bu1': {
+    id: 'bu1',
+    enterpriseId: 'ent_test',
+    name: '技术部',
+    description: '负责产品研发',
+    status: 'active',
+    createdAt: new Date().toISOString()
+  },
+  'bu2': {
+    id: 'bu2',
+    enterpriseId: 'ent_test',
+    name: '市场部',
+    description: '负责市场推广',
+    status: 'active',
+    createdAt: new Date().toISOString()
+  }
+};
+
+// 文件上传数据
+const fileUploads: Record<string, any> = {};
+
+// 辅助函数
 export const getUserByEmail = (email: string) => users[email];
-export const getUserById = (id: string) => Object.values(users).find(u => u.id === id);
+export const getUserById = (id: string) => Object.values(users).find((u: any) => u.id === id);
 export const getEnterpriseById = (id: string) => enterprises[id];
 export const getKnowledgeByEnterprise = (enterpriseId: string) => 
-  Object.values(knowledge).filter(k => k.enterpriseId === enterpriseId);
-
+  Object.values(knowledge).filter((k: any) => k.enterpriseId === enterpriseId);
 export const getBusinessUnitsByEnterprise = (enterpriseId: string) =>
-  Object.values(businessUnits).filter(bu => bu.enterpriseId === enterpriseId);
+  Object.values(businessUnits).filter((bu: any) => bu.enterpriseId === enterpriseId);
 
 export const verifyToken = (token: string) => {
   try {
-    return jwt.verify(token, JWT_SECRET) as {
-      userId: string;
-      email: string;
-      role: string;
-      enterpriseId: string;
-    };
+    return jwt.verify(token, JWT_SECRET) as any;
   } catch {
     return null;
   }
@@ -186,4 +121,4 @@ export const generateToken = (payload: any) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 };
 
-export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads, User, Enterprise, KnowledgeEntry, BusinessUnit, FileUpload };
+export { JWT_SECRET, users, enterprises, knowledge, businessUnits, fileUploads };
