@@ -1,18 +1,21 @@
 // 统一存储抽象层
 // - 内存实现 (MemoryStore)：零配置，开发/测试默认
-// - KV 实现 (KVStore)：基于 @vercel/kv，配置 KV_REST_API_URL + KV_REST_API_TOKEN 时自动启用
+// - Redis 实现 (RedisStore)：基于 @upstash/redis，配置 UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN 时自动启用
 // 通过 getStore() 按 collection 名称返回 repository，所有方法均为 async
 
-const hasKV =
-  !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN
+const hasRedis =
+  !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN
 
-let kvClient = null
-function getKV() {
-  if (!kvClient) {
-    // 动态加载，避免未配置 KV 时 import 报错
-    kvClient = require('@vercel/kv')
+let redisClient = null
+function getRedis() {
+  if (!redisClient) {
+    const { Redis } = require('@upstash/redis')
+    redisClient = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    })
   }
-  return kvClient
+  return redisClient
 }
 
 // ----------------------------------------------------------------------------
@@ -44,42 +47,42 @@ function createMemoryCollection() {
 }
 
 // ----------------------------------------------------------------------------
-// KV 实现：用 hset/hgetall 维护 collection，单条用 hset field
+// Redis 实现：每条数据独立 key，用 set 维护索引
 // ----------------------------------------------------------------------------
-function createKVCollection(name) {
-  const kv = getKV()
+function createRedisCollection(name) {
+  const redis = getRedis()
   const keyOf = (id) => `coll:${name}:${id}`
-  const idxKey = `idx:${name}` // 记录所有 id 的集合(set)
+  const idxKey = `idx:${name}`
 
   return {
     async get(id) {
-      const raw = await kv.get(keyOf(id))
+      const raw = await redis.get(keyOf(id))
       return raw || null
     },
     async set(id, value) {
-      await kv.set(keyOf(id), value)
-      await kv.sadd(idxKey, id)
+      await redis.set(keyOf(id), value)
+      await redis.sadd(idxKey, id)
     },
     async remove(id) {
-      await kv.del(keyOf(id))
-      await kv.srem(idxKey, id)
+      await redis.del(keyOf(id))
+      await redis.srem(idxKey, id)
     },
     async all() {
-      const ids = (await kv.smembers(idxKey)) || []
+      const ids = (await redis.smembers(idxKey)) || []
       if (ids.length === 0) return []
-      const items = await kv.mget(...ids.map((id) => keyOf(id)))
+      const items = await redis.mget(...ids.map((id) => keyOf(id)))
       return items.filter((x) => x != null)
     },
     async count() {
-      const ids = await kv.smembers(idxKey)
+      const ids = await redis.smembers(idxKey)
       return (ids || []).length
     },
     async clear() {
-      const ids = (await kv.smembers(idxKey)) || []
+      const ids = (await redis.smembers(idxKey)) || []
       if (ids.length > 0) {
-        await kv.del(...ids.map((id) => keyOf(id)))
+        await redis.del(...ids.map((id) => keyOf(id)))
       }
-      await kv.del(idxKey)
+      await redis.del(idxKey)
     },
   }
 }
@@ -88,7 +91,7 @@ function createKVCollection(name) {
 const cache = new Map()
 function collection(name) {
   if (!cache.has(name)) {
-    cache.set(name, hasKV ? createKVCollection(name) : createMemoryCollection())
+    cache.set(name, hasRedis ? createRedisCollection(name) : createMemoryCollection())
   }
   return cache.get(name)
 }
