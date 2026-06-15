@@ -1,12 +1,6 @@
 {
-  "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "functions": {
-    "api/**/*.js": {
-      "memory": 256
-    }
-  },
   "rewrites": [
     { "source": "/api/knowledge/:path*", "destination": "/api/knowledge" },
     { "source": "/api/enterprise/:path*", "destination": "/api/enterprise" },
