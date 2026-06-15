@@ -102,7 +102,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh', background: '#0a0a0a' }}>
       <Sider
         trigger={null}
         collapsible
@@ -114,7 +114,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           left: 0,
           top: 0,
           bottom: 0,
-          background: '#fff',
+          background: '#111',
+          borderRight: '1px solid rgba(255,255,255,0.08)',
         }}
       >
         <div
@@ -123,38 +124,55 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderBottom: '1px solid #f0f0f0',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          <h1
-            style={{
-              margin: 0,
-              fontSize: collapsed ? 16 : 20,
-              fontWeight: 700,
-              color: '#0F766E',
-            }}
-          >
-            {collapsed ? 'K' : 'KnosAI'}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 16,
+                fontWeight: 700,
+                color: '#fff',
+              }}
+            >
+              K
+            </div>
+            {!collapsed && (
+              <span style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>
+                KnosAI
+              </span>
+            )}
+          </div>
         </div>
         <Menu
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={handleMenuClick}
-          style={{ borderRight: 0 }}
+          style={{
+            borderRight: 0,
+            background: 'transparent',
+            marginTop: 8,
+          }}
         />
       </Sider>
 
-      <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'all 0.2s' }}>
+      <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'all 0.2s', background: '#0a0a0a' }}>
         <Header
           style={{
             padding: '0 24px',
-            background: '#fff',
+            background: '#111',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '1px solid #f0f0f0',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
             position: 'sticky',
             top: 0,
             zIndex: 100,
@@ -162,13 +180,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         >
           <Button
             type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={collapsed ? <MenuUnfoldOutlined style={{ color: 'rgba(255,255,255,0.7)' }} /> : <MenuFoldOutlined style={{ color: 'rgba(255,255,255,0.7)' }} />}
             onClick={() => setCollapsed(!collapsed)}
           />
 
           <Space size="middle">
             <Badge count={5} size="small">
-              <Button type="text" icon={<BellOutlined />} />
+              <Button type="text" icon={<BellOutlined style={{ color: 'rgba(255,255,255,0.7)' }} />} />
             </Badge>
 
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
@@ -177,8 +195,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   size="small"
                   icon={<UserOutlined />}
                   src={user?.avatar}
+                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
                 />
-                <span style={{ fontSize: 14 }}>{user?.name || user?.email}</span>
+                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>{user?.name || user?.email}</span>
               </Space>
             </Dropdown>
           </Space>
@@ -188,6 +207,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           style={{
             margin: '24px',
             minHeight: 280,
+            background: '#0a0a0a',
           }}
         >
           {children}

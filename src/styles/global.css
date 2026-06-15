@@ -1,19 +1,23 @@
 :root {
-  --primary: #0F766E;
-  --primary-light: #14B8A6;
-  --primary-dark: #0D5D54;
+  --primary: #667eea;
+  --primary-light: #764ba2;
+  --primary-dark: #5a6fd6;
   --accent: #F97316;
-  --bg-warm: #FAFAF9;
-  --bg-light: #F5F5F4;
-  --surface: #FFFFFF;
-  --text-dark: #1C1917;
-  --text-muted: #78716C;
-  --text-light: #A8A29E;
-  --border: #E7E5E4;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --danger: #DC2626;
-  --info: #3B82F6;
+  --bg-dark: #0a0a0a;
+  --bg-darker: #050505;
+  --bg-card: rgba(255,255,255,0.03);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --surface: #111;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.5);
+  --text-light: rgba(255,255,255,0.3);
+  --border: rgba(255,255,255,0.08);
+  --border-light: rgba(255,255,255,0.15);
+  --success: #43e97b;
+  --warning: #f59e0b;
+  --danger: #f5576c;
+  --info: #4facfe;
 }
 
 * {
@@ -32,8 +36,8 @@ body {
     'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-warm);
-  color: var(--text-dark);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
   line-height: 1.7;
   font-size: 15px;
 }
@@ -54,36 +58,38 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-light);
+  background: var(--bg-darker);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--text-light);
+  background: rgba(255,255,255,0.2);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(255,255,255,0.3);
 }
 
 /* 代码块样式 */
 code {
   font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
   font-size: 13px;
-  background: var(--bg-light);
+  background: rgba(255,255,255,0.1);
   padding: 2px 6px;
   border-radius: 4px;
+  color: var(--primary);
 }
 
 pre {
-  background: #1C1917;
-  color: #E7E5E4;
+  background: #1a1a1a;
+  color: var(--text-secondary);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow-x: auto;
   font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
   font-size: 13px;
   line-height: 1.6;
+  border: 1px solid var(--border);
 }
 
 /* 通用动画 */
@@ -105,31 +111,33 @@ pre {
 /* 页面容器 */
 .page-container {
   padding: 24px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 /* 卡片样式 */
 .card {
-  background: var(--surface);
-  border-radius: 12px;
+  background: var(--bg-card);
+  border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04);
+  border: 1px solid var(--border);
 }
 
 /* 按钮样式增强 */
 .btn-primary {
-  background: var(--primary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .btn-primary:hover {
-  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 /* 表单样式 */
@@ -137,22 +145,28 @@ pre {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--text-secondary);
 }
 
 .form-input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
   transition: border-color 0.2s ease;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.form-input::placeholder {
+  color: var(--text-light);
 }
 
 /* 错误提示 */
@@ -182,22 +196,345 @@ pre {
 /* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 40px;
+  padding: 60px 40px;
   color: var(--text-muted);
 }
 
 .empty-state-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.5;
 }
 
 .empty-state-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
 }
 
 .empty-state-description {
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+/* Ant Design 深色主题覆盖 */
+.ant-layout {
+  background: var(--bg-dark) !important;
+}
+
+.ant-layout-sider {
+  background: var(--surface) !important;
+}
+
+.ant-layout-header {
+  background: var(--surface) !important;
+}
+
+.ant-menu {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+}
+
+.ant-menu-item {
+  color: var(--text-secondary) !important;
+}
+
+.ant-menu-item-selected {
+  color: var(--primary) !important;
+  background: rgba(102, 126, 234, 0.15) !important;
+}
+
+.ant-menu-item:hover {
+  color: var(--text-primary) !important;
+}
+
+.ant-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+.ant-card-head {
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.ant-card-head-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-card-body {
+  color: var(--text-secondary) !important;
+}
+
+.ant-statistic-title {
+  color: var(--text-muted) !important;
+}
+
+.ant-statistic-content {
+  color: var(--text-primary) !important;
+}
+
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: rgba(255,255,255,0.05) !important;
+  color: var(--text-secondary) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.ant-table-tbody > tr > td {
+  color: var(--text-secondary) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: rgba(102, 126, 234, 0.1) !important;
+}
+
+.ant-tag {
+  border-radius: 100px !important;
+}
+
+.ant-badge-status-text {
+  color: var(--text-secondary) !important;
+}
+
+.ant-dropdown-menu {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-dropdown-menu-item {
+  color: var(--text-secondary) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: rgba(255,255,255,0.05) !important;
+}
+
+.ant-input,
+.ant-input-password,
+.ant-input-affix-wrapper {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--text-light) !important;
+}
+
+.ant-input:focus,
+.ant-input-password:focus,
+.ant-input-affix-wrapper:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+.ant-input-prefix {
+  color: var(--text-light) !important;
+}
+
+.ant-input-suffix {
+  color: var(--text-light) !important;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+.ant-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+}
+
+.ant-btn-default {
+  background: rgba(255,255,255,0.1) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+
+.ant-btn-default:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.ant-select-selector {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-select-selection-placeholder {
+  color: var(--text-light) !important;
+}
+
+.ant-select-arrow {
+  color: var(--text-light) !important;
+}
+
+.ant-select-dropdown {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-select-item {
+  color: var(--text-secondary) !important;
+}
+
+.ant-select-item-option-active {
+  background: rgba(102, 126, 234, 0.2) !important;
+}
+
+.ant-select-item-option-selected {
+  background: rgba(102, 126, 234, 0.3) !important;
+}
+
+.ant-form-item-label > label {
+  color: var(--text-secondary) !important;
+}
+
+.ant-pagination .ant-pagination-item {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-pagination .ant-pagination-item a {
+  color: var(--text-secondary) !important;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: white !important;
+}
+
+.ant-modal-content {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.ant-modal-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-footer {
+  border-top: 1px solid var(--border) !important;
+}
+
+.ant-tabs .ant-tabs-tab {
+  color: var(--text-muted) !important;
+}
+
+.ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--primary) !important;
+}
+
+.ant-tabs .ant-tabs-ink-bar {
+  background: var(--primary) !important;
+}
+
+.ant-collapse {
+  background: transparent !important;
+  border: none !important;
+}
+
+.ant-collapse-item {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.ant-collapse-header {
+  color: var(--text-primary) !important;
+}
+
+.ant-collapse-content {
+  background: transparent !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+.ant-collapse-content-box {
+  color: var(--text-secondary) !important;
+}
+
+.ant-progress-text {
+  color: var(--text-secondary) !important;
+}
+
+.ant-upload-drag {
+  background: rgba(255,255,255,0.02) !important;
+  border: 2px dashed var(--border) !important;
+}
+
+.ant-upload-drag:hover {
+  border-color: var(--primary) !important;
+}
+
+.ant-switch {
+  background: rgba(255,255,255,0.2) !important;
+}
+
+.ant-switch-checked {
+  background: var(--primary) !important;
+}
+
+.ant-tree .ant-tree-node-content-wrapper {
+  color: var(--text-secondary) !important;
+}
+
+.ant-tree .ant-tree-node-selected .ant-tree-node-content-wrapper {
+  background: rgba(102, 126, 234, 0.2) !important;
+  color: var(--primary) !important;
+}
+
+.ant-list-item {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.ant-list-item-meta-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-list-item-meta-description {
+  color: var(--text-muted) !important;
+}
+
+.ant-dropdown {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-message-notice-content {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-notification-notice {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ant-notification-notice-message {
+  color: var(--text-primary) !important;
+}
+
+.ant-notification-notice-description {
+  color: var(--text-secondary) !important;
 }
