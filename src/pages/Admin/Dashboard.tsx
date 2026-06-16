@@ -1,176 +1,79 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Row, Col, Typography, Table, Tag, Button } from 'antd'
+import { Card, Row, Col, Typography, Table, Tag } from 'antd'
 import { motion } from 'framer-motion'
-import {
-  ShopOutlined, UserOutlined, BookOutlined, RiseOutlined,
-} from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
+import { ShopOutlined, UserOutlined, BookOutlined, RiseOutlined } from '@ant-design/icons'
+import api from '@/services/api'
 
 const { Title, Text } = Typography
 
+const glass: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255,255,255,0.6)', borderRadius: 20,
+  boxShadow: '0 8px 32px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
+}
+
 const AdminDashboard: React.FC = () => {
-  const navigate = useNavigate()
   const [stats, setStats] = useState<any>(null)
-  const [recentEnterprises, setRecentEnterprises] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    // 检查登录状态
-    const token = localStorage.getItem('admin_token')
-    if (!token) {
-      navigate('/admin/login')
-      return
-    }
-    fetchData()
-  }, [])
+  useEffect(() => { fetchStats() }, [])
 
-  const fetchData = async () => {
+  const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('admin_token')
-
-      // 获取统计数据
-      const statsRes = await fetch('/api/admin/stats', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const statsData = await statsRes.json()
-      if (statsData.code === 0) {
-        setStats(statsData.data)
-      }
-
-      // 获取最近企业
-      const enterprisesRes = await fetch('/api/admin/enterprises?limit=5', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const enterprisesData = await enterprisesRes.json()
-      if (enterprisesData.code === 0) {
-        setRecentEnterprises(enterprisesData.data.list)
-      }
-    } catch (error) {
-      console.error('获取数据失败:', error)
-    } finally {
-      setLoading(false)
-    }
+      const response = await api.get('/admin/stats')
+      const result = response.data
+      if (result.code === 0) setStats(result.data)
+    } catch (error) { console.error('获取统计失败:', error) }
+    finally { setLoading(false) }
   }
 
-  const enterpriseColumns = [
-    {
-      title: '企业名称',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string) => <Text style={{ color: '#111827', fontWeight: 600 }}>{text}</Text>
-    },
-    {
-      title: '行业',
-      dataIndex: 'industry',
-      key: 'industry',
-      render: (text: string) => <Tag color="blue">{text}</Tag>
-    },
-    {
-      title: '套餐',
-      dataIndex: 'planType',
-      key: 'planType',
-      render: (type: string) => (
-        <Tag color={type === 'pro' ? 'gold' : type === 'enterprise' ? 'purple' : 'default'}>
-          {type === 'pro' ? '专业版' : type === 'enterprise' ? '企业版' : '免费版'}
-        </Tag>
-      )
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => (
-        <Tag color={status === 'active' ? 'success' : 'error'}>
-          {status === 'active' ? '正常' : '禁用'}
-        </Tag>
-      )
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (text: string) => <Text style={{ color: '#6B7280' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>
-    }
+  const statCards = [
+    { title: '企业数量', value: stats?.enterpriseCount || 0, icon: <ShopOutlined />, gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', shadow: 'rgba(102,126,234,0.3)' },
+    { title: '用户数量', value: stats?.userCount || 0, icon: <UserOutlined />, gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', shadow: 'rgba(245,87,108,0.3)' },
+    { title: '知识条目', value: stats?.knowledgeCount || 0, icon: <BookOutlined />, gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', shadow: 'rgba(79,172,254,0.3)' },
+    { title: '今日活跃', value: stats?.todayActive || 0, icon: <RiseOutlined />, gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', shadow: 'rgba(67,233,123,0.3)' },
   ]
 
-  const statItems = [
-    { title: '总企业数', value: stats?.totalEnterprises || 0, icon: <ShopOutlined />, color: '#2563EB', bg: '#E0E7FF' },
-    { title: '总用户数', value: stats?.totalUsers || 0, icon: <UserOutlined />, color: '#0EA5E9', bg: '#E0F2FE' },
-    { title: '总知识条目', value: stats?.totalKnowledge || 0, icon: <BookOutlined />, color: '#10B981', bg: '#D1FAE5' },
-    { title: '今日活跃', value: stats?.dailyActive || 0, icon: <RiseOutlined />, color: '#F59E0B', bg: '#FEF3C7' },
+  const recentEnterprises = stats?.recentEnterprises || []
+  const columns = [
+    { title: '企业名称', dataIndex: 'name', key: 'name', render: (text: string) => <Text style={{ color: '#1e293b', fontWeight: 600 }}>{text}</Text> },
+    { title: '行业', dataIndex: 'industry', key: 'industry', render: (text: string) => <Tag style={{ background: 'rgba(102,126,234,0.1)', color: '#667eea', borderRadius: 100 }}>{text || '-'}</Tag> },
+    { title: '成员数', dataIndex: 'memberCount', key: 'memberCount', render: (count: number) => <Text style={{ color: '#64748b' }}>{count}</Text> },
+    { title: '状态', dataIndex: 'status', key: 'status', render: (status: string) => <Tag style={{ background: status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', border: `1px solid ${status === 'active' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}`, color: status === 'active' ? '#059669' : '#d97706', borderRadius: 100 }}>{status === 'active' ? '正常' : '待审核'}</Tag> },
   ]
 
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <div style={{ marginBottom: 32 }}>
-        <Title level={2} style={{ color: 'var(--text-primary)', marginBottom: 4, fontWeight: 700 }}>仪表盘</Title>
-        <Text style={{ color: 'var(--text-muted)' }}>平台运营数据概览</Text>
+      <div style={{ marginBottom: 28 }}>
+        <Title level={3} style={{ color: '#1e293b', marginBottom: 4, fontWeight: 700 }}>仪表盘</Title>
+        <Text style={{ color: '#94a3b8' }}>平台运营数据概览</Text>
       </div>
 
-      {/* 统计卡片 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 32 }}>
-        {statItems.map((item, index) => (
+      <Row gutter={[20, 20]} style={{ marginBottom: 28 }}>
+        {statCards.map((stat, index) => (
           <Col xs={24} sm={12} lg={6} key={index}>
-            <Card style={{
-              background: 'rgba(255,255,255,0.7)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(229,231,235,0.5)',
-              borderRadius: 20,
-              boxShadow: 'var(--shadow-sm)',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <Text style={{ color: '#6B7280', fontSize: 14 }}>{item.title}</Text>
-                  <div style={{ fontSize: 36, fontWeight: 800, color: '#111827', marginTop: 8 }}>
-                    {item.value}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + index * 0.08 }}>
+              <motion.div whileHover={{ y: -4, boxShadow: `0 12px 32px -6px ${stat.shadow}` }} style={{ ...glass, overflow: 'hidden' }}>
+                <div style={{ height: 3, background: stat.gradient }} />
+                <div style={{ padding: 22 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 14, background: stat.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: '#fff', boxShadow: `0 6px 16px -2px ${stat.shadow}` }}>{stat.icon}</div>
                   </div>
+                  <div style={{ fontSize: 36, fontWeight: 800, color: '#1e293b', lineHeight: 1, marginBottom: 4 }}>{stat.value}</div>
+                  <Text style={{ color: '#64748b', fontSize: 13 }}>{stat.title}</Text>
                 </div>
-                <div style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: item.bg,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 24,
-                  color: item.color
-                }}>
-                  {item.icon}
-                </div>
-              </div>
-            </Card>
+              </motion.div>
+            </motion.div>
           </Col>
         ))}
       </Row>
 
-      {/* 最近企业 */}
-      <Card
-        title={<span style={{ color: '#111827', fontWeight: 600 }}>最近注册企业</span>}
-        extra={
-          <Button
-            type="link"
-            onClick={() => navigate('/admin/enterprises')}
-            style={{ color: '#2563EB' }}
-          >
-            查看全部
-          </Button>
-        }
-        style={{
-          background: '#FFFFFF',
-          border: '1px solid #E5E7EB',
-          borderRadius: 16,
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-        }}
-      >
-        <Table
-          columns={enterpriseColumns}
-          dataSource={recentEnterprises}
-          rowKey="id"
-          loading={loading}
-          pagination={false}
-        />
-      </Card>
+      <div style={{ ...glass }}>
+        <div style={{ padding: '18px 24px', borderBottom: '1px solid rgba(148,163,184,0.1)' }}>
+          <Text style={{ color: '#1e293b', fontWeight: 700, fontSize: 15 }}>最近注册企业</Text>
+        </div>
+        <Table columns={columns} dataSource={recentEnterprises} rowKey="id" loading={loading} pagination={false} style={{ background: 'transparent' }} />
+      </div>
     </motion.div>
   )
 }

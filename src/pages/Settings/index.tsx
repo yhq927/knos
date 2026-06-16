@@ -1,712 +1,222 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Card,
-  Tabs,
-  Form,
-  Input,
-  Select,
-  Button,
-  Table,
-  Space,
-  Tag,
-  message,
-  Modal,
-  Popconfirm,
-  Switch,
-  Typography,
-} from 'antd'
+import { Card, Tabs, Form, Input, Select, Button, Table, Space, Tag, message, Modal, Popconfirm, Switch, Typography } from 'antd'
 import { motion } from 'framer-motion'
-import {
-  SettingOutlined,
-  KeyOutlined,
-  TeamOutlined,
-  ShopOutlined,
-  GlobalOutlined,
-  CreditCardOutlined,
-  CopyOutlined,
-} from '@ant-design/icons'
-import { enterpriseApi, membersApi, businessUnitsApi, billingApi } from '@/services/api'
+import { SettingOutlined, KeyOutlined, TeamOutlined, ShopOutlined, GlobalOutlined, CreditCardOutlined, CopyOutlined } from '@ant-design/icons'
+import { enterpriseApi, membersApi } from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
 
 const { Title, Text } = Typography
-const { TextArea } = Input
+
+const glass: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255,255,255,0.6)', borderRadius: 20,
+  boxShadow: '0 8px 32px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
+}
 
 const Settings: React.FC = () => {
-  const { enterprise } = useAuthStore()
+  const { enterprise, user, updateUser, updateEnterprise } = useAuthStore()
   const [loading, setLoading] = useState(false)
+  const [passwordLoading, setPasswordLoading] = useState(false)
+  const [enterpriseLoading, setEnterpriseLoading] = useState(false)
   const [members, setMembers] = useState<any[]>([])
-  const [businessUnits, setBusinessUnits] = useState<any[]>([])
+  const [membersLoading, setMembersLoading] = useState(false)
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
-  const [unitModalVisible, setUnitModalVisible] = useState(false)
-  const [editingUnit, setEditingUnit] = useState<any>(null)
-  const [planInfo, setPlanInfo] = useState<any>(null)
-  const [usageInfo, setUsageInfo] = useState<any>(null)
-
-  const [basicForm] = Form.useForm()
-  const [apiKeyForm] = Form.useForm()
+  const [inviteLink, setInviteLink] = useState('')
+  const [planModalVisible, setPlanModalVisible] = useState(false)
   const [inviteForm] = Form.useForm()
-  const [unitForm] = Form.useForm()
-  const [publicForm] = Form.useForm()
 
-  useEffect(() => {
-    fetchMembers()
-    fetchBusinessUnits()
-    fetchPlanInfo()
-    fetchUsageInfo()
-    if (enterprise) {
-      basicForm.setFieldsValue({
-        name: enterprise.name,
-        industry: enterprise.industry,
-        size: enterprise.size,
-        description: enterprise.description,
-        contactPhone: enterprise.contactPhone,
-        contactEmail: enterprise.contactEmail,
-      })
-      publicForm.setFieldsValue({
-        publicEnabled: enterprise.settings?.publicEnabled || false,
-        welcomeMessage: enterprise.settings?.welcomeMessage || '',
-      })
-    }
-  }, [enterprise])
+  useEffect(() => { fetchMembers() }, [])
 
   const fetchMembers = async () => {
+    setMembersLoading(true)
     try {
       const response = await membersApi.getList()
       const result = response.data
-      if (result.code === 0) {
-        setMembers(result.data.list)
-      }
-    } catch (error) {}
+      if (result.code === 0) setMembers(result.data)
+    } catch (error) { console.error('获取成员失败:', error) }
+    finally { setMembersLoading(false) }
   }
 
-  const fetchBusinessUnits = async () => {
+  const handleSaveProfile = async (values: any) => {
+    setLoading(true)
     try {
-      const response = await businessUnitsApi.getList()
+      const response = await enterpriseApi.update(values)
+      const result = response.data
+      if (result.code === 0) { updateUser(result.data); message.success('保存成功') }
+      else message.error(result.message || '保存失败')
+    } catch (error) { message.error('保存失败') }
+    finally { setLoading(false) }
+  }
+
+  const handleChangePassword = async (values: any) => {
+    setPasswordLoading(true)
+    try {
+      // TODO: changePassword API not yet implemented
+      message.info('密码修改功能即将上线')
+    } catch (error) { message.error('修改失败') }
+    finally { setPasswordLoading(false) }
+  }
+
+  const handleSaveEnterprise = async (values: any) => {
+    setEnterpriseLoading(true)
+    try {
+      const response = await enterpriseApi.update(values)
+      const result = response.data
+      if (result.code === 0) { updateEnterprise(result.data); message.success('保存成功') }
+      else message.error(result.message || '保存失败')
+    } catch (error) { message.error('保存失败') }
+    finally { setEnterpriseLoading(false) }
+  }
+
+  const handleInvite = async (values: any) => {
+    try {
+      const response = await membersApi.invite(values)
       const result = response.data
       if (result.code === 0) {
-        setBusinessUnits(result.data)
+        setInviteLink(result.data.inviteLink || result.data.link || result.data)
+        message.success('邀请链接已生成')
       }
-    } catch (error) {}
-  }
-
-  const fetchPlanInfo = async () => {
-    try {
-      const response = await billingApi.getPlan()
-      const result = response.data
-      if (result.code === 0) {
-        setPlanInfo(result.data)
-      }
-    } catch (error) {}
-  }
-
-  const fetchUsageInfo = async () => {
-    try {
-      const response = await billingApi.getUsage()
-      const result = response.data
-      if (result.code === 0) {
-        setUsageInfo(result.data)
-      }
-    } catch (error) {}
-  }
-
-  const handleSaveBasic = async () => {
-    try {
-      const values = await basicForm.validateFields()
-      setLoading(true)
-      await enterpriseApi.update(values)
-      message.success('保存成功')
-    } catch (error) {
-      message.error('保存失败')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleSaveApiKey = async () => {
-    try {
-      const values = await apiKeyForm.validateFields()
-      setLoading(true)
-      await enterpriseApi.update({ apiKeys: values })
-      message.success('API Key保存成功')
-    } catch (error) {
-      message.error('保存失败')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleTestApiKey = async (provider: string) => {
-    try {
-      const apiKey = apiKeyForm.getFieldValue(provider)
-      if (!apiKey) {
-        message.warning('请先输入API Key')
-        return
-      }
-      await enterpriseApi.testApiKey({ provider, apiKey })
-      message.success('API Key测试成功')
-    } catch (error) {
-      message.error('API Key测试失败')
-    }
-  }
-
-  const handleInvite = async () => {
-    try {
-      const values = await inviteForm.validateFields()
-      await membersApi.invite(values)
-      message.success('邀请已发送')
-      setInviteModalVisible(false)
-      inviteForm.resetFields()
-      fetchMembers()
-    } catch (error) {
-      message.error('邀请失败')
-    }
-  }
-
-  const handleUpdateRole = async (id: string, role: string) => {
-    try {
-      await membersApi.updateRole(id, role)
-      message.success('角色更新成功')
-      fetchMembers()
-    } catch (error) {
-      message.error('更新失败')
-    }
+    } catch (error) { message.error('生成邀请链接失败') }
   }
 
   const handleRemoveMember = async (id: string) => {
-    try {
-      await membersApi.remove(id)
-      message.success('成员已移除')
-      fetchMembers()
-    } catch (error) {
-      message.error('移除失败')
-    }
-  }
-
-  const handleSaveUnit = async () => {
-    try {
-      const values = await unitForm.validateFields()
-      if (editingUnit) {
-        await businessUnitsApi.update(editingUnit.id, values)
-        message.success('更新成功')
-      } else {
-        await businessUnitsApi.create(values)
-        message.success('创建成功')
-      }
-      setUnitModalVisible(false)
-      unitForm.resetFields()
-      setEditingUnit(null)
-      fetchBusinessUnits()
-    } catch (error) {
-      message.error('操作失败')
-    }
-  }
-
-  const handleDeleteUnit = async (id: string) => {
-    try {
-      await businessUnitsApi.delete(id)
-      message.success('删除成功')
-      fetchBusinessUnits()
-    } catch (error) {
-      message.error('删除失败')
-    }
-  }
-
-  const handleCopyWidgetCode = () => {
-    const code = `<script src="https://widget.knosai.com/v1/loader.js" data-enterprise="${enterprise?.slug}" data-position="bottom-right"></script>`
-    navigator.clipboard.writeText(code)
-    message.success('代码已复制到剪贴板')
+    try { await membersApi.remove(id); message.success('移除成功'); fetchMembers() }
+    catch (error) { message.error('移除失败') }
   }
 
   const handleCopyLink = () => {
-    const link = `https://knosai.com/p/${enterprise?.slug}`
-    navigator.clipboard.writeText(link)
-    message.success('链接已复制到剪贴板')
+    navigator.clipboard.writeText(inviteLink)
+    message.success('链接已复制')
   }
 
   const memberColumns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text: string) => <Text style={{ color: '#6B7280' }}>{text}</Text>,
-    },
-    {
-      title: '角色',
-      dataIndex: 'role',
-      key: 'role',
-      render: (role: string, record: any) => (
-        <Select
-          value={role}
-          style={{ width: 120 }}
-          onChange={(value) => handleUpdateRole(record.id, value)}
-          options={[
-            { value: 'admin', label: '管理员' },
-            { value: 'editor', label: '编辑者' },
-            { value: 'viewer', label: '只读' },
-          ]}
-        />
-      ),
-    },
-    {
-      title: '加入时间',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (text: string) => <Text style={{ color: '#6B7280' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: (_: any, record: any) => (
-        <Popconfirm
-          title="确定移除该成员吗？"
-          onConfirm={() => handleRemoveMember(record.id)}
-          okText="确定"
-          cancelText="取消"
-        >
-          <Button type="text" danger style={{ color: '#DC2626' }}>移除</Button>
-        </Popconfirm>
-      ),
-    },
-  ]
-
-  const unitColumns = [
-    {
-      title: '名称',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
-    },
-    {
-      title: '描述',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text: string) => <Text style={{ color: '#6B7280' }}>{text}</Text>,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => (
-        <Tag
-          style={{
-            background: status === 'active' ? '#D1FAE5' : '#F3F4F6',
-            border: `1px solid ${status === 'active' ? '#A7F3D0' : '#E5E7EB'}`,
-            color: status === 'active' ? '#059669' : '#6B7280',
-            borderRadius: 100,
-          }}
-        >
-          {status === 'active' ? '启用' : '禁用'}
-        </Tag>
-      ),
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: (_: any, record: any) => (
-        <Space>
-          <Button
-            type="text"
-            onClick={() => {
-              setEditingUnit(record)
-              unitForm.setFieldsValue(record)
-              setUnitModalVisible(true)
-            }}
-            style={{ color: '#2563EB' }}
-          >
-            编辑
-          </Button>
-          <Popconfirm
-            title="确定删除该业务单元吗？"
-            onConfirm={() => handleDeleteUnit(record.id)}
-            okText="确定"
-            cancelText="取消"
-          >
-            <Button type="text" danger style={{ color: '#DC2626' }}>删除</Button>
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ]
-
-  const tabItems = [
-    {
-      key: 'basic',
-      label: <span><SettingOutlined /> 基本信息</span>,
-      children: (
-        <Form form={basicForm} layout="vertical">
-          <Form.Item name="name" label="企业名称" rules={[{ required: true }]}>
-            <Input placeholder="请输入企业名称" />
-          </Form.Item>
-          <Form.Item name="industry" label="所属行业" rules={[{ required: true }]}>
-            <Select
-              placeholder="请选择行业"
-              options={[
-                { value: 'technology', label: '科技/互联网' },
-                { value: 'finance', label: '金融' },
-                { value: 'healthcare', label: '医疗健康' },
-                { value: 'education', label: '教育' },
-                { value: 'retail', label: '零售' },
-                { value: 'manufacturing', label: '制造业' },
-                { value: 'consulting', label: '咨询服务' },
-                { value: 'other', label: '其他' },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item name="size" label="企业规模">
-            <Select
-              placeholder="请选择企业规模"
-              allowClear
-              options={[
-                { value: '1-10', label: '1-10人' },
-                { value: '11-50', label: '11-50人' },
-                { value: '51-200', label: '51-200人' },
-                { value: '201-500', label: '201-500人' },
-                { value: '500+', label: '500人以上' },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item name="description" label="企业简介">
-            <TextArea rows={4} placeholder="请输入企业简介" />
-          </Form.Item>
-          <Form.Item name="contactPhone" label="联系电话">
-            <Input placeholder="请输入联系电话" />
-          </Form.Item>
-          <Form.Item name="contactEmail" label="联系邮箱">
-            <Input placeholder="请输入联系邮箱" />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              onClick={handleSaveBasic}
-              loading={loading}
-              style={{
-                background: '#2563EB',
-                border: 'none',
-                borderRadius: 10,
-                fontWeight: 600,
-                height: 44,
-                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-              }}
-            >
-              保存
-            </Button>
-          </Form.Item>
-        </Form>
-      ),
-    },
-    {
-      key: 'apikey',
-      label: <span><KeyOutlined /> API Key</span>,
-      children: (
-        <Form form={apiKeyForm} layout="vertical">
-          <Form.Item name="openai" label="OpenAI API Key">
-            <Input.Password placeholder="sk-..." addonAfter={
-              <Button type="link" onClick={() => handleTestApiKey('openai')}>测试</Button>
-            } />
-          </Form.Item>
-          <Form.Item name="claude" label="Claude API Key">
-            <Input.Password placeholder="sk-ant-..." addonAfter={
-              <Button type="link" onClick={() => handleTestApiKey('claude')}>测试</Button>
-            } />
-          </Form.Item>
-          <Form.Item name="tongyi" label="通义千问 API Key">
-            <Input.Password placeholder="sk-..." addonAfter={
-              <Button type="link" onClick={() => handleTestApiKey('tongyi')}>测试</Button>
-            } />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              onClick={handleSaveApiKey}
-              loading={loading}
-              style={{
-                background: '#2563EB',
-                border: 'none',
-                borderRadius: 10,
-                fontWeight: 600,
-                height: 44,
-                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-              }}
-            >
-              保存
-            </Button>
-          </Form.Item>
-        </Form>
-      ),
-    },
-    {
-      key: 'members',
-      label: <span><TeamOutlined /> 成员管理</span>,
-      children: (
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <Button
-              type="primary"
-              onClick={() => setInviteModalVisible(true)}
-              style={{
-                background: '#2563EB',
-                border: 'none',
-                borderRadius: 10,
-                fontWeight: 600,
-                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-              }}
-            >
-              邀请成员
-            </Button>
-          </div>
-          <Table columns={memberColumns} dataSource={members} rowKey="id" />
-        </div>
-      ),
-    },
-    {
-      key: 'units',
-      label: <span><ShopOutlined /> 业务单元</span>,
-      children: (
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <Button
-              type="primary"
-              onClick={() => {
-                setEditingUnit(null)
-                unitForm.resetFields()
-                setUnitModalVisible(true)
-              }}
-              style={{
-                background: '#2563EB',
-                border: 'none',
-                borderRadius: 10,
-                fontWeight: 600,
-                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-              }}
-            >
-              新建业务单元
-            </Button>
-          </div>
-          <Table columns={unitColumns} dataSource={businessUnits} rowKey="id" />
-        </div>
-      ),
-    },
-    {
-      key: 'public',
-      label: <span><GlobalOutlined /> 对外服务</span>,
-      children: (
-        <Form form={publicForm} layout="vertical">
-          <Form.Item name="publicEnabled" label="开启对外服务" valuePropName="checked">
-            <Switch checkedChildren="已开启" unCheckedChildren="已关闭" />
-          </Form.Item>
-          <Form.Item label="对外访问链接">
-            <Space>
-              <Input
-                value={`https://knosai.com/p/${enterprise?.slug}`}
-                disabled
-                style={{ width: 400 }}
-              />
-              <Button icon={<CopyOutlined />} onClick={handleCopyLink}>复制</Button>
-            </Space>
-          </Form.Item>
-          <Form.Item name="welcomeMessage" label="欢迎语">
-            <TextArea rows={3} placeholder="请输入对外AI问答的欢迎语" />
-          </Form.Item>
-          <Form.Item label="Widget代码">
-            <Space>
-              <Input
-                value={`<script src="https://widget.knosai.com/v1/loader.js" data-enterprise="${enterprise?.slug}" data-position="bottom-right"></script>`}
-                disabled
-                style={{ width: 500 }}
-              />
-              <Button icon={<CopyOutlined />} onClick={handleCopyWidgetCode}>复制</Button>
-            </Space>
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              onClick={async () => {
-                const values = await publicForm.validateFields()
-                await enterpriseApi.update({ settings: values })
-                message.success('保存成功')
-              }}
-              style={{
-                background: '#2563EB',
-                border: 'none',
-                borderRadius: 10,
-                fontWeight: 600,
-                height: 44,
-                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-              }}
-            >
-              保存
-            </Button>
-          </Form.Item>
-        </Form>
-      ),
-    },
-    {
-      key: 'billing',
-      label: <span><CreditCardOutlined /> 套餐与账单</span>,
-      children: (
-        <div>
-          <Card
-            title={<span style={{ color: '#111827', fontWeight: 600 }}>当前套餐</span>}
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid #E5E7EB',
-              borderRadius: 16,
-              marginBottom: 16,
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <Title level={4} style={{ color: '#111827', marginBottom: 0 }}>
-                  {planInfo?.planType === 'pro' ? '专业版' : '免费版'}
-                </Title>
-                <Text style={{ color: '#6B7280' }}>
-                  {planInfo?.planType === 'pro' ? '¥299/月' : '¥0'}
-                </Text>
-              </div>
-              {planInfo?.planType !== 'pro' && (
-                <Button
-                  type="primary"
-                  onClick={async () => {
-                    const response = await billingApi.upgrade('pro')
-                    const result = response.data
-                    if (result.code === 0) {
-                      window.location.href = result.data.paymentUrl
-                    }
-                  }}
-                  style={{
-                    background: '#2563EB',
-                    border: 'none',
-                    borderRadius: 10,
-                    fontWeight: 600,
-                    boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
-                  }}
-                >
-                  升级到专业版
-                </Button>
-              )}
-            </div>
-          </Card>
-          <Card
-            title={<span style={{ color: '#111827', fontWeight: 600 }}>使用情况</span>}
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid #E5E7EB',
-              borderRadius: 16,
-            }}
-          >
-            <div style={{ marginBottom: 16 }}>
-              <Text style={{ color: '#111827' }}>AI问答配额</Text>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: '#6B7280' }}>
-                  {usageInfo?.aiUsed || 0} / {usageInfo?.aiLimit || 50} 次
-                </Text>
-              </div>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <Text style={{ color: '#111827' }}>存储空间</Text>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: '#6B7280' }}>
-                  {usageInfo?.storageUsed || 0} MB / {usageInfo?.storageLimit || 500} MB
-                </Text>
-              </div>
-            </div>
-            <div>
-              <Text style={{ color: '#111827' }}>成员数量</Text>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: '#6B7280' }}>
-                  {usageInfo?.memberCount || 1} / {usageInfo?.memberLimit || 10} 人
-                </Text>
-              </div>
-            </div>
-          </Card>
-        </div>
-      ),
-    },
+    { title: '姓名', dataIndex: 'name', key: 'name', render: (text: string) => <Text style={{ color: '#1e293b', fontWeight: 600 }}>{text}</Text> },
+    { title: '邮箱', dataIndex: 'email', key: 'email', render: (text: string) => <Text style={{ color: '#64748b' }}>{text}</Text> },
+    { title: '角色', dataIndex: 'role', key: 'role', render: (role: string) => <Tag style={{ background: role === 'admin' ? 'rgba(102,126,234,0.1)' : 'rgba(148,163,184,0.1)', border: `1px solid ${role === 'admin' ? 'rgba(102,126,234,0.2)' : 'rgba(148,163,184,0.2)'}`, color: role === 'admin' ? '#667eea' : '#64748b', borderRadius: 100, fontWeight: 500 }}>{role === 'admin' ? '管理员' : '成员'}</Tag> },
+    { title: '状态', dataIndex: 'status', key: 'status', render: (status: string) => <Tag style={{ background: status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', border: `1px solid ${status === 'active' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}`, color: status === 'active' ? '#059669' : '#d97706', borderRadius: 100 }}>{status === 'active' ? '已激活' : '待激活'}</Tag> },
+    { title: '操作', key: 'action', render: (_: any, record: any) => record.role !== 'admin' ? (
+      <Popconfirm title="确定移除？" onConfirm={() => handleRemoveMember(record.id)} okText="确定" cancelText="取消">
+        <Button type="text" size="small" danger>移除</Button>
+      </Popconfirm>
+    ) : null },
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}
-    >
-      <Card
-        style={{
-          background: 'rgba(255,255,255,0.7)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(229,231,235,0.5)',
-          borderRadius: 20,
-          boxShadow: 'var(--shadow-sm)',
-        }}
-        styles={{ body: { padding: 32 } }}
-      >
-        <div style={{ marginBottom: 32 }}>
-          <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
-            <SettingOutlined style={{ marginRight: 12 }} />
-            设置
-          </Title>
-          <Text style={{ color: '#6B7280', fontSize: 16 }}>
-            管理企业配置、API Key、成员权限、对外服务等
-          </Text>
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} style={{ maxWidth: 1400, margin: '0 auto' }}>
+      <div style={{ ...glass }}>
+        <div style={{ padding: 32 }}>
+          <Title level={4} style={{ color: '#1e293b', marginBottom: 24, fontWeight: 700 }}>设置</Title>
+
+          <Tabs tabPosition="left" style={{ minHeight: 500 }}
+            items={[
+              { key: 'profile', label: <span><SettingOutlined style={{ marginRight: 8 }} />个人信息</span>, children: (
+                <div style={{ maxWidth: 500 }}>
+                  <Title level={5} style={{ color: '#1e293b', marginBottom: 20, fontWeight: 700 }}>个人信息</Title>
+                  <Form layout="vertical" initialValues={user} onFinish={handleSaveProfile}>
+                    <Form.Item name="name" label="姓名"><Input style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item name="email" label="邮箱"><Input disabled style={{ borderRadius: 10 }} /></Form.Item>
+                    <Form.Item>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button type="primary" htmlType="submit" loading={loading}
+                          style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600, boxShadow: '0 4px 16px rgba(102,126,234,0.3)' }}>保存修改</Button>
+                      </motion.div>
+                    </Form.Item>
+                  </Form>
+                </div>
+              )},
+              { key: 'password', label: <span><KeyOutlined style={{ marginRight: 8 }} />修改密码</span>, children: (
+                <div style={{ maxWidth: 500 }}>
+                  <Title level={5} style={{ color: '#1e293b', marginBottom: 20, fontWeight: 700 }}>修改密码</Title>
+                  <Form layout="vertical" onFinish={handleChangePassword}>
+                    <Form.Item name="currentPassword" label="当前密码" rules={[{ required: true, message: '请输入当前密码' }]}><Input.Password style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item name="newPassword" label="新密码" rules={[{ required: true, message: '请输入新密码' }, { min: 8, message: '密码至少8位' }]}><Input.Password style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item name="confirmPassword" label="确认新密码" dependencies={['newPassword']}
+                      rules={[{ required: true, message: '请确认新密码' }, ({ getFieldValue }) => ({ validator(_, value) { if (!value || getFieldValue('newPassword') === value) return Promise.resolve(); return Promise.reject(new Error('两次输入的密码不一致')) } })]}>
+                      <Input.Password style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} />
+                    </Form.Item>
+                    <Form.Item>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button type="primary" htmlType="submit" loading={passwordLoading}
+                          style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600, boxShadow: '0 4px 16px rgba(102,126,234,0.3)' }}>修改密码</Button>
+                      </motion.div>
+                    </Form.Item>
+                  </Form>
+                </div>
+              )},
+              { key: 'enterprise', label: <span><ShopOutlined style={{ marginRight: 8 }} />企业设置</span>, children: (
+                <div style={{ maxWidth: 500 }}>
+                  <Title level={5} style={{ color: '#1e293b', marginBottom: 20, fontWeight: 700 }}>企业设置</Title>
+                  <Form layout="vertical" initialValues={enterprise} onFinish={handleSaveEnterprise}>
+                    <Form.Item name="companyName" label="企业名称"><Input style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item name="industry" label="所属行业"><Input style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item name="description" label="企业描述"><Input.TextArea rows={4} style={{ borderRadius: 10, background: 'rgba(248,250,252,0.6)', border: '1px solid rgba(148,163,184,0.2)' }} /></Form.Item>
+                    <Form.Item>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button type="primary" htmlType="submit" loading={enterpriseLoading}
+                          style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600, boxShadow: '0 4px 16px rgba(102,126,234,0.3)' }}>保存设置</Button>
+                      </motion.div>
+                    </Form.Item>
+                  </Form>
+                </div>
+              )},
+              { key: 'members', label: <span><TeamOutlined style={{ marginRight: 8 }} />成员管理</span>, children: (
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                    <Title level={5} style={{ color: '#1e293b', margin: 0, fontWeight: 700 }}>成员管理</Title>
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button type="primary" onClick={() => setInviteModalVisible(true)}
+                        style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600 }}>邀请成员</Button>
+                    </motion.div>
+                  </div>
+                  <Table columns={memberColumns} dataSource={members} rowKey="id" loading={membersLoading} pagination={false} style={{ background: 'transparent' }} />
+                </div>
+              )},
+              { key: 'plan', label: <span><CreditCardOutlined style={{ marginRight: 8 }} />套餐管理</span>, children: (
+                <div style={{ maxWidth: 500 }}>
+                  <Title level={5} style={{ color: '#1e293b', marginBottom: 20, fontWeight: 700 }}>当前套餐</Title>
+                  <div style={{ padding: 24, borderRadius: 16, background: 'linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%)', border: '1px solid rgba(102,126,234,0.15)', marginBottom: 24 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <Text style={{ color: '#64748b', fontSize: 13, display: 'block' }}>当前套餐</Text>
+                        <Text style={{ color: '#1e293b', fontSize: 20, fontWeight: 700 }}>{enterprise?.planType === 'pro' ? '专业版' : '免费版'}</Text>
+                      </div>
+                      <Tag style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', borderRadius: 100, padding: '4px 16px', fontWeight: 600 }}>{enterprise?.planType === 'pro' ? 'PRO' : 'FREE'}</Tag>
+                    </div>
+                  </div>
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button type="primary" onClick={() => setPlanModalVisible(true)}
+                      style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600, boxShadow: '0 4px 16px rgba(102,126,234,0.3)' }}>升级套餐</Button>
+                  </motion.div>
+                </div>
+              )},
+            ]}
+          />
         </div>
+      </div>
 
-        <Tabs items={tabItems} tabPosition="left" />
-      </Card>
-
-      {/* 邀请成员弹窗 */}
-      <Modal
-        title="邀请成员"
-        open={inviteModalVisible}
-        onOk={handleInvite}
-        onCancel={() => setInviteModalVisible(false)}
-        okText="发送邀请"
-        cancelText="取消"
-      >
-        <Form form={inviteForm} layout="vertical">
-          <Form.Item name="email" label="邮箱" rules={[{ required: true, type: 'email' }]}>
-            <Input placeholder="请输入成员邮箱" />
-          </Form.Item>
-          <Form.Item name="role" label="角色" rules={[{ required: true }]}>
-            <Select
-              placeholder="请选择角色"
-              options={[
-                { value: 'admin', label: '管理员' },
-                { value: 'editor', label: '编辑者' },
-                { value: 'viewer', label: '只读' },
-              ]}
-            />
-          </Form.Item>
+      <Modal title="邀请成员" open={inviteModalVisible} onCancel={() => { setInviteModalVisible(false); setInviteLink('') }} footer={null}>
+        <Form form={inviteForm} layout="vertical" onFinish={handleInvite}>
+          <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入有效邮箱' }]}><Input placeholder="输入成员邮箱" /></Form.Item>
+          <Form.Item name="role" label="角色" initialValue="member"><Select options={[{ value: 'admin', label: '管理员' }, { value: 'member', label: '成员' }]} /></Form.Item>
+          <Form.Item><Button type="primary" htmlType="submit" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10 }}>生成邀请链接</Button></Form.Item>
         </Form>
+        {inviteLink && (
+          <div style={{ background: 'rgba(248,250,252,0.6)', borderRadius: 12, padding: 16, marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(148,163,184,0.1)' }}>
+            <Text style={{ color: '#475569', fontSize: 13, wordBreak: 'break-all' }}>{inviteLink}</Text>
+            <Button type="text" icon={<CopyOutlined />} onClick={handleCopyLink} style={{ color: '#667eea' }} />
+          </div>
+        )}
       </Modal>
 
-      {/* 业务单元弹窗 */}
-      <Modal
-        title={editingUnit ? '编辑业务单元' : '新建业务单元'}
-        open={unitModalVisible}
-        onOk={handleSaveUnit}
-        onCancel={() => {
-          setUnitModalVisible(false)
-          setEditingUnit(null)
-          unitForm.resetFields()
-        }}
-        okText="保存"
-        cancelText="取消"
-      >
-        <Form form={unitForm} layout="vertical">
-          <Form.Item name="name" label="名称" rules={[{ required: true }]}>
-            <Input placeholder="请输入业务单元名称" />
-          </Form.Item>
-          <Form.Item name="description" label="描述">
-            <TextArea rows={3} placeholder="请输入描述" />
-          </Form.Item>
-        </Form>
+      <Modal title="升级套餐" open={planModalVisible} onCancel={() => setPlanModalVisible(false)} footer={null} width={600}>
+        <div style={{ textAlign: 'center', padding: '20px 0' }}>
+          <Title level={4} style={{ color: '#1e293b', marginBottom: 8 }}>升级到专业版</Title>
+          <Text style={{ color: '#64748b', display: 'block', marginBottom: 24 }}>解锁更多功能，提升团队效率</Text>
+          <div style={{ fontSize: 36, fontWeight: 800, color: '#1e293b', marginBottom: 24 }}>¥299<span style={{ fontSize: 16, color: '#94a3b8', fontWeight: 400 }}>/月</span></div>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} style={{ display: 'inline-block' }}>
+            <Button type="primary" size="large" style={{ height: 52, padding: '0 40px', borderRadius: 14, fontWeight: 600, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', boxShadow: '0 8px 24px rgba(102,126,234,0.3)' }}>立即升级</Button>
+          </motion.div>
+        </div>
       </Modal>
     </motion.div>
   )
