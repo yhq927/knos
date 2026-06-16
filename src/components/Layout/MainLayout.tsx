@@ -189,11 +189,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 onBlur={() => setSearchFocused(false)}
                 style={{
                   width: '100%',
+                  height: 40,
+                  borderRadius: 12,
                   background: searchFocused ? 'rgba(255,255,255,0.9)' : 'rgba(241,245,249,0.8)',
-                  border: searchFocused ? '1px solid rgba(99,102,241,0.4)' : '1px solid transparent',
-                  borderRadius: 12, height: 40,
-                  boxShadow: searchFocused ? '0 0 0 3px rgba(99,102,241,0.08)' : 'none',
-                  transition: 'all 0.25s cubic-bezier(0.16,1,0.3,1)',
                 }}
               />
             </motion.div>

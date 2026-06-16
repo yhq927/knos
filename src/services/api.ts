@@ -14,7 +14,11 @@ const api: AxiosInstance = axios.create({
 // 请求拦截器
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = useAuthStore.getState().token
+    // Admin routes use admin token, others use user token
+    const isAdminRoute = config.url?.startsWith('/admin')
+    const token = isAdminRoute
+      ? localStorage.getItem('admin_token')
+      : useAuthStore.getState().token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -36,12 +40,20 @@ api.interceptors.response.use(
       const { status, data } = error.response
 
       switch (status) {
-        case 401:
-          // Token过期或无效，清除认证状态并跳转到登录页
-          useAuthStore.getState().logout()
-          window.location.href = '/login'
+ case 401: {
+          // Admin routes redirect to admin login, others to user login
+          const url = error.config?.url || ''
+          if (url.startsWith('/admin')) {
+            localStorage.removeItem('admin_token')
+            localStorage.removeItem('admin_user')
+            window.location.href = '/admin/login'
+          } else {
+            useAuthStore.getState().logout()
+            window.location.href = '/login'
+          }
           message.error('登录已过期，请重新登录')
           break
+        }
         case 403:
           message.error('没有权限执行此操作')
           break

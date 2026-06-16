@@ -28,11 +28,7 @@ const sizeOptions = [
 ]
 
 const inputStyle = {
-  background: 'rgba(249, 250, 251, 0.8)',
-  border: '1px solid var(--border)',
-  borderRadius: 12,
   height: 52,
-  color: 'var(--text-primary)',
 }
 
 const Register: React.FC = () => {

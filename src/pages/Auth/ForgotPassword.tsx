@@ -116,10 +116,7 @@ const ForgotPassword: React.FC = () => {
                 <Input
                   prefix={<MailOutlined style={{ color: 'var(--text-muted)' }} />}
                   placeholder="请输入注册邮箱"
-                  style={{
-                    background: 'rgba(249, 250, 251, 0.8)', border: '1px solid var(--border)',
-                    borderRadius: 12, height: 52, color: 'var(--text-primary)',
-                  }}
+                  style={{ height: 52 }}
                 />
               </Form.Item>
               <Form.Item>

@@ -159,7 +159,7 @@ const Home: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <Header style={{
-          background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
           padding: '0 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           borderBottom: '1px solid rgba(229,231,235,0.5)', position: 'fixed', width: '100%', zIndex: 1000,
         }}>
@@ -316,7 +316,7 @@ const Home: React.FC = () => {
                 <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }}>
                   <Button size="large" style={{
                     height: 56, padding: '0 40px', fontSize: 16, fontWeight: 600,
-                    background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(12px)',
+                    background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
                     border: '1px solid var(--border)', borderRadius: 14,
                     color: 'var(--text-secondary)',
                     boxShadow: 'var(--shadow-sm)',
@@ -365,8 +365,9 @@ const Home: React.FC = () => {
                         style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
-                          background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
-                          border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
+                          background: 'rgba(255,255,255,0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+                          border: '1px solid rgba(255,255,255,0.6)', borderRadius: 20,
+                          boxShadow: '0 8px 32px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2)',
                           flex: 1, boxShadow: 'var(--shadow-sm)',
                         }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <motion.div
@@ -411,8 +412,9 @@ const Home: React.FC = () => {
                     <motion.div variants={fadeUp} custom={index} style={{ flex: 1, display: 'flex' }}>
                       <motion.div whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} style={{ flex: 1, display: 'flex' }}>
                         <Card style={{
-                          background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
-                          border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
+                          background: 'rgba(255,255,255,0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+                          border: '1px solid rgba(255,255,255,0.6)', borderRadius: 20,
+                          boxShadow: '0 8px 32px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2)',
                           flex: 1, boxShadow: 'var(--shadow-sm)',
                         }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
@@ -485,8 +487,9 @@ const Home: React.FC = () => {
                         style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
-                          background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
-                          border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
+                          background: 'rgba(255,255,255,0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+                          border: '1px solid rgba(255,255,255,0.6)', borderRadius: 20,
+                          boxShadow: '0 8px 32px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2)',
                           flex: 1, boxShadow: 'var(--shadow-sm)',
                         }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <motion.div
@@ -615,8 +618,8 @@ const Home: React.FC = () => {
                         style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
-                          background: plan.popular ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)',
-                          backdropFilter: 'blur(12px)',
+                          background: plan.popular ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.4)',
+                          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
                           border: plan.popular ? '2px solid var(--primary)' : '1px solid rgba(229,231,235,0.5)',
                           borderRadius: 20, flex: 1, position: 'relative',
                           boxShadow: plan.popular ? '0 12px 32px rgba(102,126,234,0.15)' : 'var(--shadow-sm)',

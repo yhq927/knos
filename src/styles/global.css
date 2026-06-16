@@ -128,20 +128,40 @@ a:hover { color: #764ba2; }
   font-weight: 700 !important;
 }
 
-/* Input */
-.ant-input, .ant-input-password, .ant-input-affix-wrapper {
+/* Input — single layer, no double border */
+.ant-input,
+.ant-input-password .ant-input,
+.ant-input-affix-wrapper {
   background: rgba(255,255,255,0.7) !important;
-  border: 1px solid rgba(148,163,184,0.2) !important;
+  border: 1px solid rgba(148,163,184,0.25) !important;
   border-radius: 12px !important;
-  transition: all 0.2s ease !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
-.ant-input:focus, .ant-input-affix-wrapper-focused {
-  border-color: rgba(102,126,234,0.4) !important;
+.ant-input:focus,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: rgba(102,126,234,0.45) !important;
   box-shadow: 0 0 0 3px rgba(102,126,234,0.08) !important;
+  background: rgba(255,255,255,0.9) !important;
+}
+
+.ant-input-password {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ant-input-password .ant-input {
+  border: none !important;
+}
+
+.ant-input-password .ant-input-suffix {
+  background: transparent !important;
 }
 
 .ant-input::placeholder { color: #94a3b8 !important; }
+.ant-input-prefix { color: #94a3b8 !important; margin-right: 8px !important; }
 
 /* Button */
 .ant-btn-primary {
