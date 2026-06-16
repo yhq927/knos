@@ -326,6 +326,22 @@ a:hover { color: #764ba2; }
 /* Spin */
 .ant-spin-dot-item { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; }
 
+/* Hero animated gradient text */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #667eea 75%, #764ba2 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: heroTextGradient 4s ease infinite;
+}
+
+@keyframes heroTextGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

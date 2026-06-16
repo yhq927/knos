@@ -209,23 +209,51 @@ const Home: React.FC = () => {
           style={{
             minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '120px 24px 80px', position: 'relative', overflow: 'hidden',
-            background: 'transparent',
+            background: 'linear-gradient(180deg, #eef2ff 0%, #e0e7ff 50%, #ede9fe 100%)',
           }}
         >
-          {/* Animated mesh bg */}
+          {/* Grid pattern */}
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 0,
+            backgroundImage: 'linear-gradient(rgba(102,126,234,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(102,126,234,0.06) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%)',
+          }} />
+
+          {/* Animated horizontal scan lines */}
+          <motion.div
+            style={{
+              position: 'absolute', left: 0, right: 0, height: '2px', zIndex: 0,
+              background: 'linear-gradient(90deg, transparent 0%, rgba(102,126,234,0.15) 20%, rgba(118,75,162,0.2) 50%, rgba(102,126,234,0.15) 80%, transparent 100%)',
+              boxShadow: '0 0 20px rgba(102,126,234,0.1)',
+            }}
+            animate={{ top: ['-5%', '105%'] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            style={{
+              position: 'absolute', left: 0, right: 0, height: '1px', zIndex: 0,
+              background: 'linear-gradient(90deg, transparent 0%, rgba(129,140,248,0.12) 30%, rgba(102,126,234,0.15) 50%, rgba(129,140,248,0.12) 70%, transparent 100%)',
+            }}
+            animate={{ top: ['105%', '-5%'] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'linear', delay: 3 }}
+          />
+
+          {/* Floating gradient orbs */}
           <motion.div style={{ position: 'absolute', inset: 0, y: heroY, opacity: heroOpacity }}>
             <motion.div
               style={{
-                position: 'absolute', top: '-30%', left: '-20%', width: '80%', height: '120%',
-                background: 'radial-gradient(ellipse at 30% 50%, rgba(102,126,234,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(99,102,241,0.06) 0%, transparent 50%)',
+                position: 'absolute', top: '-20%', left: '-15%', width: '70%', height: '100%',
+                background: 'radial-gradient(ellipse at 30% 50%, rgba(102,126,234,0.12) 0%, transparent 60%)',
               }}
               animate={{ x: [0, -20, 10, 0], y: [0, -10, 20, 0] }}
               transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
             />
             <motion.div
               style={{
-                position: 'absolute', top: '20%', right: '-10%', width: '50%', height: '80%',
-                background: 'radial-gradient(ellipse at 60% 40%, rgba(59,130,246,0.06) 0%, transparent 50%)',
+                position: 'absolute', top: '10%', right: '-15%', width: '60%', height: '80%',
+                background: 'radial-gradient(ellipse at 60% 40%, rgba(118,75,162,0.08) 0%, transparent 60%)',
               }}
               animate={{ x: [0, 20, -15, 0], y: [0, 15, -10, 0] }}
               transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
@@ -257,10 +285,7 @@ const Home: React.FC = () => {
                 marginBottom: 24, lineHeight: 1.1, letterSpacing: '-2px',
               }}>
                 把团队经验<br />
-                <span style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                }}>沉淀成智能知识库</span>
+                <span className="hero-gradient-text">沉淀成智能知识库</span>
               </Title>
             </motion.div>
 
