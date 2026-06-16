@@ -34,14 +34,14 @@ module.exports = async (req, res) => {
   }
 
   // 解析原始路径
-  // 由于所有 /api/* rewrite 到此文件，req.url 应保留原始路径
-  const rawUrl = req.url || req.headers['x-vercel-path'] || ''
+  // vercel.json rewrite 通过 _path 参数传递原始路径
+  // 回退到 req.url（本地开发时保留原始路径）
+  const query = req.query || {}
+  const rawUrl = query._path || req.url || ''
   const cleanUrl = rawUrl.replace(/^\/api\/?/, '').split('?')[0]
   const segments = cleanUrl.split('/').filter(Boolean)
   const module = segments[0]
   const subSegments = segments.slice(1)
-
-  const query = req.query || {}
   const body = req.body || {}
 
   // 辅助函数
