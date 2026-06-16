@@ -23,16 +23,6 @@ module.exports = async (req, res) => {
   // CORS
   if (cors(req, res)) return
 
-  // 调试端点：返回请求信息，用于排查 URL 解析问题
-  if ((req.url || '').includes('_debug')) {
-    return res.status(200).json({
-      url: req.url,
-      method: req.method,
-      headers: req.headers,
-      query: req.query,
-    })
-  }
-
   // 解析原始路径
   // vercel.json rewrite 通过 _path 参数传递原始路径
   // 回退到 req.url（本地开发时保留原始路径）
@@ -118,6 +108,18 @@ module.exports = async (req, res) => {
       }
 
       return err(404, 404, 'Auth API not found')
+    }
+
+    // ============================================================
+    // ADMIN 登录（无需认证，必须在认证墙之前）
+    // ============================================================
+    if (module === 'admin' && subSegments[0] === 'auth' && req.method === 'POST') {
+      const adminUsers = { admin: { id: 'admin_001', username: 'admin', password: 'admin123', role: 'super_admin' } }
+      const { username, password } = body
+      if (!username || !password) return err(400, 400, '请输入账号和密码')
+      const admin = adminUsers[username]
+      if (!admin || admin.password !== password) return err(401, 401, '账号或密码错误')
+      return ok({ user: { id: admin.id, username: admin.username, role: admin.role }, token: 'admin_token_' + admin.id + '_' + Date.now() }, '登录成功')
     }
 
     // ============================================================
@@ -462,17 +464,7 @@ module.exports = async (req, res) => {
 
     // ---- ADMIN（平台管理，需 admin token）----
     if (module === 'admin') {
-      const adminUsers = { admin: { id: 'admin_001', username: 'admin', password: 'admin123', role: 'super_admin' } }
       const sub = subSegments[0]
-
-      // 登录（特殊：不需要 admin token）
-      if (sub === 'auth' && req.method === 'POST') {
-        const { username, password } = body
-        if (!username || !password) return err(400, 400, '请输入账号和密码')
-        const admin = adminUsers[username]
-        if (!admin || admin.password !== password) return err(401, 401, '账号或密码错误')
-        return ok({ user: { id: admin.id, username: admin.username, role: admin.role }, token: 'admin_token_' + admin.id + '_' + Date.now() }, '登录成功')
-      }
 
       // 其他 admin 接口需要 admin token
       const token = (req.headers.authorization || '').replace('Bearer ', '')
