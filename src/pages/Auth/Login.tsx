@@ -37,15 +37,40 @@ const Login: React.FC = () => {
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      background: '#0a0a0a',
-      padding: '20px'
+      background: '#F8FAFC',
+      padding: '20px',
+      position: 'relative',
     }}>
+      {/* 背景装饰 */}
+      <div style={{
+        position: 'absolute',
+        top: '-40%',
+        right: '-20%',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '-30%',
+        left: '-10%',
+        width: '400px',
+        height: '400px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
       {/* 顶部导航 */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         padding: '10px 20px',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        position: 'relative',
+        zIndex: 1,
       }}>
         <Link to="/" style={{
           display: 'flex',
@@ -57,7 +82,7 @@ const Login: React.FC = () => {
             width: 32,
             height: 32,
             borderRadius: 8,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -65,7 +90,7 @@ const Login: React.FC = () => {
             fontWeight: 700,
             color: '#fff'
           }}>K</div>
-          <span style={{ color: '#fff', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
+          <span style={{ color: '#111827', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
         </Link>
       </div>
 
@@ -74,37 +99,40 @@ const Login: React.FC = () => {
         flex: 1,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'relative',
+        zIndex: 1,
       }}>
         <div style={{
           width: '100%',
           maxWidth: 420,
-          background: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 24,
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
+          borderRadius: 20,
           padding: '48px 40px',
-          backdropFilter: 'blur(20px)'
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <div style={{
               width: 56,
               height: 56,
               borderRadius: 16,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 24,
               fontWeight: 800,
               color: '#fff',
-              margin: '0 auto 20px'
+              margin: '0 auto 20px',
+              boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
             }}>
               K
             </div>
-            <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+            <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
               登录账号
             </Title>
-            <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <Text style={{ color: '#6B7280' }}>
               登录以继续使用 KnosAI
             </Text>
           </div>
@@ -124,14 +152,14 @@ const Login: React.FC = () => {
             ]}
           >
             <Input
-              prefix={<MailOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+              prefix={<MailOutlined style={{ color: '#9CA3AF' }} />}
               placeholder="请输入邮箱"
               style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 12,
+                background: '#F9FAFB',
+                border: '1px solid #E5E7EB',
+                borderRadius: 10,
                 height: 52,
-                color: '#fff'
+                color: '#111827',
               }}
             />
           </Form.Item>
@@ -141,20 +169,21 @@ const Login: React.FC = () => {
             rules={[{ required: true, message: '请输入密码' }]}
           >
             <Input.Password
-              prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+              prefix={<LockOutlined style={{ color: '#9CA3AF' }} />}
               placeholder="请输入密码"
               style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 12,
-                height: 52
+                background: '#F9FAFB',
+                border: '1px solid #E5E7EB',
+                borderRadius: 10,
+                height: 52,
+                color: '#111827',
               }}
             />
           </Form.Item>
 
           <Form.Item>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to="/forgot-password" style={{ color: '#667eea', fontSize: 14 }}>
+              <Link to="/forgot-password" style={{ color: '#2563EB', fontSize: 14 }}>
                 忘记密码？
               </Link>
             </div>
@@ -170,9 +199,10 @@ const Login: React.FC = () => {
                 height: 52,
                 fontSize: 16,
                 fontWeight: 600,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
-                borderRadius: 12
+                borderRadius: 10,
+                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
               }}
             >
               登录
@@ -180,9 +210,9 @@ const Login: React.FC = () => {
           </Form.Item>
 
           <div style={{ textAlign: 'center' }}>
-            <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <Text style={{ color: '#6B7280' }}>
               没有账号？{' '}
-              <Link to="/register" style={{ color: '#667eea', fontWeight: 600 }}>
+              <Link to="/register" style={{ color: '#2563EB', fontWeight: 600 }}>
                 立即注册
               </Link>
             </Text>

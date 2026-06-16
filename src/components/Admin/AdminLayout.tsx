@@ -1,11 +1,12 @@
 import React from 'react'
-import { Layout, Menu, Typography, Button, Space } from 'antd'
+import { Layout, Menu, Typography, Button, Space, Avatar } from 'antd'
 import {
   DashboardOutlined,
   ShopOutlined,
   SettingOutlined,
   LogoutOutlined,
   SafetyOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 
@@ -49,12 +50,13 @@ const AdminLayout: React.FC = () => {
   })()
 
   return (
-    <Layout style={{ minHeight: '100vh', background: '#0a0a0a' }}>
+    <Layout style={{ minHeight: '100vh', background: '#F8FAFC' }}>
       <Sider
         width={240}
         style={{
-          background: 'rgba(255,255,255,0.03)',
-          borderRight: '1px solid rgba(255,255,255,0.06)',
+          background: '#FFFFFF',
+          borderRight: '1px solid #E5E7EB',
+          boxShadow: '2px 0 8px rgba(0,0,0,0.04)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -65,13 +67,13 @@ const AdminLayout: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           gap: 12,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid #F3F4F6',
         }}>
           <div style={{
             width: 40,
             height: 40,
             borderRadius: 10,
-            background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+            background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -79,8 +81,8 @@ const AdminLayout: React.FC = () => {
             <SafetyOutlined style={{ fontSize: 20, color: '#fff' }} />
           </div>
           <div>
-            <div style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>KnosAI</div>
-            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>管理后台</div>
+            <div style={{ color: '#111827', fontSize: 16, fontWeight: 700 }}>KnosAI</div>
+            <div style={{ color: '#9CA3AF', fontSize: 12 }}>管理后台</div>
           </div>
         </div>
 
@@ -96,33 +98,39 @@ const AdminLayout: React.FC = () => {
             padding: '12px 8px',
             flex: 1,
           }}
-          theme="dark"
         />
 
         {/* Footer */}
         <div style={{
           padding: '16px 20px',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid #F3F4F6',
         }}>
-          <div style={{ marginBottom: 12 }}>
-            <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>管理员</Text>
-            <div style={{ color: '#fff', fontSize: 14, marginTop: 2 }}>
-              {adminUser.username || 'admin'}
+          <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Avatar
+              size={36}
+              icon={<UserOutlined />}
+              style={{ background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)', flexShrink: 0 }}
+            />
+            <div>
+              <Text style={{ color: '#9CA3AF', fontSize: 11, display: 'block' }}>管理员</Text>
+              <Text style={{ color: '#111827', fontSize: 14, fontWeight: 600, display: 'block' }}>
+                {adminUser.username || 'admin'}
+              </Text>
             </div>
           </div>
           <Button
             icon={<LogoutOutlined />}
             onClick={handleLogout}
-            danger
             block
             size="small"
+            style={{ borderRadius: 8 }}
           >
             退出登录
           </Button>
         </div>
       </Sider>
 
-      <Content style={{ padding: '32px', overflow: 'auto' }}>
+      <Content style={{ padding: '32px', overflow: 'auto', background: '#F8FAFC' }}>
         <Outlet />
       </Content>
     </Layout>

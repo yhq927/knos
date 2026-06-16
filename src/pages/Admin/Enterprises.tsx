@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Table, Tag, Space, Button, Input, message, Modal, Form, Select, Typography } from 'antd'
-import { SearchOutlined, PlusOutlined, EditOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { SearchOutlined, EditOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
 const { Title, Text } = Typography
@@ -51,7 +51,7 @@ const AdminEnterprises: React.FC = () => {
     try {
       const values = await form.validateFields()
       const token = localStorage.getItem('admin_token')
-      
+
       const response = await fetch(`/api/admin/enterprises?id=${currentEnterprise.id}`, {
         method: 'PUT',
         headers: {
@@ -60,7 +60,7 @@ const AdminEnterprises: React.FC = () => {
         },
         body: JSON.stringify(values)
       })
-      
+
       const data = await response.json()
       if (data.code === 0) {
         message.success('更新成功')
@@ -77,7 +77,7 @@ const AdminEnterprises: React.FC = () => {
   const handleToggleStatus = async (enterprise: any) => {
     const newStatus = enterprise.status === 'active' ? 'disabled' : 'active'
     const action = newStatus === 'disabled' ? '禁用' : '启用'
-    
+
     Modal.confirm({
       title: `确认${action}`,
       content: `确定要${action}企业"${enterprise.name}"吗？`,
@@ -92,7 +92,7 @@ const AdminEnterprises: React.FC = () => {
             },
             body: JSON.stringify({ status: newStatus })
           })
-          
+
           const data = await response.json()
           if (data.code === 0) {
             message.success(`${action}成功`)
@@ -110,7 +110,7 @@ const AdminEnterprises: React.FC = () => {
       title: '企业名称',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => <Text style={{ color: '#fff', fontWeight: 600 }}>{text}</Text>
+      render: (text: string) => <Text style={{ color: '#111827', fontWeight: 600 }}>{text}</Text>
     },
     {
       title: '行业',
@@ -121,7 +121,8 @@ const AdminEnterprises: React.FC = () => {
     {
       title: '规模',
       dataIndex: 'size',
-      key: 'size'
+      key: 'size',
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{text}</Text>
     },
     {
       title: '套餐',
@@ -147,7 +148,7 @@ const AdminEnterprises: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (text: string) => new Date(text).toLocaleDateString('zh-CN')
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>
     },
     {
       title: '操作',
@@ -158,7 +159,7 @@ const AdminEnterprises: React.FC = () => {
             type="text"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
-            style={{ color: '#667eea' }}
+            style={{ color: '#2563EB' }}
           >
             编辑
           </Button>
@@ -167,7 +168,7 @@ const AdminEnterprises: React.FC = () => {
             icon={record.status === 'active' ? <StopOutlined /> : <CheckCircleOutlined />}
             onClick={() => handleToggleStatus(record)}
             danger={record.status === 'active'}
-            style={{ color: record.status === 'active' ? '#f5576c' : '#43e97b' }}
+            style={{ color: record.status === 'active' ? '#DC2626' : '#059669' }}
           >
             {record.status === 'active' ? '禁用' : '启用'}
           </Button>
@@ -183,25 +184,26 @@ const AdminEnterprises: React.FC = () => {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>企业管理</Title>
-        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>管理所有注册企业</Text>
+        <Title level={2} style={{ color: '#111827', marginBottom: 4, fontWeight: 700 }}>企业管理</Title>
+        <Text style={{ color: '#6B7280' }}>管理所有注册企业</Text>
       </div>
 
       <Card style={{
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: 16
+        background: '#FFFFFF',
+        border: '1px solid #E5E7EB',
+        borderRadius: 16,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
         <div style={{ marginBottom: 16 }}>
           <Input
             placeholder="搜索企业名称"
-            prefix={<SearchOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+            prefix={<SearchOutlined style={{ color: '#9CA3AF' }} />}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             style={{
               width: 300,
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: '#F9FAFB',
+              border: '1px solid #E5E7EB',
               borderRadius: 10
             }}
           />
@@ -255,16 +257,6 @@ const AdminEnterprises: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-
-      <style>{`
-        .ant-table { background: transparent !important; }
-        .ant-table-thead > tr > th { background: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.8) !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
-        .ant-table-tbody > tr > td { color: rgba(255,255,255,0.7) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-        .ant-table-tbody > tr:hover > td { background: rgba(102, 126, 234, 0.1) !important; }
-        .ant-input { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #fff !important; }
-        .ant-input::placeholder { color: rgba(255,255,255,0.3) !important; }
-        .ant-select-selector { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #fff !important; }
-      `}</style>
     </div>
   )
 }

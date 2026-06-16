@@ -52,49 +52,35 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        background: '#0a0a0a',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* 背景光效 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '-50%',
-          left: '-30%',
-          width: '80%',
-          height: '150%',
-          background: 'radial-gradient(circle, rgba(118, 75, 162, 0.15) 0%, transparent 60%)',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-50%',
-          right: '-30%',
-          width: '80%',
-          height: '150%',
-          background: 'radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 60%)',
-        }}
-      />
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      background: '#F8FAFC',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* 背景装饰 */}
+      <div style={{
+        position: 'absolute',
+        top: '-40%',
+        right: '-10%',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
 
       {/* 左侧注册表单 */}
-      <div
-        style={{
-          flex: 1,
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px 40px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
+      <div style={{
+        flex: 1,
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 40px',
+        position: 'relative',
+        zIndex: 1,
+      }}>
         {/* 顶部导航 */}
         <div style={{
           display: 'flex',
@@ -112,7 +98,7 @@ const Register: React.FC = () => {
               width: 32,
               height: 32,
               borderRadius: 8,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -120,7 +106,7 @@ const Register: React.FC = () => {
               fontWeight: 700,
               color: '#fff'
             }}>K</div>
-            <span style={{ color: '#fff', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
+            <span style={{ color: '#111827', fontSize: 16, fontWeight: 600 }}>KnosAI</span>
           </Link>
         </div>
 
@@ -131,25 +117,23 @@ const Register: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 480,
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 24,
-              padding: '48px 40px',
-              backdropFilter: 'blur(20px)',
-            }}
-          >
+          <div style={{
+            width: '100%',
+            maxWidth: 480,
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB',
+            borderRadius: 20,
+            padding: '48px 40px',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
+          }}>
             {/* Logo */}
-            <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <div
               style={{
                 width: 56,
                 height: 56,
                 borderRadius: 16,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -157,14 +141,15 @@ const Register: React.FC = () => {
                 fontWeight: 800,
                 color: '#fff',
                 margin: '0 auto 20px',
+                boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
               }}
             >
               K
             </div>
-            <Title level={3} style={{ color: '#fff', marginBottom: 8, fontWeight: 700 }}>
+            <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
               创建账号
             </Title>
-            <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <Text style={{ color: '#6B7280' }}>
               开始构建您的智能知识库
             </Text>
           </div>
@@ -184,14 +169,9 @@ const Register: React.FC = () => {
               ]}
             >
               <Input
-                prefix={<MailOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                prefix={<MailOutlined style={{ color: '#9CA3AF' }} />}
                 placeholder="请输入邮箱"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 12,
-                  height: 52,
-                }}
+                style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 10, height: 52, color: '#111827' }}
               />
             </Form.Item>
 
@@ -203,14 +183,9 @@ const Register: React.FC = () => {
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                prefix={<LockOutlined style={{ color: '#9CA3AF' }} />}
                 placeholder="请输入密码（至少8位）"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 12,
-                  height: 52,
-                }}
+                style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 10, height: 52, color: '#111827' }}
               />
             </Form.Item>
 
@@ -230,14 +205,9 @@ const Register: React.FC = () => {
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                prefix={<LockOutlined style={{ color: '#9CA3AF' }} />}
                 placeholder="请确认密码"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 12,
-                  height: 52,
-                }}
+                style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 10, height: 52, color: '#111827' }}
               />
             </Form.Item>
 
@@ -249,14 +219,9 @@ const Register: React.FC = () => {
               ]}
             >
               <Input
-                prefix={<BankOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                prefix={<BankOutlined style={{ color: '#9CA3AF' }} />}
                 placeholder="请输入公司名称"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 12,
-                  height: 52,
-                }}
+                style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 10, height: 52, color: '#111827' }}
               />
             </Form.Item>
 
@@ -268,10 +233,6 @@ const Register: React.FC = () => {
                 placeholder="请选择所属行业"
                 options={industryOptions}
                 style={{ height: 52 }}
-                dropdownStyle={{
-                  background: '#1a1a1a',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
               />
             </Form.Item>
 
@@ -281,10 +242,6 @@ const Register: React.FC = () => {
                 options={sizeOptions}
                 allowClear
                 style={{ height: 52 }}
-                dropdownStyle={{
-                  background: '#1a1a1a',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
               />
             </Form.Item>
 
@@ -298,10 +255,10 @@ const Register: React.FC = () => {
                   height: 52,
                   fontSize: 16,
                   fontWeight: 600,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: '#2563EB',
                   border: 'none',
-                  borderRadius: 12,
-                  boxShadow: '0 8px 30px rgba(102, 126, 234, 0.4)',
+                  borderRadius: 10,
+                  boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
                 }}
               >
                 注册
@@ -310,15 +267,9 @@ const Register: React.FC = () => {
             </Form.Item>
 
             <div style={{ textAlign: 'center' }}>
-              <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <Text style={{ color: '#6B7280' }}>
                 已有账号？{' '}
-                <Link
-                  to="/login"
-                  style={{
-                    color: '#667eea',
-                    fontWeight: 600,
-                  }}
-                >
+                <Link to="/login" style={{ color: '#2563EB', fontWeight: 600 }}>
                   立即登录
                 </Link>
               </Text>
@@ -341,17 +292,15 @@ const Register: React.FC = () => {
         className="register-right"
       >
         <div style={{ maxWidth: 500 }}>
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 20px',
-              borderRadius: 100,
-              background: 'rgba(102, 126, 234, 0.2)',
-              border: '1px solid rgba(102, 126, 234, 0.3)',
-              marginBottom: 32,
-            }}
-          >
-            <Text style={{ color: '#667eea', fontSize: 14, fontWeight: 600 }}>
+          <div style={{
+            display: 'inline-block',
+            padding: '8px 20px',
+            borderRadius: 100,
+            background: '#E0E7FF',
+            border: '1px solid #C7D2FE',
+            marginBottom: 32,
+          }}>
+            <Text style={{ color: '#2563EB', fontSize: 14, fontWeight: 600 }}>
               ✨ 为什么选择 KnosAI
             </Text>
           </div>
@@ -360,25 +309,23 @@ const Register: React.FC = () => {
             style={{
               fontSize: 48,
               fontWeight: 800,
-              color: '#fff',
+              color: '#111827',
               marginBottom: 24,
               lineHeight: 1.2,
             }}
           >
             让知识管理
             <br />
-            <span
-              style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
+            <span style={{
+              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
               更加智能
             </span>
           </Title>
 
-          <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 18, lineHeight: 1.8 }}>
+          <Paragraph style={{ color: '#6B7280', fontSize: 18, lineHeight: 1.8 }}>
             AI驱动的智能知识管理平台，帮助企业沉淀经验、提升效率。
           </Paragraph>
 
@@ -397,8 +344,9 @@ const Register: React.FC = () => {
                   marginBottom: 24,
                   padding: '16px 20px',
                   borderRadius: 16,
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.05)',
+                  background: '#FFFFFF',
+                  border: '1px solid #E5E7EB',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                 }}
               >
                 <div
@@ -406,23 +354,23 @@ const Register: React.FC = () => {
                     width: 48,
                     height: 48,
                     borderRadius: 12,
-                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
+                    background: '#E0E7FF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontSize: 16,
                     fontWeight: 800,
-                    color: '#667eea',
+                    color: '#2563EB',
                     flexShrink: 0,
                   }}
                 >
                   {item.num}
                 </div>
                 <div>
-                  <Text style={{ color: '#fff', fontSize: 16, fontWeight: 600, display: 'block' }}>
+                  <Text style={{ color: '#111827', fontSize: 16, fontWeight: 600, display: 'block' }}>
                     {item.title}
                   </Text>
-                  <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>
+                  <Text style={{ color: '#6B7280', fontSize: 14 }}>
                     {item.desc}
                   </Text>
                 </div>
@@ -439,47 +387,6 @@ const Register: React.FC = () => {
           .register-right {
             display: none !important;
           }
-        }
-        
-        .ant-input,
-        .ant-input-password,
-        .ant-select-selector {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          color: #fff !important;
-        }
-        
-        .ant-input::placeholder,
-        .ant-select-selection-placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        
-        .ant-input:focus,
-        .ant-input-password:focus,
-        .ant-select-focused .ant-select-selector {
-          border-color: #667eea !important;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
-        }
-        
-        .ant-select-arrow {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        
-        .ant-select-dropdown {
-          background: #1a1a1a !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-        }
-        
-        .ant-select-item {
-          color: rgba(255,255,255,0.8) !important;
-        }
-        
-        .ant-select-item-option-active {
-          background: rgba(102, 126, 234, 0.2) !important;
-        }
-        
-        .ant-select-item-option-selected {
-          background: rgba(102, 126, 234, 0.3) !important;
         }
       `}</style>
     </div>

@@ -24,7 +24,7 @@ import {
 import { chatApi } from '@/services/api'
 import type { ChatMessage } from '@/types'
 
-const { Text, Paragraph } = Typography
+const { Text } = Typography
 
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -166,10 +166,10 @@ const Chat: React.FC = () => {
 
   const getConfidenceColor = (confidence?: string) => {
     switch (confidence) {
-      case 'high': return '#43e97b'
-      case 'medium': return '#f59e0b'
-      case 'low': return '#f5576c'
-      default: return '#666'
+      case 'high': return '#10B981'
+      case 'medium': return '#F59E0B'
+      case 'low': return '#EF4444'
+      default: return '#9CA3AF'
     }
   }
 
@@ -190,9 +190,10 @@ const Chat: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: 20,
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
+          borderRadius: 16,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}
         styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 } }}
       >
@@ -205,19 +206,20 @@ const Chat: React.FC = () => {
                   width: 80,
                   height: 80,
                   borderRadius: 24,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 24px',
+                  boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
                 }}
               >
                 <RobotOutlined style={{ fontSize: 40, color: '#fff' }} />
               </div>
-              <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+              <Typography.Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
                 有什么可以帮您的？
-              </Title>
-              <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>
+              </Typography.Title>
+              <Text style={{ color: '#6B7280', fontSize: 16 }}>
                 基于企业知识库的AI问答，为您精准解答
               </Text>
             </div>
@@ -237,7 +239,7 @@ const Chat: React.FC = () => {
                       <Avatar
                         icon={<RobotOutlined />}
                         style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
                           marginRight: 12,
                           width: 40,
                           height: 40,
@@ -250,10 +252,10 @@ const Chat: React.FC = () => {
                         padding: '16px 20px',
                         borderRadius: msg.role === 'user' ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
                         background: msg.role === 'user'
-                          ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                          : 'rgba(255,255,255,0.05)',
-                        border: msg.role === 'assistant' ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                        color: '#fff',
+                          ? '#2563EB'
+                          : '#F3F4F6',
+                        border: msg.role === 'assistant' ? '1px solid #E5E7EB' : 'none',
+                        color: msg.role === 'user' ? '#fff' : '#111827',
                       }}
                     >
                       <div style={{ whiteSpace: 'pre-wrap' }}>
@@ -270,22 +272,22 @@ const Chat: React.FC = () => {
                                 key={index}
                                 style={{
                                   background: source.type === 'enterprise'
-                                    ? 'rgba(102, 126, 234, 0.2)'
+                                    ? '#E0E7FF'
                                     : source.type === 'industry'
-                                    ? 'rgba(67, 233, 123, 0.2)'
-                                    : 'rgba(255,255,255,0.1)',
+                                    ? '#D1FAE5'
+                                    : '#F3F4F6',
                                   border: `1px solid ${
                                     source.type === 'enterprise'
-                                      ? 'rgba(102, 126, 234, 0.3)'
+                                      ? '#C7D2FE'
                                       : source.type === 'industry'
-                                      ? 'rgba(67, 233, 123, 0.3)'
-                                      : 'rgba(255,255,255,0.15)'
+                                      ? '#A7F3D0'
+                                      : '#E5E7EB'
                                   }`,
                                   color: source.type === 'enterprise'
-                                    ? '#667eea'
+                                    ? '#2563EB'
                                     : source.type === 'industry'
-                                    ? '#43e97b'
-                                    : 'rgba(255,255,255,0.7)',
+                                    ? '#059669'
+                                    : '#6B7280',
                                   borderRadius: 100,
                                   fontSize: 11,
                                 }}
@@ -312,7 +314,7 @@ const Chat: React.FC = () => {
                                 background: getConfidenceColor(msg.confidence),
                               }}
                             />
-                            <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>
+                            <Text style={{ fontSize: 12, color: '#6B7280' }}>
                               {getConfidenceText(msg.confidence)}
                             </Text>
                           </Space>
@@ -320,7 +322,7 @@ const Chat: React.FC = () => {
                       )}
 
                       {msg.role === 'assistant' && msg.content && (
-                        <div style={{ marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 12 }}>
+                        <div style={{ marginTop: 12, borderTop: '1px solid #E5E7EB', paddingTop: 12 }}>
                           <Space>
                             <Tooltip title="有用">
                               <Button
@@ -328,7 +330,7 @@ const Chat: React.FC = () => {
                                 size="small"
                                 icon={<LikeOutlined />}
                                 onClick={() => handleFeedback(msg.id, 'helpful')}
-                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                style={{ color: '#9CA3AF' }}
                               />
                             </Tooltip>
                             <Tooltip title="无用">
@@ -337,7 +339,7 @@ const Chat: React.FC = () => {
                                 size="small"
                                 icon={<DislikeOutlined />}
                                 onClick={() => handleFeedback(msg.id, 'not_helpful')}
-                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                style={{ color: '#9CA3AF' }}
                               />
                             </Tooltip>
                             <Tooltip title="复制">
@@ -346,7 +348,7 @@ const Chat: React.FC = () => {
                                 size="small"
                                 icon={<CopyOutlined />}
                                 onClick={() => handleCopy(msg.content)}
-                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                style={{ color: '#9CA3AF' }}
                               />
                             </Tooltip>
                           </Space>
@@ -355,7 +357,7 @@ const Chat: React.FC = () => {
 
                       {msg.followUpQuestions && msg.followUpQuestions.length > 0 && (
                         <div style={{ marginTop: 12 }}>
-                          <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>相关问题：</Text>
+                          <Text style={{ fontSize: 12, color: '#9CA3AF' }}>相关问题：</Text>
                           <div style={{ marginTop: 8 }}>
                             {msg.followUpQuestions.map((question, index) => (
                               <Tag
@@ -363,9 +365,9 @@ const Chat: React.FC = () => {
                                 style={{
                                   cursor: 'pointer',
                                   marginBottom: 4,
-                                  background: 'rgba(102, 126, 234, 0.1)',
-                                  border: '1px solid rgba(102, 126, 234, 0.2)',
-                                  color: '#667eea',
+                                  background: '#E0E7FF',
+                                  border: '1px solid #C7D2FE',
+                                  color: '#2563EB',
                                   borderRadius: 100,
                                 }}
                                 onClick={() => {
@@ -384,7 +386,7 @@ const Chat: React.FC = () => {
                       <Avatar
                         icon={<UserOutlined />}
                         style={{
-                          background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                          background: '#0EA5E9',
                           marginLeft: 12,
                           width: 40,
                           height: 40,
@@ -403,8 +405,8 @@ const Chat: React.FC = () => {
         <div
           style={{
             padding: '20px 24px',
-            borderTop: '1px solid rgba(255,255,255,0.05)',
-            background: 'rgba(255,255,255,0.02)',
+            borderTop: '1px solid #E5E7EB',
+            background: '#F9FAFB',
           }}
         >
           <Space.Compact style={{ width: '100%' }}>
@@ -418,10 +420,10 @@ const Chat: React.FC = () => {
               disabled={loading}
               style={{
                 flex: 1,
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: '#FFFFFF',
+                border: '1px solid #E5E7EB',
                 borderRadius: '12px 0 0 12px',
-                color: '#fff',
+                color: '#111827',
               }}
             />
             <Button
@@ -432,7 +434,7 @@ const Chat: React.FC = () => {
               disabled={!inputValue.trim()}
               style={{
                 height: 'auto',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: '0 12px 12px 0',
                 fontWeight: 600,
@@ -448,28 +450,13 @@ const Chat: React.FC = () => {
               icon={<ClearOutlined />}
               onClick={handleClear}
               disabled={messages.length === 0}
-              style={{ color: 'rgba(255,255,255,0.4)' }}
+              style={{ color: '#9CA3AF' }}
             >
               清空对话
             </Button>
           </div>
         </div>
       </Card>
-
-      <style>{`
-        .ant-input,
-        .ant-input-password {
-          background: rgba(255,255,255,0.05) !important;
-          color: #fff !important;
-        }
-        .ant-input::placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .ant-input:focus {
-          border-color: #667eea !important;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
-        }
-      `}</style>
     </div>
   )
 }

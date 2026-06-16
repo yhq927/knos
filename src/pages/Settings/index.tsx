@@ -27,7 +27,7 @@ import {
 import { enterpriseApi, membersApi, businessUnitsApi, billingApi } from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 const { TextArea } = Input
 
 const Settings: React.FC = () => {
@@ -227,13 +227,13 @@ const Settings: React.FC = () => {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
-      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{text}</Text>,
     },
     {
       title: '角色',
@@ -256,7 +256,7 @@ const Settings: React.FC = () => {
       title: '加入时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
     },
     {
       title: '操作',
@@ -268,7 +268,7 @@ const Settings: React.FC = () => {
           okText="确定"
           cancelText="取消"
         >
-          <Button type="text" danger style={{ color: '#f5576c' }}>移除</Button>
+          <Button type="text" danger style={{ color: '#DC2626' }}>移除</Button>
         </Popconfirm>
       ),
     },
@@ -279,13 +279,13 @@ const Settings: React.FC = () => {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
     },
     {
       title: '描述',
       dataIndex: 'description',
       key: 'description',
-      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{text}</Text>,
     },
     {
       title: '状态',
@@ -294,9 +294,9 @@ const Settings: React.FC = () => {
       render: (status: string) => (
         <Tag
           style={{
-            background: status === 'active' ? 'rgba(67, 233, 123, 0.2)' : 'rgba(255,255,255,0.1)',
-            border: `1px solid ${status === 'active' ? 'rgba(67, 233, 123, 0.3)' : 'rgba(255,255,255,0.15)'}`,
-            color: status === 'active' ? '#43e97b' : 'rgba(255,255,255,0.5)',
+            background: status === 'active' ? '#D1FAE5' : '#F3F4F6',
+            border: `1px solid ${status === 'active' ? '#A7F3D0' : '#E5E7EB'}`,
+            color: status === 'active' ? '#059669' : '#6B7280',
             borderRadius: 100,
           }}
         >
@@ -316,7 +316,7 @@ const Settings: React.FC = () => {
               unitForm.setFieldsValue(record)
               setUnitModalVisible(true)
             }}
-            style={{ color: '#667eea' }}
+            style={{ color: '#2563EB' }}
           >
             编辑
           </Button>
@@ -326,7 +326,7 @@ const Settings: React.FC = () => {
             okText="确定"
             cancelText="取消"
           >
-            <Button type="text" danger style={{ color: '#f5576c' }}>删除</Button>
+            <Button type="text" danger style={{ color: '#DC2626' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -385,11 +385,12 @@ const Settings: React.FC = () => {
               onClick={handleSaveBasic}
               loading={loading}
               style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
                 fontWeight: 600,
                 height: 44,
+                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
               }}
             >
               保存
@@ -424,11 +425,12 @@ const Settings: React.FC = () => {
               onClick={handleSaveApiKey}
               loading={loading}
               style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
                 fontWeight: 600,
                 height: 44,
+                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
               }}
             >
               保存
@@ -447,10 +449,11 @@ const Settings: React.FC = () => {
               type="primary"
               onClick={() => setInviteModalVisible(true)}
               style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
                 fontWeight: 600,
+                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
               }}
             >
               邀请成员
@@ -474,10 +477,11 @@ const Settings: React.FC = () => {
                 setUnitModalVisible(true)
               }}
               style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
                 fontWeight: 600,
+                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
               }}
             >
               新建业务单元
@@ -527,11 +531,12 @@ const Settings: React.FC = () => {
                 message.success('保存成功')
               }}
               style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
                 fontWeight: 600,
                 height: 44,
+                boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
               }}
             >
               保存
@@ -546,20 +551,20 @@ const Settings: React.FC = () => {
       children: (
         <div>
           <Card
-            title="当前套餐"
+            title={<span style={{ color: '#111827', fontWeight: 600 }}>当前套餐</span>}
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#FFFFFF',
+              border: '1px solid #E5E7EB',
               borderRadius: 16,
               marginBottom: 16,
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <Title level={4} style={{ color: '#fff', marginBottom: 0 }}>
+                <Title level={4} style={{ color: '#111827', marginBottom: 0 }}>
                   {planInfo?.planType === 'pro' ? '专业版' : '免费版'}
                 </Title>
-                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <Text style={{ color: '#6B7280' }}>
                   {planInfo?.planType === 'pro' ? '¥299/月' : '¥0'}
                 </Text>
               </div>
@@ -574,10 +579,11 @@ const Settings: React.FC = () => {
                     }
                   }}
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: '#2563EB',
                     border: 'none',
                     borderRadius: 10,
                     fontWeight: 600,
+                    boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
                   }}
                 >
                   升级到专业版
@@ -586,33 +592,33 @@ const Settings: React.FC = () => {
             </div>
           </Card>
           <Card
-            title="使用情况"
+            title={<span style={{ color: '#111827', fontWeight: 600 }}>使用情况</span>}
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#FFFFFF',
+              border: '1px solid #E5E7EB',
               borderRadius: 16,
             }}
           >
             <div style={{ marginBottom: 16 }}>
-              <Text style={{ color: '#fff' }}>AI问答配额</Text>
+              <Text style={{ color: '#111827' }}>AI问答配额</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <Text style={{ color: '#6B7280' }}>
                   {usageInfo?.aiUsed || 0} / {usageInfo?.aiLimit || 50} 次
                 </Text>
               </div>
             </div>
             <div style={{ marginBottom: 16 }}>
-              <Text style={{ color: '#fff' }}>存储空间</Text>
+              <Text style={{ color: '#111827' }}>存储空间</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <Text style={{ color: '#6B7280' }}>
                   {usageInfo?.storageUsed || 0} MB / {usageInfo?.storageLimit || 500} MB
                 </Text>
               </div>
             </div>
             <div>
-              <Text style={{ color: '#fff' }}>成员数量</Text>
+              <Text style={{ color: '#111827' }}>成员数量</Text>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <Text style={{ color: '#6B7280' }}>
                   {usageInfo?.memberCount || 1} / {usageInfo?.memberLimit || 10} 人
                 </Text>
               </div>
@@ -627,18 +633,19 @@ const Settings: React.FC = () => {
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Card
         style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
           borderRadius: 20,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}
         styles={{ body: { padding: 32 } }}
       >
         <div style={{ marginBottom: 32 }}>
-          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+          <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
             <SettingOutlined style={{ marginRight: 12 }} />
             设置
           </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>
+          <Text style={{ color: '#6B7280', fontSize: 16 }}>
             管理企业配置、API Key、成员权限、对外服务等
           </Text>
         </div>
@@ -694,56 +701,6 @@ const Settings: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-
-      <style>{`
-        .ant-tabs .ant-tabs-tab {
-          color: rgba(255,255,255,0.5) !important;
-        }
-        .ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-          color: #667eea !important;
-        }
-        .ant-tabs .ant-tabs-ink-bar {
-          background: #667eea !important;
-        }
-        .ant-table {
-          background: transparent !important;
-        }
-        .ant-table-thead > tr > th {
-          background: rgba(255,255,255,0.05) !important;
-          color: rgba(255,255,255,0.8) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-        }
-        .ant-table-tbody > tr > td {
-          color: rgba(255,255,255,0.7) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-        }
-        .ant-table-tbody > tr:hover > td {
-          background: rgba(102, 126, 234, 0.1) !important;
-        }
-        .ant-input,
-        .ant-input-password,
-        .ant-select-selector {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          color: #fff !important;
-        }
-        .ant-input::placeholder,
-        .ant-select-selection-placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .ant-input:focus,
-        .ant-input-password:focus,
-        .ant-select-focused .ant-select-selector {
-          border-color: #667eea !important;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
-        }
-        .ant-select-arrow {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .ant-form-item-label > label {
-          color: rgba(255,255,255,0.8) !important;
-        }
-      `}</style>
     </div>
   )
 }

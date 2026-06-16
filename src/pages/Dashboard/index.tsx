@@ -47,28 +47,32 @@ const Dashboard: React.FC = () => {
       icon: <RobotOutlined />,
       title: '问AI试试',
       description: '50次免费AI问答',
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: '#2563EB',
+      bg: '#E0E7FF',
       onClick: () => navigate('/chat'),
     },
     {
       icon: <UploadOutlined />,
       title: '上传文档',
       description: '支持多种格式',
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      color: '#8B5CF6',
+      bg: '#EDE9FE',
       onClick: () => navigate('/upload'),
     },
     {
       icon: <FormOutlined />,
       title: '引导问答',
       description: enterprise?.industry || 'AI引导采集',
-      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+      color: '#0EA5E9',
+      bg: '#E0F2FE',
       onClick: () => navigate('/collect'),
     },
     {
       icon: <BarChartOutlined />,
       title: '数据分析',
       description: '查看使用统计',
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+      color: '#10B981',
+      bg: '#D1FAE5',
       onClick: () => navigate('/analytics'),
     },
   ]
@@ -81,18 +85,65 @@ const Dashboard: React.FC = () => {
 
   const knowledgeCount = stats?.knowledgeCount || 0
 
+  const statCards = [
+    {
+      title: '知识条目',
+      value: stats?.knowledgeCount || 0,
+      icon: <BookOutlined />,
+      color: '#2563EB',
+      bg: '#E0E7FF',
+      trend: '+12%',
+    },
+    {
+      title: 'AI问答次数',
+      value: stats?.aiChatCount || 0,
+      icon: <MessageOutlined />,
+      color: '#8B5CF6',
+      bg: '#EDE9FE',
+      trend: '+25%',
+    },
+    {
+      title: '团队成员',
+      value: stats?.memberCount || 1,
+      icon: <TeamOutlined />,
+      color: '#0EA5E9',
+      bg: '#E0F2FE',
+      trend: '',
+    },
+    {
+      title: 'AI采纳率',
+      value: stats?.adoptionRate || 0,
+      icon: <RiseOutlined />,
+      color: '#10B981',
+      bg: '#D1FAE5',
+      suffix: '%',
+      trend: '+8%',
+    },
+  ]
+
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       {/* 欢迎区域 */}
       <Card
         style={{
-          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
-          border: '1px solid rgba(102, 126, 234, 0.2)',
-          borderRadius: 20,
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
+          borderRadius: 16,
           marginBottom: 24,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          overflow: 'hidden',
+          position: 'relative',
         }}
         styles={{ body: { padding: 32 } }}
       >
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: 6,
+          background: 'linear-gradient(180deg, #2563EB 0%, #3B82F6 100%)',
+        }} />
         <Row align="middle" gutter={24}>
           <Col flex="auto">
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
@@ -101,21 +152,20 @@ const Dashboard: React.FC = () => {
                   width: 48,
                   height: 48,
                   borderRadius: 14,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: '#E0E7FF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: 20,
-                  color: '#fff',
                 }}
               >
                 👋
               </div>
               <div>
-                <Title level={4} style={{ color: '#fff', marginBottom: 0 }}>
+                <Title level={4} style={{ color: '#111827', marginBottom: 0, fontWeight: 700 }}>
                   {enterprise?.name || '企业'} 控制台
                 </Title>
-                <Text style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <Text style={{ color: '#6B7280' }}>
                   欢迎回来，{user?.name || user?.email}
                 </Text>
               </div>
@@ -123,12 +173,14 @@ const Dashboard: React.FC = () => {
           </Col>
           <Col>
             <Tag
-              color="#667eea"
               style={{
                 padding: '6px 16px',
                 borderRadius: 100,
                 fontSize: 13,
                 fontWeight: 600,
+                background: '#E0E7FF',
+                border: '1px solid #C7D2FE',
+                color: '#2563EB',
               }}
             >
               {enterprise?.planType === 'pro' ? '专业版' : '免费版'}
@@ -139,43 +191,14 @@ const Dashboard: React.FC = () => {
 
       {/* 统计卡片 */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        {[
-          {
-            title: '知识条目',
-            value: stats?.knowledgeCount || 0,
-            icon: <BookOutlined />,
-            color: '#667eea',
-            trend: '+12%',
-          },
-          {
-            title: 'AI问答次数',
-            value: stats?.aiChatCount || 0,
-            icon: <MessageOutlined />,
-            color: '#f093fb',
-            trend: '+25%',
-          },
-          {
-            title: '团队成员',
-            value: stats?.memberCount || 1,
-            icon: <TeamOutlined />,
-            color: '#4facfe',
-            trend: '',
-          },
-          {
-            title: 'AI采纳率',
-            value: stats?.adoptionRate || 0,
-            icon: <RiseOutlined />,
-            color: '#43e97b',
-            suffix: '%',
-            trend: '+8%',
-          },
-        ].map((stat, index) => (
+        {statCards.map((stat, index) => (
           <Col xs={24} sm={12} lg={6} key={index}>
             <Card
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: '#FFFFFF',
+                border: '1px solid #E5E7EB',
                 borderRadius: 16,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               }}
               styles={{ body: { padding: 24 } }}
             >
@@ -185,7 +208,7 @@ const Dashboard: React.FC = () => {
                     width: 48,
                     height: 48,
                     borderRadius: 12,
-                    background: `linear-gradient(135deg, ${stat.color}40 0%, ${stat.color}20 100%)`,
+                    background: stat.bg,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -197,11 +220,10 @@ const Dashboard: React.FC = () => {
                 </div>
                 {stat.trend && (
                   <Tag
-                    color="success"
                     style={{
-                      background: 'rgba(67, 233, 123, 0.1)',
-                      border: '1px solid rgba(67, 233, 123, 0.2)',
-                      color: '#43e97b',
+                      background: '#D1FAE5',
+                      border: '1px solid #A7F3D0',
+                      color: '#059669',
                       borderRadius: 100,
                     }}
                   >
@@ -209,17 +231,17 @@ const Dashboard: React.FC = () => {
                   </Tag>
                 )}
               </div>
-              <div style={{ fontSize: 36, fontWeight: 800, color: '#fff', marginBottom: 4 }}>
+              <div style={{ fontSize: 36, fontWeight: 800, color: '#111827', marginBottom: 4 }}>
                 {stat.value}{stat.suffix || ''}
               </div>
-              <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>{stat.title}</Text>
+              <Text style={{ color: '#6B7280', fontSize: 14 }}>{stat.title}</Text>
             </Card>
           </Col>
         ))}
       </Row>
 
       {/* 快捷操作 */}
-      <Title level={5} style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 16 }}>
+      <Title level={5} style={{ color: '#374151', marginBottom: 16, fontWeight: 700 }}>
         快捷操作
       </Title>
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
@@ -229,10 +251,12 @@ const Dashboard: React.FC = () => {
               hoverable
               onClick={action.onClick}
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: '#FFFFFF',
+                border: '1px solid #E5E7EB',
                 borderRadius: 16,
                 cursor: 'pointer',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                transition: 'all 0.2s',
               }}
               styles={{ body: { padding: 24, textAlign: 'center' } }}
             >
@@ -241,21 +265,21 @@ const Dashboard: React.FC = () => {
                   width: 64,
                   height: 64,
                   borderRadius: 18,
-                  background: action.gradient,
+                  background: action.bg,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: 28,
-                  color: '#fff',
+                  color: action.color,
                   margin: '0 auto 16px',
                 }}
               >
                 {action.icon}
               </div>
-              <Title level={5} style={{ color: '#fff', marginBottom: 4 }}>
+              <Title level={5} style={{ color: '#111827', marginBottom: 4, fontWeight: 600 }}>
                 {action.title}
               </Title>
-              <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{action.description}</Text>
+              <Text style={{ color: '#6B7280' }}>{action.description}</Text>
             </Card>
           </Col>
         ))}
@@ -265,11 +289,12 @@ const Dashboard: React.FC = () => {
       <Row gutter={24}>
         <Col xs={24} lg={16}>
           <Card
-            title={<span style={{ color: '#fff' }}>最近活动</span>}
+            title={<span style={{ color: '#111827', fontWeight: 600 }}>最近活动</span>}
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#FFFFFF',
+              border: '1px solid #E5E7EB',
               borderRadius: 16,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
             }}
             styles={{ body: { padding: 0 } }}
           >
@@ -279,7 +304,7 @@ const Dashboard: React.FC = () => {
                 <List.Item
                   style={{
                     padding: '16px 24px',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    borderBottom: '1px solid #F3F4F6',
                   }}
                 >
                   <List.Item.Meta
@@ -289,12 +314,13 @@ const Dashboard: React.FC = () => {
                           width: 40,
                           height: 40,
                           borderRadius: 12,
-                          background: 'linear-gradient(135deg, #667eea40 0%, #764ba240 100%)',
+                          background: '#E0E7FF',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: '#667eea',
+                          color: '#2563EB',
                           fontSize: 16,
+                          fontWeight: 600,
                         }}
                       >
                         {item.user.charAt(0)}
@@ -302,13 +328,13 @@ const Dashboard: React.FC = () => {
                     }
                     title={
                       <Space>
-                        <Text style={{ color: '#fff', fontWeight: 600 }}>{item.user}</Text>
-                        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{item.action}</Text>
-                        <Text style={{ color: '#667eea' }}>{item.target}</Text>
+                        <Text style={{ color: '#111827', fontWeight: 600 }}>{item.user}</Text>
+                        <Text style={{ color: '#6B7280' }}>{item.action}</Text>
+                        <Text style={{ color: '#2563EB' }}>{item.target}</Text>
                       </Space>
                     }
                     description={
-                      <Text style={{ color: 'rgba(255,255,255,0.3)' }}>{item.time}</Text>
+                      <Text style={{ color: '#9CA3AF' }}>{item.time}</Text>
                     }
                   />
                 </List.Item>
@@ -319,12 +345,13 @@ const Dashboard: React.FC = () => {
 
         <Col xs={24} lg={8}>
           <Card
-            title={<span style={{ color: '#fff' }}>知识库状态</span>}
+            title={<span style={{ color: '#111827', fontWeight: 600 }}>知识库状态</span>}
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#FFFFFF',
+              border: '1px solid #E5E7EB',
               borderRadius: 16,
               height: '100%',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
             }}
             styles={{ body: { padding: 24, textAlign: 'center' } }}
           >
@@ -333,7 +360,7 @@ const Dashboard: React.FC = () => {
                 style={{
                   fontSize: 64,
                   fontWeight: 900,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   marginBottom: 8,
@@ -341,7 +368,7 @@ const Dashboard: React.FC = () => {
               >
                 {knowledgeCount}
               </div>
-              <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>知识条目</Text>
+              <Text style={{ color: '#6B7280', fontSize: 16 }}>知识条目</Text>
             </div>
 
             <div
@@ -349,14 +376,14 @@ const Dashboard: React.FC = () => {
                 padding: 16,
                 borderRadius: 12,
                 background: knowledgeCount < 10
-                  ? 'rgba(245, 158, 11, 0.1)'
-                  : 'rgba(67, 233, 123, 0.1)',
-                border: `1px solid ${knowledgeCount < 10 ? 'rgba(245, 158, 11, 0.2)' : 'rgba(67, 233, 123, 0.2)'}`,
+                  ? '#FEF3C7'
+                  : '#D1FAE5',
+                border: `1px solid ${knowledgeCount < 10 ? '#FDE68A' : '#A7F3D0'}`,
               }}
             >
               <Text
                 style={{
-                  color: knowledgeCount < 10 ? '#f59e0b' : '#43e97b',
+                  color: knowledgeCount < 10 ? '#D97706' : '#059669',
                   fontSize: 14,
                 }}
               >
@@ -374,9 +401,10 @@ const Dashboard: React.FC = () => {
               style={{
                 marginTop: 16,
                 height: 44,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#2563EB',
                 border: 'none',
                 borderRadius: 10,
+                fontWeight: 600,
               }}
               onClick={() => navigate('/knowledge')}
             >

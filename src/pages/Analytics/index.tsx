@@ -47,7 +47,7 @@ const Analytics: React.FC = () => {
         analyticsApi.getUncoveredQuestions(10),
         analyticsApi.getUserRanking(10),
       ])
-      
+
       const overviewResult = overviewRes.data
       const hotResult = hotRes.data
       const uncoveredResult = uncoveredRes.data
@@ -72,7 +72,7 @@ const Analytics: React.FC = () => {
       render: (_: any, __: any, index: number) => (
         <Tag
           style={{
-            background: index < 3 ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
+            background: index < 3 ? 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)' : '#F3F4F6',
             border: 'none',
             color: '#fff',
             borderRadius: 8,
@@ -87,20 +87,20 @@ const Analytics: React.FC = () => {
       title: '问题',
       dataIndex: 'question',
       key: 'question',
-      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
     },
     {
       title: '提问次数',
       dataIndex: 'count',
       key: 'count',
       sorter: (a: any, b: any) => a.count - b.count,
-      render: (count: number) => <Text style={{ color: '#667eea', fontWeight: 600 }}>{count}</Text>,
+      render: (count: number) => <Text style={{ color: '#2563EB', fontWeight: 600 }}>{count}</Text>,
     },
     {
       title: '最后提问',
       dataIndex: 'lastAsked',
       key: 'lastAsked',
-      render: (text: string) => <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
+      render: (text: string) => <Text style={{ color: '#6B7280' }}>{new Date(text).toLocaleDateString('zh-CN')}</Text>,
     },
   ]
 
@@ -109,14 +109,14 @@ const Analytics: React.FC = () => {
       title: '问题',
       dataIndex: 'question',
       key: 'question',
-      render: (text: string) => <Text style={{ color: '#fff' }}>{text}</Text>,
+      render: (text: string) => <Text style={{ color: '#111827' }}>{text}</Text>,
     },
     {
       title: '提问次数',
       dataIndex: 'count',
       key: 'count',
       sorter: (a: any, b: any) => a.count - b.count,
-      render: (count: number) => <Text style={{ color: '#f59e0b', fontWeight: 600 }}>{count}</Text>,
+      render: (count: number) => <Text style={{ color: '#D97706', fontWeight: 600 }}>{count}</Text>,
     },
     {
       title: '状态',
@@ -124,9 +124,9 @@ const Analytics: React.FC = () => {
       render: () => (
         <Tag
           style={{
-            background: 'rgba(245, 158, 11, 0.2)',
-            border: '1px solid rgba(245, 158, 11, 0.3)',
-            color: '#f59e0b',
+            background: '#FEF3C7',
+            border: '1px solid #FDE68A',
+            color: '#D97706',
             borderRadius: 100,
           }}
         >
@@ -137,7 +137,7 @@ const Analytics: React.FC = () => {
     {
       title: '建议',
       key: 'action',
-      render: () => <Text style={{ color: 'rgba(255,255,255,0.4)' }}>建议补充相关知识</Text>,
+      render: () => <Text style={{ color: '#9CA3AF' }}>建议补充相关知识</Text>,
     },
   ]
 
@@ -149,7 +149,7 @@ const Analytics: React.FC = () => {
       render: (_: any, __: any, index: number) => (
         <Tag
           style={{
-            background: index < 3 ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
+            background: index < 3 ? 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)' : '#F3F4F6',
             border: 'none',
             color: '#fff',
             borderRadius: 8,
@@ -171,7 +171,7 @@ const Analytics: React.FC = () => {
               width: 32,
               height: 32,
               borderRadius: 10,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -182,7 +182,7 @@ const Analytics: React.FC = () => {
           >
             {text.charAt(0)}
           </div>
-          <Text style={{ color: '#fff' }}>{text}</Text>
+          <Text style={{ color: '#111827' }}>{text}</Text>
         </Space>
       ),
     },
@@ -191,33 +191,41 @@ const Analytics: React.FC = () => {
       dataIndex: 'chatCount',
       key: 'chatCount',
       sorter: (a: any, b: any) => a.chatCount - b.chatCount,
-      render: (count: number) => <Text style={{ color: '#667eea', fontWeight: 600 }}>{count}</Text>,
+      render: (count: number) => <Text style={{ color: '#2563EB', fontWeight: 600 }}>{count}</Text>,
     },
     {
       title: '知识贡献',
       dataIndex: 'knowledgeCount',
       key: 'knowledgeCount',
-      render: (count: number) => <Text style={{ color: '#43e97b', fontWeight: 600 }}>{count}</Text>,
+      render: (count: number) => <Text style={{ color: '#059669', fontWeight: 600 }}>{count}</Text>,
     },
+  ]
+
+  const statCards = [
+    { title: 'AI问答次数', value: overview?.aiChatCount || 0, icon: <MessageOutlined />, color: '#2563EB', bg: '#E0E7FF', trend: '+25%' },
+    { title: '知识条目', value: overview?.knowledgeCount || 0, icon: <BookOutlined />, color: '#8B5CF6', bg: '#EDE9FE', trend: '+12%' },
+    { title: '活跃用户', value: overview?.activeUsers || 0, icon: <UserOutlined />, color: '#0EA5E9', bg: '#E0F2FE', trend: '' },
+    { title: 'AI采纳率', value: overview?.adoptionRate || 0, icon: <RiseOutlined />, color: '#10B981', bg: '#D1FAE5', suffix: '%', trend: '+8%' },
   ]
 
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Card
         style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: 20,
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
+          borderRadius: 16,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}
         styles={{ body: { padding: 32 } }}
       >
         <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+            <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
               <BarChartOutlined style={{ marginRight: 12 }} />
               数据分析
             </Title>
-            <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>
+            <Text style={{ color: '#6B7280', fontSize: 16 }}>
               查看知识库使用情况和AI问答效果
             </Text>
           </div>
@@ -238,43 +246,14 @@ const Analytics: React.FC = () => {
         <Spin spinning={loading}>
           {/* 核心指标 */}
           <Row gutter={[16, 16]} style={{ marginBottom: 32 }}>
-            {[
-              {
-                title: 'AI问答次数',
-                value: overview?.aiChatCount || 0,
-                icon: <MessageOutlined />,
-                color: '#667eea',
-                trend: '+25%',
-              },
-              {
-                title: '知识条目',
-                value: overview?.knowledgeCount || 0,
-                icon: <BookOutlined />,
-                color: '#f093fb',
-                trend: '+12%',
-              },
-              {
-                title: '活跃用户',
-                value: overview?.activeUsers || 0,
-                icon: <UserOutlined />,
-                color: '#4facfe',
-                trend: '',
-              },
-              {
-                title: 'AI采纳率',
-                value: overview?.adoptionRate || 0,
-                icon: <RiseOutlined />,
-                color: '#43e97b',
-                suffix: '%',
-                trend: '+8%',
-              },
-            ].map((stat, index) => (
+            {statCards.map((stat, index) => (
               <Col xs={24} sm={12} lg={6} key={index}>
                 <Card
                   style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: '#FFFFFF',
+                    border: '1px solid #E5E7EB',
                     borderRadius: 16,
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                   }}
                   styles={{ body: { padding: 24 } }}
                 >
@@ -284,7 +263,7 @@ const Analytics: React.FC = () => {
                         width: 48,
                         height: 48,
                         borderRadius: 12,
-                        background: `linear-gradient(135deg, ${stat.color}40 0%, ${stat.color}20 100%)`,
+                        background: stat.bg,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -297,9 +276,9 @@ const Analytics: React.FC = () => {
                     {stat.trend && (
                       <Tag
                         style={{
-                          background: 'rgba(67, 233, 123, 0.1)',
-                          border: '1px solid rgba(67, 233, 123, 0.2)',
-                          color: '#43e97b',
+                          background: '#D1FAE5',
+                          border: '1px solid #A7F3D0',
+                          color: '#059669',
                           borderRadius: 100,
                         }}
                       >
@@ -307,10 +286,10 @@ const Analytics: React.FC = () => {
                       </Tag>
                     )}
                   </div>
-                  <div style={{ fontSize: 36, fontWeight: 800, color: '#fff', marginBottom: 4 }}>
+                  <div style={{ fontSize: 36, fontWeight: 800, color: '#111827', marginBottom: 4 }}>
                     {stat.value}{stat.suffix || ''}
                   </div>
-                  <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>{stat.title}</Text>
+                  <Text style={{ color: '#6B7280', fontSize: 14 }}>{stat.title}</Text>
                 </Card>
               </Col>
             ))}
@@ -322,14 +301,15 @@ const Analytics: React.FC = () => {
               <Card
                 title={
                   <Space>
-                    <QuestionCircleOutlined style={{ color: '#667eea' }} />
-                    <span style={{ color: '#fff' }}>热门问题 TOP10</span>
+                    <QuestionCircleOutlined style={{ color: '#2563EB' }} />
+                    <span style={{ color: '#111827', fontWeight: 600 }}>热门问题 TOP10</span>
                   </Space>
                 }
                 style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: '#FFFFFF',
+                  border: '1px solid #E5E7EB',
                   borderRadius: 16,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                 }}
                 styles={{ body: { padding: 0 } }}
               >
@@ -348,14 +328,15 @@ const Analytics: React.FC = () => {
               <Card
                 title={
                   <Space>
-                    <QuestionCircleOutlined style={{ color: '#f59e0b' }} />
-                    <span style={{ color: '#fff' }}>未覆盖问题</span>
+                    <QuestionCircleOutlined style={{ color: '#D97706' }} />
+                    <span style={{ color: '#111827', fontWeight: 600 }}>未覆盖问题</span>
                   </Space>
                 }
                 style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: '#FFFFFF',
+                  border: '1px solid #E5E7EB',
                   borderRadius: 16,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                 }}
                 styles={{ body: { padding: 0 } }}
               >
@@ -374,14 +355,15 @@ const Analytics: React.FC = () => {
           <Card
             title={
               <Space>
-                <UserOutlined style={{ color: '#667eea' }} />
-                <span style={{ color: '#fff' }}>用户活跃排行</span>
+                <UserOutlined style={{ color: '#2563EB' }} />
+                <span style={{ color: '#111827', fontWeight: 600 }}>用户活跃排行</span>
               </Space>
             }
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#FFFFFF',
+              border: '1px solid #E5E7EB',
               borderRadius: 16,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               marginTop: 16,
             }}
             styles={{ body: { padding: 0 } }}
@@ -395,37 +377,6 @@ const Analytics: React.FC = () => {
           </Card>
         </Spin>
       </Card>
-
-      <style>{`
-        .ant-table {
-          background: transparent !important;
-        }
-        .ant-table-thead > tr > th {
-          background: rgba(255,255,255,0.05) !important;
-          color: rgba(255,255,255,0.8) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-        }
-        .ant-table-tbody > tr > td {
-          color: rgba(255,255,255,0.7) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-        }
-        .ant-table-tbody > tr:hover > td {
-          background: rgba(102, 126, 234, 0.1) !important;
-        }
-        .ant-picker {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-        }
-        .ant-picker-input > input {
-          color: #fff !important;
-        }
-        .ant-picker-input > input::placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .ant-picker-suffix {
-          color: rgba(255,255,255,0.3) !important;
-        }
-      `}</style>
     </div>
   )
 }

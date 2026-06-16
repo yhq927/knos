@@ -24,57 +24,52 @@ const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: '#0a0a0a',
-        padding: 20,
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 420,
-          background: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 24,
-          padding: '48px 40px',
-          backdropFilter: 'blur(20px)',
-        }}
-      >
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: '#F8FAFC',
+      padding: 20,
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: 420,
+        background: '#FFFFFF',
+        border: '1px solid #E5E7EB',
+        borderRadius: 20,
+        padding: '48px 40px',
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
+      }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 16,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 24,
-              fontWeight: 800,
-              color: '#fff',
-              margin: '0 auto 20px',
-            }}
-          >
+          <div style={{
+            width: 56,
+            height: 56,
+            borderRadius: 16,
+            background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 24,
+            fontWeight: 800,
+            color: '#fff',
+            margin: '0 auto 20px',
+            boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
+          }}>
             K
           </div>
-          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+          <Title level={3} style={{ color: '#111827', marginBottom: 8 }}>
             找回密码
           </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <Text style={{ color: '#6B7280' }}>
             {sent ? '重置链接已发送' : '输入您的注册邮箱，我们将发送重置链接'}
           </Text>
         </div>
 
         {sent ? (
           <div style={{ textAlign: 'center' }}>
-            <CheckCircleOutlined style={{ fontSize: 48, color: '#43e97b', marginBottom: 20 }} />
-            <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, display: 'block', marginBottom: 32 }}>
+            <CheckCircleOutlined style={{ fontSize: 48, color: '#10B981', marginBottom: 20 }} />
+            <Text style={{ color: '#374151', fontSize: 16, display: 'block', marginBottom: 32 }}>
               若该邮箱已注册，重置链接已发送至您的邮箱，请查收。
             </Text>
             <Link to="/login">
@@ -85,9 +80,10 @@ const ForgotPassword: React.FC = () => {
                   height: 52,
                   fontSize: 16,
                   fontWeight: 600,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: '#2563EB',
                   border: 'none',
-                  borderRadius: 12,
+                  borderRadius: 10,
+                  boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
                 }}
               >
                 返回登录
@@ -104,14 +100,14 @@ const ForgotPassword: React.FC = () => {
               ]}
             >
               <Input
-                prefix={<MailOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                prefix={<MailOutlined style={{ color: '#9CA3AF' }} />}
                 placeholder="请输入注册邮箱"
                 style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 12,
+                  background: '#F9FAFB',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: 10,
                   height: 52,
-                  color: '#fff',
+                  color: '#111827',
                 }}
               />
             </Form.Item>
@@ -126,9 +122,10 @@ const ForgotPassword: React.FC = () => {
                   height: 52,
                   fontSize: 16,
                   fontWeight: 600,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: '#2563EB',
                   border: 'none',
-                  borderRadius: 12,
+                  borderRadius: 10,
+                  boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
                 }}
               >
                 发送重置链接
@@ -136,7 +133,7 @@ const ForgotPassword: React.FC = () => {
             </Form.Item>
 
             <div style={{ textAlign: 'center' }}>
-              <Link to="/login" style={{ color: '#667eea' }}>
+              <Link to="/login" style={{ color: '#2563EB' }}>
                 <ArrowLeftOutlined /> 返回登录
               </Link>
             </div>

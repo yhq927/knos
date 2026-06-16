@@ -36,7 +36,7 @@ const Loading = () => (
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    background: '#0a0a0a',
+    background: '#F8FAFC',
   }}>
     <Spin size="large" />
   </div>
@@ -50,7 +50,7 @@ const NotFound = () => (
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      background: '#0a0a0a',
+      background: '#F8FAFC',
       padding: 40,
     }}
   >
@@ -59,7 +59,7 @@ const NotFound = () => (
         style={{
           fontSize: 96,
           fontWeight: 900,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           marginBottom: 16,
@@ -67,10 +67,10 @@ const NotFound = () => (
       >
         404
       </div>
-      <Title level={3} style={{ color: '#fff', marginBottom: 8 }}>
+      <Title level={3} style={{ color: '#111827', marginBottom: 8 }}>
         页面不存在
       </Title>
-      <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, display: 'block', marginBottom: 32 }}>
+      <Text style={{ color: '#9CA3AF', fontSize: 16, display: 'block', marginBottom: 32 }}>
         您访问的页面不存在或已被移除
       </Text>
       <Link to="/">
@@ -79,7 +79,7 @@ const NotFound = () => (
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            color: '#667eea',
+            color: '#2563EB',
             fontSize: 16,
             fontWeight: 600,
           }}

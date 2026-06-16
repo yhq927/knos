@@ -24,7 +24,6 @@ import {
   DeleteOutlined,
   EyeOutlined,
   FolderOutlined,
-  FileOutlined,
   BookOutlined,
 } from '@ant-design/icons'
 import { knowledgeApi, businessUnitsApi } from '@/services/api'
@@ -142,7 +141,7 @@ const Knowledge: React.FC = () => {
       dataIndex: 'title',
       key: 'title',
       render: (text: string, record: KnowledgeEntry) => (
-        <a onClick={() => handleView(record)} style={{ color: '#667eea' }}>{text}</a>
+        <a onClick={() => handleView(record)} style={{ color: '#2563EB' }}>{text}</a>
       ),
     },
     {
@@ -150,19 +149,19 @@ const Knowledge: React.FC = () => {
       dataIndex: 'contentType',
       key: 'contentType',
       render: (type: string) => {
-        const typeMap: Record<string, { color: string; label: string }> = {
-          faq: { color: '#667eea', label: 'FAQ' },
-          sop: { color: '#43e97b', label: 'SOP' },
-          guide: { color: '#f093fb', label: '指南' },
-          policy: { color: '#4facfe', label: '制度' },
-          other: { color: '#666', label: '其他' },
+        const typeMap: Record<string, { bg: string; border: string; color: string; label: string }> = {
+          faq: { bg: '#E0E7FF', border: '#C7D2FE', color: '#2563EB', label: 'FAQ' },
+          sop: { bg: '#D1FAE5', border: '#A7F3D0', color: '#059669', label: 'SOP' },
+          guide: { bg: '#EDE9FE', border: '#DDD6FE', color: '#7C3AED', label: '指南' },
+          policy: { bg: '#E0F2FE', border: '#BAE6FD', color: '#0284C7', label: '制度' },
+          other: { bg: '#F3F4F6', border: '#E5E7EB', color: '#6B7280', label: '其他' },
         }
         const item = typeMap[type] || typeMap.other
         return (
           <Tag
             style={{
-              background: `${item.color}20`,
-              border: `1px solid ${item.color}40`,
+              background: item.bg,
+              border: `1px solid ${item.border}`,
               color: item.color,
               borderRadius: 100,
             }}
@@ -177,18 +176,18 @@ const Knowledge: React.FC = () => {
       dataIndex: 'visibility',
       key: 'visibility',
       render: (visibility: string) => {
-        const visibilityMap: Record<string, { color: string; label: string }> = {
-          private: { color: '#f5576c', label: '私密' },
-          team: { color: '#4facfe', label: '团队可见' },
-          link: { color: '#f59e0b', label: '链接可见' },
-          public: { color: '#43e97b', label: '完全公开' },
+        const visibilityMap: Record<string, { bg: string; border: string; color: string; label: string }> = {
+          private: { bg: '#FEE2E2', border: '#FECACA', color: '#DC2626', label: '私密' },
+          team: { bg: '#E0F2FE', border: '#BAE6FD', color: '#0284C7', label: '团队可见' },
+          link: { bg: '#FEF3C7', border: '#FDE68A', color: '#D97706', label: '链接可见' },
+          public: { bg: '#D1FAE5', border: '#A7F3D0', color: '#059669', label: '完全公开' },
         }
         const item = visibilityMap[visibility] || visibilityMap.private
         return (
           <Tag
             style={{
-              background: `${item.color}20`,
-              border: `1px solid ${item.color}40`,
+              background: item.bg,
+              border: `1px solid ${item.border}`,
               color: item.color,
               borderRadius: 100,
             }}
@@ -203,18 +202,18 @@ const Knowledge: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => {
-        const statusMap: Record<string, { color: string; label: string }> = {
-          draft: { color: '#666', label: '草稿' },
-          review: { color: '#f59e0b', label: '审核中' },
-          published: { color: '#43e97b', label: '已发布' },
-          archived: { color: '#666', label: '已归档' },
+        const statusMap: Record<string, { bg: string; border: string; color: string; label: string }> = {
+          draft: { bg: '#F3F4F6', border: '#E5E7EB', color: '#6B7280', label: '草稿' },
+          review: { bg: '#FEF3C7', border: '#FDE68A', color: '#D97706', label: '审核中' },
+          published: { bg: '#D1FAE5', border: '#A7F3D0', color: '#059669', label: '已发布' },
+          archived: { bg: '#F3F4F6', border: '#E5E7EB', color: '#6B7280', label: '已归档' },
         }
         const item = statusMap[status] || statusMap.draft
         return (
           <Tag
             style={{
-              background: `${item.color}20`,
-              border: `1px solid ${item.color}40`,
+              background: item.bg,
+              border: `1px solid ${item.border}`,
               color: item.color,
               borderRadius: 100,
             }}
@@ -229,7 +228,7 @@ const Knowledge: React.FC = () => {
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       render: (text: string) => (
-        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <Text style={{ color: '#6B7280' }}>
           {new Date(text).toLocaleString('zh-CN')}
         </Text>
       ),
@@ -243,13 +242,13 @@ const Knowledge: React.FC = () => {
             type="text"
             icon={<EyeOutlined />}
             onClick={() => handleView(record)}
-            style={{ color: 'rgba(255,255,255,0.5)' }}
+            style={{ color: '#6B7280' }}
           />
           <Button
             type="text"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
-            style={{ color: '#667eea' }}
+            style={{ color: '#2563EB' }}
           />
           <Popconfirm
             title="确定删除这条知识吗？"
@@ -261,7 +260,7 @@ const Knowledge: React.FC = () => {
               type="text"
               danger
               icon={<DeleteOutlined />}
-              style={{ color: '#f5576c' }}
+              style={{ color: '#DC2626' }}
             />
           </Popconfirm>
         </Space>
@@ -273,11 +272,11 @@ const Knowledge: React.FC = () => {
     {
       title: '公司层',
       key: 'company',
-      icon: <FolderOutlined style={{ color: '#667eea' }} />,
+      icon: <FolderOutlined style={{ color: '#2563EB' }} />,
       children: businessUnits.map(unit => ({
         title: unit.name,
         key: unit.id,
-        icon: <FolderOutlined style={{ color: '#4facfe' }} />,
+        icon: <FolderOutlined style={{ color: '#0EA5E9' }} />,
       })),
     },
   ]
@@ -286,9 +285,10 @@ const Knowledge: React.FC = () => {
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Card
         style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: 20,
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
+          borderRadius: 16,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}
         styles={{ body: { padding: 24 } }}
       >
@@ -296,15 +296,15 @@ const Knowledge: React.FC = () => {
           {/* 左侧树形导航 */}
           <Col xs={24} lg={6}>
             <div style={{ marginBottom: 16 }}>
-              <Title level={5} style={{ color: '#fff', marginBottom: 0 }}>
+              <Title level={5} style={{ color: '#111827', marginBottom: 0, fontWeight: 700 }}>
                 <BookOutlined style={{ marginRight: 8 }} />
                 知识结构
               </Title>
             </div>
             <div
               style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.05)',
+                background: '#F9FAFB',
+                border: '1px solid #E5E7EB',
                 borderRadius: 12,
                 padding: 16,
               }}
@@ -330,13 +330,13 @@ const Knowledge: React.FC = () => {
               <Space>
                 <Input
                   placeholder="搜索知识条目"
-                  prefix={<SearchOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />}
+                  prefix={<SearchOutlined style={{ color: '#9CA3AF' }} />}
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                   style={{
                     width: 250,
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: '#F9FAFB',
+                    border: '1px solid #E5E7EB',
                     borderRadius: 10,
                   }}
                   allowClear
@@ -358,7 +358,7 @@ const Knowledge: React.FC = () => {
                 icon={<PlusOutlined />}
                 onClick={handleCreate}
                 style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: '#2563EB',
                   border: 'none',
                   borderRadius: 10,
                   fontWeight: 600,
@@ -380,7 +380,7 @@ const Knowledge: React.FC = () => {
                 total,
                 showSizeChanger: true,
                 showQuickJumper: true,
-                showTotal: (total) => <span style={{ color: 'rgba(255,255,255,0.5)' }}>共 {total} 条</span>,
+                showTotal: (total) => <span style={{ color: '#6B7280' }}>共 {total} 条</span>,
                 onChange: (page, pageSize) => {
                   setPage(page)
                   setPageSize(pageSize)
@@ -458,7 +458,7 @@ const Knowledge: React.FC = () => {
       >
         {currentEntry && (
           <div>
-            <Title level={4} style={{ color: '#fff' }}>{currentEntry.title}</Title>
+            <Title level={4} style={{ color: '#111827' }}>{currentEntry.title}</Title>
             <Space style={{ marginBottom: 16 }}>
               <Tag color="blue">{currentEntry.contentType}</Tag>
               <Tag color={currentEntry.visibility === 'public' ? 'green' : 'default'}>
@@ -468,10 +468,10 @@ const Knowledge: React.FC = () => {
                 {currentEntry.status}
               </Tag>
             </Space>
-            <Paragraph style={{ whiteSpace: 'pre-wrap', color: 'rgba(255,255,255,0.8)' }}>
+            <Paragraph style={{ whiteSpace: 'pre-wrap', color: '#374151' }}>
               {currentEntry.content}
             </Paragraph>
-            <div style={{ marginTop: 16, color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>
+            <div style={{ marginTop: 16, color: '#9CA3AF', fontSize: 12 }}>
               <p>创建时间：{new Date(currentEntry.createdAt).toLocaleString('zh-CN')}</p>
               <p>更新时间：{new Date(currentEntry.updatedAt).toLocaleString('zh-CN')}</p>
               <p>版本：v{currentEntry.version}</p>
@@ -479,41 +479,6 @@ const Knowledge: React.FC = () => {
           </div>
         )}
       </Drawer>
-
-      <style>{`
-        .ant-table {
-          background: transparent !important;
-        }
-        .ant-table-thead > tr > th {
-          background: rgba(255,255,255,0.05) !important;
-          color: rgba(255,255,255,0.8) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-        }
-        .ant-table-tbody > tr > td {
-          color: rgba(255,255,255,0.7) !important;
-          border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-        }
-        .ant-table-tbody > tr:hover > td {
-          background: rgba(102, 126, 234, 0.1) !important;
-        }
-        .ant-pagination .ant-pagination-item {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-        }
-        .ant-pagination .ant-pagination-item a {
-          color: rgba(255,255,255,0.7) !important;
-        }
-        .ant-pagination .ant-pagination-item-active {
-          background: #667eea !important;
-          border-color: #667eea !important;
-        }
-        .ant-tree .ant-tree-node-content-wrapper {
-          color: rgba(255,255,255,0.7) !important;
-        }
-        .ant-tree .ant-tree-node-selected .ant-tree-node-content-wrapper {
-          background: rgba(102, 126, 234, 0.2) !important;
-        }
-      `}</style>
     </div>
   )
 }

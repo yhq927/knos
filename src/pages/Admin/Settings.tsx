@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Form, Input, Button, Typography, message, Divider, Space, Tag, Row, Col } from 'antd'
-import { SaveOutlined, ApiOutlined, GlobalOutlined, MailOutlined, MessageOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { Card, Form, Input, Button, Typography, message, Space, Tag, Row, Col } from 'antd'
+import { SaveOutlined, ApiOutlined, GlobalOutlined, MailOutlined, InfoCircleOutlined } from '@ant-design/icons'
 
 const { Title, Text } = Typography
 
@@ -57,22 +57,23 @@ const AdminSettings: React.FC = () => {
   }
 
   const cardStyle = {
-    background: 'rgba(255,255,255,0.03)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    background: '#FFFFFF',
+    border: '1px solid #E5E7EB',
     borderRadius: 16,
+    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
   }
 
   const inputStyle = {
-    background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(255,255,255,0.1)',
+    background: '#F9FAFB',
+    border: '1px solid #E5E7EB',
     borderRadius: 10,
   }
 
   return (
     <div style={{ maxWidth: 900 }}>
       <div style={{ marginBottom: 32 }}>
-        <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>系统设置</Title>
-        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>管理平台全局配置</Text>
+        <Title level={2} style={{ color: '#111827', marginBottom: 4, fontWeight: 700 }}>系统设置</Title>
+        <Text style={{ color: '#6B7280' }}>管理平台全局配置</Text>
       </div>
 
       <Form
@@ -88,8 +89,8 @@ const AdminSettings: React.FC = () => {
         <Card
           title={
             <Space>
-              <GlobalOutlined style={{ color: '#667eea' }} />
-              <span style={{ color: '#fff' }}>平台信息</span>
+              <GlobalOutlined style={{ color: '#2563EB' }} />
+              <span style={{ color: '#111827', fontWeight: 600 }}>平台信息</span>
             </Space>
           }
           style={cardStyle}
@@ -99,25 +100,25 @@ const AdminSettings: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="platformName"
-                label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>平台名称</Text>}
+                label={<Text style={{ color: '#374151' }}>平台名称</Text>}
                 rules={[{ required: true, message: '请输入平台名称' }]}
               >
-                <Input prefix={<GlobalOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />} style={inputStyle} />
+                <Input prefix={<GlobalOutlined style={{ color: '#9CA3AF' }} />} style={inputStyle} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 name="contactEmail"
-                label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>联系邮箱</Text>}
+                label={<Text style={{ color: '#374151' }}>联系邮箱</Text>}
                 rules={[{ type: 'email', message: '请输入有效邮箱' }]}
               >
-                <Input prefix={<MailOutlined style={{ color: 'rgba(255,255,255,0.3)' }} />} style={inputStyle} />
+                <Input prefix={<MailOutlined style={{ color: '#9CA3AF' }} />} style={inputStyle} />
               </Form.Item>
             </Col>
           </Row>
           <Form.Item
             name="welcomeMessage"
-            label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>默认欢迎语</Text>}
+            label={<Text style={{ color: '#374151' }}>默认欢迎语</Text>}
           >
             <Input.TextArea
               rows={3}
@@ -131,8 +132,8 @@ const AdminSettings: React.FC = () => {
         <Card
           title={
             <Space>
-              <ApiOutlined style={{ color: '#43e97b' }} />
-              <span style={{ color: '#fff' }}>AI 服务配置</span>
+              <ApiOutlined style={{ color: '#10B981' }} />
+              <span style={{ color: '#111827', fontWeight: 600 }}>AI 服务配置</span>
             </Space>
           }
           style={{ ...cardStyle, marginTop: 16 }}
@@ -141,7 +142,7 @@ const AdminSettings: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="aiProvider"
-                label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>AI 服务商</Text>}
+                label={<Text style={{ color: '#374151' }}>AI 服务商</Text>}
               >
                 <Input placeholder="如: openai, azure, custom" style={inputStyle} />
               </Form.Item>
@@ -149,7 +150,7 @@ const AdminSettings: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="aiModel"
-                label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>默认模型</Text>}
+                label={<Text style={{ color: '#374151' }}>默认模型</Text>}
               >
                 <Input placeholder="如: gpt-4o-mini" style={inputStyle} />
               </Form.Item>
@@ -157,7 +158,7 @@ const AdminSettings: React.FC = () => {
           </Row>
           <Form.Item
             name="aiApiKey"
-            label={<Text style={{ color: 'rgba(255,255,255,0.7)' }}>平台 API Key</Text>}
+            label={<Text style={{ color: '#374151' }}>平台 API Key</Text>}
           >
             <Input.Password placeholder="平台级别的 AI API Key（可选，企业也可自行配置）" style={inputStyle} />
           </Form.Item>
@@ -167,8 +168,8 @@ const AdminSettings: React.FC = () => {
         <Card
           title={
             <Space>
-              <InfoCircleOutlined style={{ color: '#f59e0b' }} />
-              <span style={{ color: '#fff' }}>系统信息</span>
+              <InfoCircleOutlined style={{ color: '#F59E0B' }} />
+              <span style={{ color: '#111827', fontWeight: 600 }}>系统信息</span>
             </Space>
           }
           style={{ ...cardStyle, marginTop: 16 }}
@@ -181,8 +182,8 @@ const AdminSettings: React.FC = () => {
               { label: 'Node.js', value: 'v18+' },
             ].map((item) => (
               <div key={item.label}>
-                <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.label}</Text>
-                <div style={{ color: '#fff', fontSize: 14, marginTop: 4 }}>
+                <Text style={{ color: '#9CA3AF', fontSize: 12 }}>{item.label}</Text>
+                <div style={{ color: '#111827', fontSize: 14, marginTop: 4 }}>
                   <Tag color="blue">{item.value}</Tag>
                 </div>
               </div>
@@ -202,10 +203,11 @@ const AdminSettings: React.FC = () => {
               height: 48,
               fontSize: 15,
               fontWeight: 600,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: '#2563EB',
               border: 'none',
               borderRadius: 12,
               paddingInline: 32,
+              boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
             }}
           >
             保存设置

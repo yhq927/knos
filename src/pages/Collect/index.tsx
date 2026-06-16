@@ -85,81 +85,152 @@ const Collect: React.FC = () => {
 
   return (
     <div style={{ padding: 24, maxWidth: 1400, margin: '0 auto' }}>
-      <Card style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20 }} styles={{ body: { padding: 32 } }}>
+      <Card style={{
+        background: '#FFFFFF',
+        border: '1px solid #E5E7EB',
+        borderRadius: 16,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      }} styles={{ body: { padding: 32 } }}>
         <div style={{ marginBottom: 32 }}>
-          <Title level={3} style={{ color: '#fff', marginBottom: 8 }}><FormOutlined style={{ marginRight: 12 }} />Knowledge Collection</Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>Use AI-guided Q&amp;A to systematically capture enterprise knowledge</Text>
+          <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
+            <FormOutlined style={{ marginRight: 12 }} />Knowledge Collection
+          </Title>
+          <Text style={{ color: '#6B7280', fontSize: 16 }}>Use AI-guided Q&amp;A to systematically capture enterprise knowledge</Text>
         </div>
 
-        <Card style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%)', border: '1px solid rgba(102,126,234,0.2)', borderRadius: 16, marginBottom: 32 }} styles={{ body: { padding: 24 } }}>
+        <Card style={{
+          background: '#F9FAFB',
+          border: '1px solid #E5E7EB',
+          borderRadius: 16,
+          marginBottom: 32,
+        }} styles={{ body: { padding: 24 } }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-            <Text style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Overall Progress</Text>
-            <Text style={{ color: '#667eea', fontWeight: 700, fontSize: 18 }}>{totalProgress}%</Text>
+            <Text style={{ color: '#111827', fontWeight: 600, fontSize: 16 }}>Overall Progress</Text>
+            <Text style={{ color: '#2563EB', fontWeight: 700, fontSize: 18 }}>{totalProgress}%</Text>
           </div>
-          <Progress percent={totalProgress} showInfo={false} strokeColor={{ '0%': '#667eea', '100%': '#764ba2' }} trailColor="rgba(255,255,255,0.1)" />
+          <Progress percent={totalProgress} showInfo={false} strokeColor="#2563EB" trailColor="#F3F4F6" />
         </Card>
 
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          <Card title={<span style={{ color: '#fff' }}>Goals</span>} style={{ width: 320, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, flexShrink: 0 }} styles={{ body: { padding: 0 } }}>
+          <Card title={<span style={{ color: '#111827', fontWeight: 600 }}>Goals</span>} style={{
+            width: 320,
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB',
+            borderRadius: 16,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+            flexShrink: 0,
+          }} styles={{ body: { padding: 0 } }}>
             <List dataSource={goals} renderItem={(goal) => (
-              <List.Item style={{ cursor: 'pointer', background: currentGoal?.id === goal.id ? 'rgba(102,126,234,0.1)' : 'transparent', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }} onClick={() => setCurrentGoal(goal)}>
+              <List.Item style={{
+                cursor: 'pointer',
+                background: currentGoal?.id === goal.id ? '#E0E7FF' : 'transparent',
+                padding: '16px 20px',
+                borderBottom: '1px solid #F3F4F6',
+              }} onClick={() => setCurrentGoal(goal)}>
                 <div style={{ width: '100%' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                    <Text style={{ color: '#fff', fontWeight: 600 }}>{goal.name}</Text>
-                    <Tag style={{ background: goal.status === 'completed' ? 'rgba(67,233,123,0.2)' : goal.status === 'in_progress' ? 'rgba(102,126,234,0.2)' : 'rgba(255,255,255,0.1)', border: '1px solid ' + (goal.status === 'completed' ? 'rgba(67,233,123,0.3)' : goal.status === 'in_progress' ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.15)'), color: goal.status === 'completed' ? '#43e97b' : goal.status === 'in_progress' ? '#667eea' : 'rgba(255,255,255,0.5)', borderRadius: 100, fontSize: 11 }}>{statusLabel(goal.status)}</Tag>
+                    <Text style={{ color: '#111827', fontWeight: 600 }}>{goal.name}</Text>
+                    <Tag style={{
+                      background: goal.status === 'completed' ? '#D1FAE5' : goal.status === 'in_progress' ? '#E0E7FF' : '#F3F4F6',
+                      border: '1px solid ' + (goal.status === 'completed' ? '#A7F3D0' : goal.status === 'in_progress' ? '#C7D2FE' : '#E5E7EB'),
+                      color: goal.status === 'completed' ? '#059669' : goal.status === 'in_progress' ? '#2563EB' : '#6B7280',
+                      borderRadius: 100,
+                      fontSize: 11,
+                    }}>{statusLabel(goal.status)}</Tag>
                   </div>
-                  <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, display: 'block', marginBottom: 8 }}>{goal.description}</Text>
-                  <Progress percent={Math.round((goal.progress / goal.total) * 100)} size="small" showInfo={false} strokeColor="#667eea" trailColor="rgba(255,255,255,0.1)" />
+                  <Text style={{ color: '#6B7280', fontSize: 12, display: 'block', marginBottom: 8 }}>{goal.description}</Text>
+                  <Progress percent={Math.round((goal.progress / goal.total) * 100)} size="small" showInfo={false} strokeColor="#2563EB" trailColor="#F3F4F6" />
                 </div>
               </List.Item>
             )} />
           </Card>
 
-          <Card style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, minWidth: 0 }} styles={{ body: { padding: 32 } }}>
+          <Card style={{
+            flex: 1,
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB',
+            borderRadius: 16,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+            minWidth: 0,
+          }} styles={{ body: { padding: 32 } }}>
             {isAllCompleted ? (
               <div style={{ textAlign: 'center', padding: '60px 0' }}>
-                <div style={{ width: 80, height: 80, borderRadius: 24, background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-                  <CheckCircleOutlined style={{ fontSize: 40, color: '#fff' }} />
+                <div style={{
+                  width: 80, height: 80, borderRadius: 24,
+                  background: '#D1FAE5',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 24px',
+                }}>
+                  <CheckCircleOutlined style={{ fontSize: 40, color: '#059669' }} />
                 </div>
-                <Title level={3} style={{ color: '#fff', marginBottom: 12 }}>Knowledge Base Ready!</Title>
-                <Paragraph style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, marginBottom: 32 }}>
+                <Title level={3} style={{ color: '#111827', marginBottom: 12, fontWeight: 700 }}>Knowledge Base Ready!</Title>
+                <Paragraph style={{ color: '#6B7280', fontSize: 16, marginBottom: 32 }}>
                   Collected {goals.reduce((sum, g) => sum + g.progress, 0)} knowledge entries
                 </Paragraph>
                 <Space>
-                  <Button type="primary" size="large" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 12, fontWeight: 600 }} onClick={() => navigate('/chat')}>Ask AI</Button>
-                  <Button size="large" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 12, color: '#fff', fontWeight: 600 }} onClick={() => navigate('/upload')}>Upload More</Button>
+                  <Button type="primary" size="large" style={{
+                    background: '#2563EB', border: 'none', borderRadius: 12, fontWeight: 600,
+                    boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
+                  }} onClick={() => navigate('/chat')}>Ask AI</Button>
+                  <Button size="large" style={{
+                    background: '#F3F4F6', border: '1px solid #E5E7EB', borderRadius: 12,
+                    color: '#374151', fontWeight: 600,
+                  }} onClick={() => navigate('/upload')}>Upload More</Button>
                 </Space>
               </div>
             ) : loading ? (
               <div style={{ textAlign: 'center', padding: '60px 0' }}>
-                <Spin size="large" /><div style={{ marginTop: 16, color: 'rgba(255,255,255,0.5)' }}>Preparing questions...</div>
+                <Spin size="large" /><div style={{ marginTop: 16, color: '#6B7280' }}>Preparing questions...</div>
               </div>
             ) : currentQuestion ? (
               <div>
-                <Tag color="#667eea" style={{ marginBottom: 24, padding: '6px 16px', borderRadius: 100, fontSize: 13 }}>{currentGoal?.name || 'Knowledge Collection'}</Tag>
-                <Card style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)', border: '1px solid rgba(102,126,234,0.2)', borderRadius: 16, marginBottom: 24 }} styles={{ body: { padding: 24 } }}>
+                <Tag style={{
+                  marginBottom: 24, padding: '6px 16px', borderRadius: 100, fontSize: 13,
+                  background: '#E0E7FF', border: '1px solid #C7D2FE', color: '#2563EB',
+                }}>{currentGoal?.name || 'Knowledge Collection'}</Tag>
+                <Card style={{
+                  background: '#F9FAFB',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: 16,
+                  marginBottom: 24,
+                }} styles={{ body: { padding: 24 } }}>
                   <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{
+                      width: 48, height: 48, borderRadius: 14,
+                      background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
                       <RobotOutlined style={{ fontSize: 24, color: '#fff' }} />
                     </div>
-                    <Title level={4} style={{ color: '#fff', margin: 0, lineHeight: 1.6 }}>{currentQuestion.content}</Title>
+                    <Title level={4} style={{ color: '#111827', margin: 0, lineHeight: 1.6 }}>{currentQuestion.content}</Title>
                   </div>
                 </Card>
                 <div style={{ marginBottom: 24 }}>
-                  <TextArea value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder="Enter your answer..." rows={4} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, color: '#fff', marginBottom: 16 }} />
+                  <TextArea
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                    placeholder="Enter your answer..."
+                    rows={4}
+                    style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 12, color: '#111827', marginBottom: 16 }}
+                  />
                   <Space>
-                    <Button type="primary" onClick={handleSubmitAnswer} loading={submitting} disabled={!answer.trim()} style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', borderRadius: 10, fontWeight: 600, height: 44, padding: '0 24px' }}>Submit</Button>
-                    <Button icon={<ForwardOutlined />} onClick={handleSkipQuestion} style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, color: '#fff', height: 44 }}>Skip</Button>
+                    <Button type="primary" onClick={handleSubmitAnswer} loading={submitting} disabled={!answer.trim()} style={{
+                      background: '#2563EB', border: 'none', borderRadius: 10, fontWeight: 600, height: 44, padding: '0 24px',
+                      boxShadow: '0 4px 12px rgba(37,99,235,0.25)',
+                    }}>Submit</Button>
+                    <Button icon={<ForwardOutlined />} onClick={handleSkipQuestion} style={{
+                      background: '#F3F4F6', border: '1px solid #E5E7EB', borderRadius: 10, color: '#374151', height: 44,
+                    }}>Skip</Button>
                   </Space>
                 </div>
                 {completedQuestions.length > 0 && (
                   <div>
-                    <Title level={5} style={{ color: '#fff', marginBottom: 16 }}>Answered Questions ({completedQuestions.length})</Title>
+                    <Title level={5} style={{ color: '#374151', marginBottom: 16, fontWeight: 700 }}>Answered Questions ({completedQuestions.length})</Title>
                     <List dataSource={completedQuestions.slice(-5).reverse()} renderItem={(item) => (
-                      <List.Item style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '12px 0' }}>
+                      <List.Item style={{ borderBottom: '1px solid #F3F4F6', padding: '12px 0' }}>
                         <div>
-                          <Text style={{ color: '#fff', fontWeight: 600, display: 'block', marginBottom: 4 }}>{item.question}</Text>
-                          <Text style={{ color: 'rgba(255,255,255,0.5)' }}>{item.answer}</Text>
+                          <Text style={{ color: '#111827', fontWeight: 600, display: 'block', marginBottom: 4 }}>{item.question}</Text>
+                          <Text style={{ color: '#6B7280' }}>{item.answer}</Text>
                         </div>
                       </List.Item>
                     )} />
@@ -167,17 +238,11 @@ const Collect: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', padding: '60px 0', color: 'rgba(255,255,255,0.5)' }}>No questions available</div>
+              <div style={{ textAlign: 'center', padding: '60px 0', color: '#6B7280' }}>No questions available</div>
             )}
           </Card>
         </div>
       </Card>
-
-      <style>{`
-        .ant-input { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #fff !important; }
-        .ant-input::placeholder { color: rgba(255,255,255,0.3) !important; }
-        .ant-input:focus { border-color: #667eea !important; box-shadow: 0 0 0 3px rgba(102,126,234,0.2) !important; }
-      `}</style>
     </div>
   )
 }
