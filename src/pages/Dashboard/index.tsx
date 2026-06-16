@@ -149,9 +149,9 @@ const Dashboard: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                 >
                   <Card style={{
-                    background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
-                    boxShadow: 'var(--shadow-sm)',
+                    background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(196,210,240,0.5)', borderRadius: 20,
+                    boxShadow: '0 4px 16px -2px rgba(37,99,235,0.06), inset 0 0 0 1px rgba(255,255,255,0.5)',
                   }} styles={{ body: { padding: 24 } }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                       <motion.div
@@ -197,9 +197,9 @@ const Dashboard: React.FC = () => {
                   style={{ cursor: 'pointer' }}
                 >
                   <Card style={{
-                    background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
-                    boxShadow: 'var(--shadow-sm)',
+                    background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(196,210,240,0.5)', borderRadius: 20,
+                    boxShadow: '0 4px 16px -2px rgba(37,99,235,0.06), inset 0 0 0 1px rgba(255,255,255,0.5)',
                   }} styles={{ body: { padding: 24, textAlign: 'center' } }}>
                     <motion.div
                       style={{

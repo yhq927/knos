@@ -27,14 +27,14 @@
                    radial-gradient(ellipse at 60% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
 
   /* 中性色 */
-  --bg-page: #F8FAFC;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #FAFBFC;
-  --bg-sidebar: rgba(255, 255, 255, 0.85);
-  --bg-header: rgba(255, 255, 255, 0.8);
-  --surface: #F3F4F6;
-  --surface-dark: #E5E7EB;
-  --surface-hover: #F0F1F3;
+  --bg-page: #F0F4FF;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-card-hover: rgba(255, 255, 255, 0.9);
+  --bg-sidebar: rgba(255, 255, 255, 0.7);
+  --bg-header: rgba(255, 255, 255, 0.6);
+  --surface: rgba(235, 240, 255, 0.8);
+  --surface-dark: #D8DFEF;
+  --surface-hover: rgba(225, 232, 255, 0.9);
 
   /* 文字色 */
   --text-primary: #111827;
@@ -44,8 +44,8 @@
   --text-placeholder: #C0C4CC;
 
   /* 边框 */
-  --border: #E5E7EB;
-  --border-light: #F3F4F6;
+  --border: rgba(196, 210, 240, 0.6);
+  --border-light: rgba(210, 220, 245, 0.4);
   --border-focus: rgba(37, 99, 235, 0.3);
 
   /* 功能色 */
@@ -81,9 +81,9 @@
   --shadow-card-hover: 0 12px 24px -4px rgba(37, 99, 235, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
 
   /* 玻璃效果 */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-bg-strong: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-bg-strong: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.5);
   --glass-blur: 20px;
 
   /* 动画 */
