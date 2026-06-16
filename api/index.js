@@ -23,6 +23,16 @@ module.exports = async (req, res) => {
   // CORS
   if (cors(req, res)) return
 
+  // 调试端点：返回请求信息，用于排查 URL 解析问题
+  if ((req.url || '').includes('_debug')) {
+    return res.status(200).json({
+      url: req.url,
+      method: req.method,
+      headers: req.headers,
+      query: req.query,
+    })
+  }
+
   // 解析原始路径
   // 由于所有 /api/* rewrite 到此文件，req.url 应保留原始路径
   const rawUrl = req.url || req.headers['x-vercel-path'] || ''
