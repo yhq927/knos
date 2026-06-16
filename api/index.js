@@ -333,7 +333,7 @@ module.exports = async (req, res) => {
     if (module === 'chat') {
       if (subSegments[0] === 'history' && req.method === 'GET') {
         const convs = await models.conversations.listByUser(user.id, { page: Number(query.page) || 1, pageSize: Number(query.pageSize) || 20 })
-        return ok(cons)
+        return ok(convs)
       }
       if (subSegments[0] === 'feedback' && req.method === 'POST') {
         if (!body.messageId || !['helpful', 'not_helpful'].includes(body.type)) return err(400, 400, '参数无效')

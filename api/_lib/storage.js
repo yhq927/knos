@@ -182,7 +182,7 @@ function matches(item, filter) {
 }
 
 module.exports = {
-  hasKV,
+  hasRedis,
   collection,
   createRepository,
   // 便捷导出：重置内存（仅内存模式，用于 seed 幂等）
