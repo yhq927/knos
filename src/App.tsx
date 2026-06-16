@@ -44,7 +44,7 @@ const Loading = () => (
       width: 48,
       height: 48,
       borderRadius: 14,
-      background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -83,7 +83,7 @@ const NotFound = () => (
         style={{
           fontSize: 96,
           fontWeight: 900,
-          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           marginBottom: 16,

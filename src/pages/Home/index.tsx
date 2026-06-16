@@ -41,7 +41,7 @@ const Home: React.FC = () => {
       buildMethod: 'AI引导采集 + 文档上传',
       story: '200+门店的运营经验分散在各店长脑子里，用KnosAI的AI引导采集，2天就沉淀了300+条知识，AI会主动问"新员工如何快速上手？""高峰期如何排班？"，把隐性经验变成显性知识。',
       beforeBuild: '3个月，50条知识', afterBuild: '2天，300+条知识',
-      color: '#2563EB', bg: '#E0E7FF',
+      color: '#667eea', bg: '#E0E7FF',
     },
     {
       icon: <BankOutlined />, industry: '金融服务', company: '某城商银行',
@@ -167,12 +167,12 @@ const Home: React.FC = () => {
             <motion.div
               style={{
                 width: 40, height: 40, borderRadius: 12,
-                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 20, fontWeight: 800, color: '#fff',
-                boxShadow: '0 4px 16px rgba(37,99,235,0.3)',
+                boxShadow: '0 4px 16px rgba(102,126,234,0.3)',
               }}
-              animate={{ boxShadow: ['0 4px 16px rgba(37,99,235,0.2)', '0 4px 24px rgba(37,99,235,0.4)', '0 4px 16px rgba(37,99,235,0.2)'] }}
+              animate={{ boxShadow: ['0 4px 16px rgba(102,126,234,0.2)', '0 4px 24px rgba(102,126,234,0.4)', '0 4px 16px rgba(102,126,234,0.2)'] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             >K</motion.div>
             <span style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>KnosAI</span>
@@ -184,7 +184,7 @@ const Home: React.FC = () => {
                 key={i}
                 href={`#${['features', 'use-cases', 'pricing', 'faq'][i]}`}
                 style={{ color: 'var(--text-muted)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
-                whileHover={{ color: '#2563EB' }}
+                whileHover={{ color: '#667eea' }}
               >{item}</motion.a>
             ))}
           </div>
@@ -193,9 +193,9 @@ const Home: React.FC = () => {
             <Button type="text" style={{ color: 'var(--text-secondary)', fontWeight: 500 }} onClick={() => navigate('/login')}>登录</Button>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button type="primary" style={{
-                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 border: 'none', borderRadius: 10, fontWeight: 600,
-                boxShadow: '0 4px 16px rgba(37,99,235,0.3)',
+                boxShadow: '0 4px 16px rgba(102,126,234,0.3)',
               }} onClick={() => navigate('/register')}>免费开始</Button>
             </motion.div>
           </Space>
@@ -209,7 +209,7 @@ const Home: React.FC = () => {
           style={{
             minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '120px 24px 80px', position: 'relative', overflow: 'hidden',
-            background: 'linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%)',
+            background: 'transparent',
           }}
         >
           {/* Animated mesh bg */}
@@ -217,7 +217,7 @@ const Home: React.FC = () => {
             <motion.div
               style={{
                 position: 'absolute', top: '-30%', left: '-20%', width: '80%', height: '120%',
-                background: 'radial-gradient(ellipse at 30% 50%, rgba(37,99,235,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(99,102,241,0.06) 0%, transparent 50%)',
+                background: 'radial-gradient(ellipse at 30% 50%, rgba(102,126,234,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(99,102,241,0.06) 0%, transparent 50%)',
               }}
               animate={{ x: [0, -20, 10, 0], y: [0, -10, 20, 0] }}
               transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
@@ -258,7 +258,7 @@ const Home: React.FC = () => {
               }}>
                 把团队经验<br />
                 <span style={{
-                  background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                 }}>沉淀成智能知识库</span>
               </Title>
@@ -281,9 +281,9 @@ const Home: React.FC = () => {
                 <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }}>
                   <Button type="primary" size="large" style={{
                     height: 56, padding: '0 40px', fontSize: 16, fontWeight: 600,
-                    background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     border: 'none', borderRadius: 14,
-                    boxShadow: '0 8px 28px rgba(37,99,235,0.35)',
+                    boxShadow: '0 8px 28px rgba(102,126,234,0.35)',
                   }} onClick={() => navigate('/register')}>
                     免费开始 <ArrowRightOutlined />
                   </Button>
@@ -335,7 +335,7 @@ const Home: React.FC = () => {
                   <Col xs={24} sm={12} lg={8} key={index}>
                     <motion.div variants={fadeUp} custom={index}>
                       <motion.div
-                        whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(37,99,235,0.12)' }}
+                        whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(102,126,234,0.12)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                       >
                         <Card style={{
@@ -347,7 +347,7 @@ const Home: React.FC = () => {
                             style={{
                               width: 64, height: 64, borderRadius: 18, background: '#E0E7FF',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 28, color: '#2563EB', marginBottom: 20,
+                              fontSize: 28, color: '#667eea', marginBottom: 20,
                             }}
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
@@ -365,7 +365,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* ── Customer Stories ── */}
-        <div style={{ padding: '120px 24px', background: '#F8FAFC' }}>
+        <div style={{ padding: '120px 24px', background: 'rgba(238,242,255,0.5)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <motion.div style={{ textAlign: 'center', marginBottom: 80 }}
               initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -397,7 +397,7 @@ const Home: React.FC = () => {
                             }}>{story.icon}</div>
                             <div>
                               <Text style={{ color: 'var(--text-primary)', fontWeight: 600, display: 'block' }}>{story.company}</Text>
-                              <Tag style={{ background: '#E0E7FF', border: '1px solid #C7D2FE', color: '#2563EB', borderRadius: 100, fontSize: 11 }}>{story.industry}</Tag>
+                              <Tag style={{ background: '#E0E7FF', border: '1px solid #C7D2FE', color: '#667eea', borderRadius: 100, fontSize: 11 }}>{story.industry}</Tag>
                             </div>
                           </div>
                           <div style={{ marginBottom: 16 }}>
@@ -447,14 +447,14 @@ const Home: React.FC = () => {
             <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               <Row gutter={[24, 24]} style={{ marginBottom: 60 }}>
                 {[
-                  { icon: <RobotOutlined />, title: 'AI引导采集', desc: 'AI主动提问，引导团队成员把隐性经验变成显性知识', features: ['动态生成问题', '目标导向采集', '10分钟上手'], color: '#2563EB', bg: '#E0E7FF' },
+                  { icon: <RobotOutlined />, title: 'AI引导采集', desc: 'AI主动提问，引导团队成员把隐性经验变成显性知识', features: ['动态生成问题', '目标导向采集', '10分钟上手'], color: '#667eea', bg: '#E0E7FF' },
                   { icon: <CloudUploadOutlined />, title: '文档自动解析', desc: '上传现有文档，AI自动提取知识点，结构化入库', features: ['支持PDF/Word/Excel', '智能分块提取', '批量处理'], color: '#8B5CF6', bg: '#EDE9FE' },
                   { icon: <BookOutlined />, title: '行业知识库', desc: '预置行业最佳实践，新企业进来就有基础，不用从零开始', features: ['行业模板', '持续更新', '脱敏安全'], color: '#0EA5E9', bg: '#E0F2FE' },
                 ].map((item, index) => (
                   <Col xs={24} lg={8} key={index}>
                     <motion.div variants={fadeUp} custom={index}>
                       <motion.div
-                        whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(37,99,235,0.12)' }}
+                        whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(102,126,234,0.12)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                       >
                         <Card style={{
@@ -519,11 +519,11 @@ const Home: React.FC = () => {
                         <motion.div
                           style={{
                             width: 56, height: 56, borderRadius: 16,
-                            background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             fontSize: 20, fontWeight: 800, color: '#fff',
                             margin: '0 auto 16px',
-                            boxShadow: '0 4px 16px rgba(37,99,235,0.3)',
+                            boxShadow: '0 4px 16px rgba(102,126,234,0.3)',
                           }}
                           whileHover={{ scale: 1.1 }}
                         >{step.num}</motion.div>
@@ -544,7 +544,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* ── Competitor Comparison ── */}
-        <div style={{ padding: '120px 24px', background: '#F8FAFC' }}>
+        <div style={{ padding: '120px 24px', background: 'rgba(238,242,255,0.5)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <motion.div style={{ textAlign: 'center', marginBottom: 80 }}
               initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -583,7 +583,7 @@ const Home: React.FC = () => {
                   <Col xs={24} sm={12} lg={8} key={index}>
                     <motion.div variants={fadeUp} custom={index}>
                       <motion.div
-                        whileHover={{ y: -8, boxShadow: plan.popular ? '0 20px 40px -8px rgba(37,99,235,0.25)' : '0 12px 28px -4px rgba(0,0,0,0.08)' }}
+                        whileHover={{ y: -8, boxShadow: plan.popular ? '0 20px 40px -8px rgba(102,126,234,0.25)' : '0 12px 28px -4px rgba(0,0,0,0.08)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                       >
                         <Card style={{
@@ -591,17 +591,17 @@ const Home: React.FC = () => {
                           backdropFilter: 'blur(12px)',
                           border: plan.popular ? '2px solid var(--primary)' : '1px solid rgba(229,231,235,0.5)',
                           borderRadius: 20, height: '100%', position: 'relative',
-                          boxShadow: plan.popular ? '0 12px 32px rgba(37,99,235,0.15)' : 'var(--shadow-sm)',
+                          boxShadow: plan.popular ? '0 12px 32px rgba(102,126,234,0.15)' : 'var(--shadow-sm)',
                         }} styles={{ body: { padding: 32 } }}>
                           {plan.popular && (
                             <motion.div
                               style={{
                                 position: 'absolute', top: -1, left: '50%', transform: 'translateX(-50%)',
-                                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                                 padding: '4px 20px', borderRadius: '0 0 12px 12px',
                                 fontSize: 12, fontWeight: 600, color: '#fff',
                               }}
-                              animate={{ boxShadow: ['0 2px 8px rgba(37,99,235,0.3)', '0 2px 16px rgba(37,99,235,0.5)', '0 2px 8px rgba(37,99,235,0.3)'] }}
+                              animate={{ boxShadow: ['0 2px 8px rgba(102,126,234,0.3)', '0 2px 16px rgba(102,126,234,0.5)', '0 2px 8px rgba(102,126,234,0.3)'] }}
                               transition={{ duration: 2, repeat: Infinity }}
                             >最受欢迎</motion.div>
                           )}
@@ -628,7 +628,7 @@ const Home: React.FC = () => {
                             <Button type={plan.popular ? 'primary' : 'default'} block size="large" style={{
                               height: 52, fontWeight: 600, borderRadius: 14,
                               ...(plan.popular
-                                ? { background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)', border: 'none', boxShadow: '0 4px 16px rgba(37,99,235,0.3)' }
+                                ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', boxShadow: '0 4px 16px rgba(102,126,234,0.3)' }
                                 : { background: '#F3F4F6', border: '1px solid var(--border)', color: 'var(--text-secondary)' }),
                             }} onClick={() => navigate('/register')}>{plan.cta}</Button>
                           </motion.div>
@@ -643,7 +643,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* ── FAQ ── */}
-        <div id="faq" style={{ padding: '120px 24px', background: '#F8FAFC' }}>
+        <div id="faq" style={{ padding: '120px 24px', background: 'rgba(238,242,255,0.5)' }}>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             <motion.div style={{ textAlign: 'center', marginBottom: 60 }}
               initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -679,7 +679,7 @@ const Home: React.FC = () => {
             style={{
               position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
               width: 600, height: 600, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(102,126,234,0.08) 0%, transparent 70%)',
               pointerEvents: 'none',
             }}
             animate={{ scale: [1, 1.1, 1] }}
@@ -699,9 +699,9 @@ const Home: React.FC = () => {
             <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }} style={{ display: 'inline-block' }}>
               <Button type="primary" size="large" style={{
                 height: 60, padding: '0 48px', fontSize: 18, fontWeight: 600,
-                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 border: 'none', borderRadius: 14,
-                boxShadow: '0 8px 28px rgba(37,99,235,0.35)',
+                boxShadow: '0 8px 28px rgba(102,126,234,0.35)',
               }} onClick={() => navigate('/register')}>
                 免费开始 <ArrowRightOutlined />
               </Button>
@@ -711,14 +711,14 @@ const Home: React.FC = () => {
       </Content>
 
       {/* ── Footer ── */}
-      <Footer style={{ background: '#F9FAFB', padding: '48px 24px', borderTop: '1px solid var(--border-light)' }}>
+      <Footer style={{ background: 'rgba(238,242,255,0.4)', padding: '48px 24px', borderTop: '1px solid var(--border-light)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <Row gutter={[48, 48]}>
             <Col xs={24} lg={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 10,
-                  background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 18, fontWeight: 700, color: '#fff',
                 }}>K</div>
@@ -737,7 +737,7 @@ const Home: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {section.links.map((link, i) => (
                     <motion.a key={i} style={{ color: 'var(--text-muted)', textDecoration: 'none', cursor: 'pointer' }}
-                      whileHover={{ color: '#2563EB', x: 2 }}
+                      whileHover={{ color: '#667eea', x: 2 }}
                     >{link}</motion.a>
                   ))}
                 </div>

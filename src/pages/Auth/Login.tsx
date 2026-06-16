@@ -51,7 +51,7 @@ const Login: React.FC = () => {
           width: 600,
           height: 600,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%)',
           filter: 'blur(40px)',
           pointerEvents: 'none',
         }}
@@ -118,14 +118,14 @@ const Login: React.FC = () => {
             width: 36,
             height: 36,
             borderRadius: 10,
-            background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: 17,
             fontWeight: 800,
             color: '#fff',
-            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
           }}>K</div>
           <span style={{ color: 'var(--text-primary)', fontSize: 17, fontWeight: 700, letterSpacing: '-0.3px' }}>KnosAI</span>
         </Link>
@@ -169,7 +169,7 @@ const Login: React.FC = () => {
                 width: 60,
                 height: 60,
                 borderRadius: 18,
-                background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -177,13 +177,13 @@ const Login: React.FC = () => {
                 fontWeight: 800,
                 color: '#fff',
                 margin: '0 auto 20px',
-                boxShadow: '0 8px 24px rgba(37, 99, 235, 0.3)',
+                boxShadow: '0 8px 24px rgba(102, 126, 234, 0.3)',
               }}
               animate={{
                 boxShadow: [
-                  '0 8px 24px rgba(37, 99, 235, 0.2)',
-                  '0 8px 32px rgba(37, 99, 235, 0.4)',
-                  '0 8px 24px rgba(37, 99, 235, 0.2)',
+                  '0 8px 24px rgba(102, 126, 234, 0.2)',
+                  '0 8px 32px rgba(102, 126, 234, 0.4)',
+                  '0 8px 24px rgba(102, 126, 234, 0.2)',
                 ],
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -267,10 +267,10 @@ const Login: React.FC = () => {
                       height: 52,
                       fontSize: 16,
                       fontWeight: 600,
-                      background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none',
                       borderRadius: 12,
-                      boxShadow: '0 4px 16px rgba(37, 99, 235, 0.3)',
+                      boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
                     }}
                   >
                     登录

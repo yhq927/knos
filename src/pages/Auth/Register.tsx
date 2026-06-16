@@ -72,7 +72,7 @@ const Register: React.FC = () => {
       <motion.div
         style={{
           position: 'absolute', top: '-30%', right: '-10%', width: 600, height: 600,
-          borderRadius: '50%', background: 'radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)',
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(102, 126, 234, 0.08) 0%, transparent 70%)',
           filter: 'blur(40px)', pointerEvents: 'none',
         }}
         animate={{ x: [0, 30, -20, 0], y: [0, -20, 30, 0] }}
@@ -103,10 +103,10 @@ const Register: React.FC = () => {
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <div style={{
               width: 36, height: 36, borderRadius: 10,
-              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 17, fontWeight: 800, color: '#fff',
-              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
             }}>K</div>
             <span style={{ color: 'var(--text-primary)', fontSize: 17, fontWeight: 700 }}>KnosAI</span>
           </Link>
@@ -136,11 +136,11 @@ const Register: React.FC = () => {
               <motion.div
                 style={{
                   width: 60, height: 60, borderRadius: 18,
-                  background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 26, fontWeight: 800, color: '#fff',
                   margin: '0 auto 20px',
-                  boxShadow: '0 8px 24px rgba(37, 99, 235, 0.3)',
+                  boxShadow: '0 8px 24px rgba(102, 126, 234, 0.3)',
                 }}
                 animate={{
                   boxShadow: ['0 8px 24px rgba(37,99,235,0.2)', '0 8px 32px rgba(37,99,235,0.4)', '0 8px 24px rgba(37,99,235,0.2)'],
@@ -187,9 +187,9 @@ const Register: React.FC = () => {
                   <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                     <Button type="primary" htmlType="submit" loading={loading} block style={{
                       height: 52, fontSize: 16, fontWeight: 600,
-                      background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none', borderRadius: 12,
-                      boxShadow: '0 4px 16px rgba(37, 99, 235, 0.3)',
+                      boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
                     }}>
                       注册 <ArrowRightOutlined />
                     </Button>
@@ -228,7 +228,7 @@ const Register: React.FC = () => {
           <Title style={{ fontSize: 48, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 24, lineHeight: 1.2 }}>
             让知识管理<br />
             <span style={{
-              background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #818cf8 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>更加智能</span>
           </Title>
@@ -249,7 +249,7 @@ const Register: React.FC = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
-                whileHover={{ x: 4, boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.1)' }}
+                whileHover={{ x: 4, boxShadow: '0 8px 24px -4px rgba(102, 126, 234, 0.1)' }}
                 style={{
                   display: 'flex', gap: 16, marginBottom: 20, padding: '18px 22px', borderRadius: 16,
                   background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(12px)',
