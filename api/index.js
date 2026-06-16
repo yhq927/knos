@@ -111,19 +111,58 @@ module.exports = async (req, res) => {
     }
 
     // ============================================================
-    // ADMIN 登录（无需认证，必须在认证墙之前）
+    // ADMIN 模块（使用 admin token，不走 JWT 认证墙）
     // ============================================================
-    if (module === 'admin' && subSegments[0] === 'auth' && req.method === 'POST') {
+    if (module === 'admin') {
       const adminUsers = { admin: { id: 'admin_001', username: 'admin', password: 'admin123', role: 'super_admin' } }
-      const { username, password } = body
-      if (!username || !password) return err(400, 400, '请输入账号和密码')
-      const admin = adminUsers[username]
-      if (!admin || admin.password !== password) return err(401, 401, '账号或密码错误')
-      return ok({ user: { id: admin.id, username: admin.username, role: admin.role }, token: 'admin_token_' + admin.id + '_' + Date.now() }, '登录成功')
+      const sub = subSegments[0]
+
+      // 登录：不需要 token
+      if (sub === 'auth' && req.method === 'POST') {
+        const { username, password } = body
+        if (!username || !password) return err(400, 400, '请输入账号和密码')
+        const admin = adminUsers[username]
+        if (!admin || admin.password !== password) return err(401, 401, '账号或密码错误')
+        return ok({ user: { id: admin.id, username: admin.username, role: admin.role }, token: 'admin_token_' + admin.id + '_' + Date.now() }, '登录成功')
+      }
+
+      // 其他 admin 接口需要 admin token
+      const token = (req.headers.authorization || '').replace('Bearer ', '')
+      if (!token.startsWith('admin_token_')) return err(401, 401, '管理员Token无效')
+
+      if (sub === 'stats' && req.method === 'GET') {
+        const [ents, usrs, knw] = await Promise.all([models.enterprises.find(), models.users.find(), models.knowledge.find()])
+        return ok({ totalEnterprises: ents.length, totalUsers: usrs.length, totalKnowledge: knw.length, dailyActive: 3, weeklyActive: 5, monthlyActive: 8 })
+      }
+      if (sub === 'enterprises') {
+        if (req.method === 'GET') {
+          const all = await models.enterprises.find()
+          all.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          const limit = Number(query.limit) || all.length
+          return ok({ list: all.slice(0, limit), total: all.length })
+        }
+        if (req.method === 'PUT') {
+          const id = query.id
+          if (!id) return err(400, 400, '缺少企业ID')
+          return ok(await models.enterprises.update(id, body), '更新成功')
+        }
+      }
+      if (sub === 'settings') {
+        const defaults = { platformName: 'KnosAI', contactEmail: 'admin@knosai.com', welcomeMessage: '您好，我是您的智能助手', aiProvider: '', aiModel: '', aiApiKey: '' }
+        if (req.method === 'GET') {
+          const saved = await models.platformSettings.get()
+          return ok({ ...defaults, ...saved })
+        }
+        if (req.method === 'PUT') {
+          await models.platformSettings.set(body)
+          return ok(body, '设置已保存')
+        }
+      }
+      return err(404, 404, 'Admin API not found')
     }
 
     // ============================================================
-    // 所有后续模块都需要认证
+    // 所有后续模块都需要 JWT 认证
     // ============================================================
     const user = await resolveUser(req, res)
     if (!user) return err(401, 401, '未提供认证Token')
@@ -459,33 +498,6 @@ module.exports = async (req, res) => {
       }
       if (action === 'leads' && req.method === 'POST') {
         return ok(await models.publicLeads.insert({ id: models.genId('lead'), enterpriseId: eid, name: body.name || '', email: body.email || '', phone: body.phone || '', message: body.message || '' }), '提交成功')
-      }
-    }
-
-    // ---- ADMIN（平台管理，需 admin token）----
-    if (module === 'admin') {
-      const sub = subSegments[0]
-
-      // 其他 admin 接口需要 admin token
-      const token = (req.headers.authorization || '').replace('Bearer ', '')
-      if (!token.startsWith('admin_token_')) return err(401, 401, '管理员Token无效')
-
-      if (sub === 'stats' && req.method === 'GET') {
-        const [ents, usrs, knw] = await Promise.all([models.enterprises.find(), models.users.find(), models.knowledge.find()])
-        return ok({ totalEnterprises: ents.length, totalUsers: usrs.length, totalKnowledge: knw.length, dailyActive: 3, weeklyActive: 5, monthlyActive: 8 })
-      }
-      if (sub === 'enterprises') {
-        if (req.method === 'GET') {
-          const all = await models.enterprises.find()
-          all.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          const limit = Number(query.limit) || all.length
-          return ok({ list: all.slice(0, limit), total: all.length })
-        }
-        if (req.method === 'PUT') {
-          const id = query.id
-          if (!id) return err(400, 400, '缺少企业ID')
-          return ok(await models.enterprises.update(id, body), '更新成功')
-        }
       }
     }
 

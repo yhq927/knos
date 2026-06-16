@@ -181,15 +181,10 @@ const AdminEnterprises: React.FC = () => {
   )
 
   return (
-    <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div>
-          <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>企业管理</Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)' }}>管理所有注册企业</Text>
-        </div>
-        <Button onClick={() => navigate('/admin/dashboard')} style={{ color: '#fff' }}>
-          返回仪表盘
-        </Button>
+    <div>
+      <div style={{ marginBottom: 24 }}>
+        <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>企业管理</Title>
+        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>管理所有注册企业</Text>
       </div>
 
       <Card style={{

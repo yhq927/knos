@@ -235,4 +235,19 @@ module.exports = {
 
   // ---- 对外服务线索 ----
   publicLeads: publicLeadsRepo,
+
+  // ---- 平台设置（单例） ----
+  platformSettings: {
+    _id: 'platform_settings',
+    async get() {
+      const doc = await enterprisesRepo._collection.get('platform_settings')
+      return doc || {}
+    },
+    async set(data) {
+      const existing = await this.get()
+      const updated = { ...existing, ...data, id: 'platform_settings', updatedAt: new Date().toISOString() }
+      await enterprisesRepo._collection.set('platform_settings', updated)
+      return updated
+    },
+  },
 }

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Row, Col, Statistic, Typography, Table, Tag, Space, Button, message } from 'antd'
+import { Card, Row, Col, Typography, Table, Tag, Button } from 'antd'
 import {
-  DashboardOutlined,
   ShopOutlined,
   UserOutlined,
   BookOutlined,
-  SettingOutlined,
-  LogoutOutlined,
   RiseOutlined,
-  WarningOutlined,
-  CheckCircleOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
@@ -59,12 +54,6 @@ const AdminDashboard: React.FC = () => {
     }
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_token')
-    localStorage.removeItem('admin_user')
-    navigate('/admin/login')
-  }
-
   const enterpriseColumns = [
     {
       title: '企业名称',
@@ -107,39 +96,10 @@ const AdminDashboard: React.FC = () => {
   ]
 
   return (
-    <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
-      {/* 顶部导航 */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 32
-      }}>
-        <div>
-          <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>
-            平台管理后台
-          </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
-            KnosAI 管理员控制台
-          </Text>
-        </div>
-        <Space>
-          <Button
-            icon={<ShopOutlined />}
-            onClick={() => navigate('/admin/enterprises')}
-            style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}
-          >
-            企业管理
-          </Button>
-          {/* 用户管理功能暂未开放 */}
-          <Button
-            icon={<LogoutOutlined />}
-            onClick={handleLogout}
-            danger
-          >
-            退出
-          </Button>
-        </Space>
+    <div>
+      <div style={{ marginBottom: 32 }}>
+        <Title level={2} style={{ color: '#fff', marginBottom: 4 }}>仪表盘</Title>
+        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>平台运营数据概览</Text>
       </div>
 
       {/* 统计卡片 */}
