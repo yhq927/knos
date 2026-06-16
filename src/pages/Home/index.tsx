@@ -357,17 +357,18 @@ const Home: React.FC = () => {
             <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               <Row gutter={[24, 24]}>
                 {useCases.map((item, index) => (
-                  <Col xs={24} sm={12} lg={8} key={index}>
-                    <motion.div variants={fadeUp} custom={index}>
+                  <Col xs={24} sm={12} lg={8} key={index} style={{ display: 'flex' }}>
+                    <motion.div variants={fadeUp} custom={index} style={{ flex: 1, display: 'flex' }}>
                       <motion.div
                         whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(102,126,234,0.12)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                        style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
                           background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
                           border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
-                          height: '100%', boxShadow: 'var(--shadow-sm)',
-                        }} styles={{ body: { padding: 32 } }}>
+                          flex: 1, boxShadow: 'var(--shadow-sm)',
+                        }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <motion.div
                             style={{
                               width: 64, height: 64, borderRadius: 18, background: '#E0E7FF',
@@ -406,14 +407,14 @@ const Home: React.FC = () => {
             <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               <Row gutter={[24, 24]}>
                 {userStories.map((story, index) => (
-                  <Col xs={24} lg={8} key={index}>
-                    <motion.div variants={fadeUp} custom={index}>
-                      <motion.div whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}>
+                  <Col xs={24} lg={8} key={index} style={{ display: 'flex' }}>
+                    <motion.div variants={fadeUp} custom={index} style={{ flex: 1, display: 'flex' }}>
+                      <motion.div whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} style={{ flex: 1, display: 'flex' }}>
                         <Card style={{
                           background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
                           border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
-                          height: '100%', boxShadow: 'var(--shadow-sm)',
-                        }} styles={{ body: { padding: 32 } }}>
+                          flex: 1, boxShadow: 'var(--shadow-sm)',
+                        }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
                             <div style={{
                               width: 48, height: 48, borderRadius: 14, background: story.bg,
@@ -476,17 +477,18 @@ const Home: React.FC = () => {
                   { icon: <CloudUploadOutlined />, title: '文档自动解析', desc: '上传现有文档，AI自动提取知识点，结构化入库', features: ['支持PDF/Word/Excel', '智能分块提取', '批量处理'], color: '#8B5CF6', bg: '#EDE9FE' },
                   { icon: <BookOutlined />, title: '行业知识库', desc: '预置行业最佳实践，新企业进来就有基础，不用从零开始', features: ['行业模板', '持续更新', '脱敏安全'], color: '#0EA5E9', bg: '#E0F2FE' },
                 ].map((item, index) => (
-                  <Col xs={24} lg={8} key={index}>
-                    <motion.div variants={fadeUp} custom={index}>
+                  <Col xs={24} lg={8} key={index} style={{ display: 'flex' }}>
+                    <motion.div variants={fadeUp} custom={index} style={{ flex: 1, display: 'flex' }}>
                       <motion.div
                         whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(102,126,234,0.12)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                        style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
                           background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)',
                           border: '1px solid rgba(229,231,235,0.5)', borderRadius: 20,
-                          height: '100%', boxShadow: 'var(--shadow-sm)',
-                        }} styles={{ body: { padding: 32 } }}>
+                          flex: 1, boxShadow: 'var(--shadow-sm)',
+                        }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           <motion.div
                             style={{
                               width: 64, height: 64, borderRadius: 18, background: item.bg,
@@ -605,19 +607,20 @@ const Home: React.FC = () => {
             <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               <Row gutter={[24, 24]} justify="center">
                 {pricingPlans.map((plan, index) => (
-                  <Col xs={24} sm={12} lg={8} key={index}>
-                    <motion.div variants={fadeUp} custom={index}>
+                  <Col xs={24} sm={12} lg={8} key={index} style={{ display: 'flex' }}>
+                    <motion.div variants={fadeUp} custom={index} style={{ flex: 1, display: 'flex' }}>
                       <motion.div
                         whileHover={{ y: -8, boxShadow: plan.popular ? '0 20px 40px -8px rgba(102,126,234,0.25)' : '0 12px 28px -4px rgba(0,0,0,0.08)' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                        style={{ flex: 1, display: 'flex' }}
                       >
                         <Card style={{
                           background: plan.popular ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)',
                           backdropFilter: 'blur(12px)',
                           border: plan.popular ? '2px solid var(--primary)' : '1px solid rgba(229,231,235,0.5)',
-                          borderRadius: 20, height: '100%', position: 'relative',
+                          borderRadius: 20, flex: 1, position: 'relative',
                           boxShadow: plan.popular ? '0 12px 32px rgba(102,126,234,0.15)' : 'var(--shadow-sm)',
-                        }} styles={{ body: { padding: 32 } }}>
+                        }} styles={{ body: { padding: 32, display: 'flex', flexDirection: 'column', flex: 1 } }}>
                           {plan.popular && (
                             <motion.div
                               style={{
