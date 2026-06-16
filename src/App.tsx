@@ -33,12 +33,28 @@ const AdminSettings = lazy(() => import('./pages/Admin/Settings'))
 const Loading = () => (
   <div style={{
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    background: '#F8FAFC',
+    background: 'var(--bg-page)',
+    gap: 16,
   }}>
-    <Spin size="large" />
+    <div style={{
+      width: 48,
+      height: 48,
+      borderRadius: 14,
+      background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 22,
+      fontWeight: 800,
+      color: '#fff',
+      boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)',
+      animation: 'float-slow 3s ease-in-out infinite',
+    }}>K</div>
+    <Spin size="default" />
   </div>
 )
 
@@ -50,27 +66,36 @@ const NotFound = () => (
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      background: '#F8FAFC',
+      background: 'var(--bg-page)',
       padding: 40,
+      position: 'relative',
+      overflow: 'hidden',
     }}
   >
-    <div style={{ textAlign: 'center' }}>
+    <div style={{
+      position: 'absolute',
+      inset: 0,
+      background: 'var(--gradient-mesh)',
+      pointerEvents: 'none',
+    }} />
+    <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
       <div
         style={{
           fontSize: 96,
           fontWeight: 900,
-          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           marginBottom: 16,
+          lineHeight: 1,
         }}
       >
         404
       </div>
-      <Title level={3} style={{ color: '#111827', marginBottom: 8 }}>
+      <Title level={3} style={{ color: 'var(--text-primary)', marginBottom: 8 }}>
         页面不存在
       </Title>
-      <Text style={{ color: '#9CA3AF', fontSize: 16, display: 'block', marginBottom: 32 }}>
+      <Text style={{ color: 'var(--text-muted)', fontSize: 16, display: 'block', marginBottom: 32 }}>
         您访问的页面不存在或已被移除
       </Text>
       <Link to="/">
@@ -79,9 +104,13 @@ const NotFound = () => (
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            color: '#2563EB',
+            color: 'var(--primary)',
             fontSize: 16,
             fontWeight: 600,
+            padding: '10px 24px',
+            borderRadius: 12,
+            background: 'var(--primary-light)',
+            transition: 'all 0.2s',
           }}
         >
           <HomeOutlined /> 返回首页

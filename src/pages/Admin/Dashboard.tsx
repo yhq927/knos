@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Row, Col, Typography, Table, Tag, Button } from 'antd'
+import { motion } from 'framer-motion'
 import {
-  ShopOutlined,
-  UserOutlined,
-  BookOutlined,
-  RiseOutlined,
+  ShopOutlined, UserOutlined, BookOutlined, RiseOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
@@ -103,10 +101,10 @@ const AdminDashboard: React.FC = () => {
   ]
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
       <div style={{ marginBottom: 32 }}>
-        <Title level={2} style={{ color: '#111827', marginBottom: 4, fontWeight: 700 }}>仪表盘</Title>
-        <Text style={{ color: '#6B7280' }}>平台运营数据概览</Text>
+        <Title level={2} style={{ color: 'var(--text-primary)', marginBottom: 4, fontWeight: 700 }}>仪表盘</Title>
+        <Text style={{ color: 'var(--text-muted)' }}>平台运营数据概览</Text>
       </div>
 
       {/* 统计卡片 */}
@@ -114,10 +112,11 @@ const AdminDashboard: React.FC = () => {
         {statItems.map((item, index) => (
           <Col xs={24} sm={12} lg={6} key={index}>
             <Card style={{
-              background: '#FFFFFF',
-              border: '1px solid #E5E7EB',
-              borderRadius: 16,
-              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              background: 'rgba(255,255,255,0.7)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(229,231,235,0.5)',
+              borderRadius: 20,
+              boxShadow: 'var(--shadow-sm)',
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
@@ -172,7 +171,7 @@ const AdminDashboard: React.FC = () => {
           pagination={false}
         />
       </Card>
-    </div>
+    </motion.div>
   )
 }
 

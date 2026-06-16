@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Typography, Progress, List, Tag, Space, Input, message, Spin } from 'antd'
+import { motion } from 'framer-motion'
 import { FormOutlined, CheckCircleOutlined, ForwardOutlined, RobotOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { collectApi } from '@/services/api'
@@ -84,12 +85,18 @@ const Collect: React.FC = () => {
   const statusLabel = (s: string) => s === 'completed' ? 'Done' : s === 'in_progress' ? 'Active' : 'Pending'
 
   return (
-    <div style={{ padding: 24, maxWidth: 1400, margin: '0 auto' }}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      style={{ padding: 24, maxWidth: 1400, margin: '0 auto' }}
+    >
       <Card style={{
-        background: '#FFFFFF',
-        border: '1px solid #E5E7EB',
-        borderRadius: 16,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        background: 'rgba(255,255,255,0.7)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(229,231,235,0.5)',
+        borderRadius: 20,
+        boxShadow: 'var(--shadow-sm)',
       }} styles={{ body: { padding: 32 } }}>
         <div style={{ marginBottom: 32 }}>
           <Title level={3} style={{ color: '#111827', marginBottom: 8, fontWeight: 700 }}>
@@ -243,7 +250,7 @@ const Collect: React.FC = () => {
           </Card>
         </div>
       </Card>
-    </div>
+    </motion.div>
   )
 }
 

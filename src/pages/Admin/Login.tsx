@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, Typography, message, Card } from 'antd'
+import { motion } from 'framer-motion'
 import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
@@ -46,24 +47,30 @@ const AdminLogin: React.FC = () => {
       position: 'relative',
       overflow: 'hidden',
     }}>
-      <div style={{
-        position: 'absolute',
-        top: '-30%',
-        right: '-10%',
-        width: '500px',
-        height: '500px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+      <motion.div
+        style={{
+          position: 'absolute', top: '-30%', right: '-10%', width: 500, height: 500,
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+        animate={{ x: [0, 30, -20, 0], y: [0, -20, 30, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
       <Card style={{
         width: '100%',
         maxWidth: 420,
-        background: '#FFFFFF',
-        border: '1px solid #E5E7EB',
+        background: 'rgba(255,255,255,0.85)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        border: '1px solid rgba(255,255,255,0.4)',
         borderRadius: 24,
-        boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
+        boxShadow: '0 20px 40px -8px rgba(0,0,0,0.08), 0 0 0 1px rgba(229,231,235,0.3)',
         position: 'relative',
         zIndex: 1,
       }}>
@@ -152,11 +159,12 @@ const AdminLogin: React.FC = () => {
         </Form>
 
         <div style={{ textAlign: 'center', marginTop: 20 }}>
-          <Text style={{ color: '#9CA3AF', fontSize: 12 }}>
+          <Text style={{ color: 'var(--text-muted)', fontSize: 12 }}>
             测试账号: admin / admin123
           </Text>
         </div>
       </Card>
+      </motion.div>
     </div>
   )
 }

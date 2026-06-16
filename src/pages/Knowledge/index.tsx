@@ -17,6 +17,7 @@ import {
   Drawer,
   Typography,
 } from 'antd'
+import { motion } from 'framer-motion'
 import {
   PlusOutlined,
   SearchOutlined,
@@ -282,13 +283,19 @@ const Knowledge: React.FC = () => {
   ]
 
   return (
-    <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}
+    >
       <Card
         style={{
-          background: '#FFFFFF',
-          border: '1px solid #E5E7EB',
-          borderRadius: 16,
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          background: 'rgba(255,255,255,0.7)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(229,231,235,0.5)',
+          borderRadius: 20,
+          boxShadow: 'var(--shadow-sm)',
         }}
         styles={{ body: { padding: 24 } }}
       >
@@ -479,7 +486,7 @@ const Knowledge: React.FC = () => {
           </div>
         )}
       </Drawer>
-    </div>
+    </motion.div>
   )
 }
 

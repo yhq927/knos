@@ -1,7 +1,7 @@
 @import './tokens.css';
 
 /* ============================================
-   KnosAI Global Styles — 明亮现代风格
+   KnosAI Global Styles — Premium Modern
    ============================================ */
 
 * {
@@ -29,32 +29,84 @@ body {
 a {
   color: var(--primary);
   text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 a:hover {
   color: var(--primary-hover);
 }
 
-/* 滚动条样式 — 明亮风格 */
+/* ============================================
+   Scrollbar — Ultra Thin
+   ============================================ */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-dark);
-  border-radius: 3px;
+  background: var(--border);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
 
-/* 代码块样式 */
+/* ============================================
+   Glassmorphism Utilities
+   ============================================ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   Glow Effects
+   ============================================ */
+.glow-primary {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-primary-sm {
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* ============================================
+   Gradient Mesh Background
+   ============================================ */
+.gradient-mesh {
+  background: var(--gradient-mesh);
+}
+
+.gradient-animated {
+  background: linear-gradient(-45deg, #2563EB, #3B82F6, #60A5FA, #818CF8);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+   Code Block
+   ============================================ */
 code {
   font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
   font-size: 13px;
@@ -76,15 +128,17 @@ pre {
   border: 1px solid var(--border);
 }
 
-/* 通用动画 */
+/* ============================================
+   Animations
+   ============================================ */
 .fade-in {
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn var(--duration-slow) var(--ease-smooth);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -92,41 +146,81 @@ pre {
   }
 }
 
-/* 页面容器 */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--border-light) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(37, 99, 235, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ============================================
+   Page Container
+   ============================================ */
 .page-container {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* 卡片样式 */
+/* ============================================
+   Card Styles
+   ============================================ */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   padding: 20px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-smooth);
 }
 
-/* 按钮样式增强 */
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   Button Enhancements
+   ============================================ */
 .btn-primary {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 24px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   font-weight: 600;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-glow);
 }
 
-/* 表单样式 */
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   Form Styles
+   ============================================ */
 .form-label {
   display: block;
   margin-bottom: 8px;
@@ -140,7 +234,7 @@ pre {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 14px;
-  transition: border-color 0.2s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   background: var(--bg-card);
   color: var(--text-primary);
 }
@@ -148,21 +242,22 @@ pre {
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), var(--shadow-glow-sm);
 }
 
 .form-input::placeholder {
-  color: var(--text-muted);
+  color: var(--text-placeholder);
 }
 
-/* 错误提示 */
+/* ============================================
+   Utility
+   ============================================ */
 .error-message {
   color: var(--danger);
   font-size: 12px;
   margin-top: 4px;
 }
 
-/* 加载状态 */
 .loading-spinner {
   display: inline-block;
   width: 20px;
@@ -174,12 +269,9 @@ pre {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
-/* 空状态 */
 .empty-state {
   text-align: center;
   padding: 60px 40px;
@@ -189,7 +281,7 @@ pre {
 .empty-state-icon {
   font-size: 64px;
   margin-bottom: 24px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .empty-state-title {
@@ -205,7 +297,7 @@ pre {
 }
 
 /* ============================================
-   Ant Design 明亮主题覆盖
+   Ant Design Premium Overrides
    ============================================ */
 
 /* Layout */
@@ -215,10 +307,14 @@ pre {
 
 .ant-layout-sider {
   background: var(--bg-sidebar) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
 }
 
 .ant-layout-header {
   background: var(--bg-header) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
 }
 
 /* Menu */
@@ -229,16 +325,20 @@ pre {
 
 .ant-menu-item {
   color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
+  margin-bottom: 2px !important;
 }
 
 .ant-menu-item-selected {
   color: var(--primary) !important;
   background: var(--primary-light) !important;
+  font-weight: 600 !important;
 }
 
 .ant-menu-item:hover {
   color: var(--primary) !important;
-  background: var(--primary-light) !important;
+  background: var(--primary-50) !important;
 }
 
 /* Card */
@@ -247,6 +347,11 @@ pre {
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-sm) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
+}
+
+.ant-card:hover {
+  box-shadow: var(--shadow-card-hover) !important;
 }
 
 .ant-card-head {
@@ -256,6 +361,7 @@ pre {
 
 .ant-card-head-title {
   color: var(--text-primary) !important;
+  font-weight: 600 !important;
 }
 
 .ant-card-body {
@@ -280,21 +386,26 @@ pre {
   background: var(--surface) !important;
   color: var(--text-secondary) !important;
   border-bottom: 1px solid var(--border) !important;
-  font-weight: 600;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
 
 .ant-table-tbody > tr > td {
   color: var(--text-secondary) !important;
   border-bottom: 1px solid var(--border-light) !important;
+  transition: background var(--duration-fast) !important;
 }
 
 .ant-table-tbody > tr:hover > td {
-  background: var(--info-light) !important;
+  background: var(--primary-50) !important;
 }
 
 /* Tag */
 .ant-tag {
   border-radius: 100px !important;
+  font-weight: 500 !important;
 }
 
 .ant-badge-status-text {
@@ -307,14 +418,19 @@ pre {
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-md) !important;
   box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 
 .ant-dropdown-menu-item {
   color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-fast) !important;
 }
 
 .ant-dropdown-menu-item:hover {
-  background: var(--surface) !important;
+  background: var(--primary-50) !important;
+  color: var(--primary) !important;
 }
 
 /* Input */
@@ -325,10 +441,11 @@ pre {
   border: 1px solid var(--border) !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
 }
 
 .ant-input::placeholder {
-  color: var(--text-muted) !important;
+  color: var(--text-placeholder) !important;
 }
 
 .ant-input:focus,
@@ -336,7 +453,7 @@ pre {
 .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused {
   border-color: var(--primary) !important;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08), var(--shadow-glow-sm) !important;
 }
 
 .ant-input-prefix {
@@ -353,12 +470,18 @@ pre {
   border: none !important;
   font-weight: 600 !important;
   border-radius: var(--radius-sm) !important;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.2) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
 }
 
 .ant-btn-primary:hover {
   background: var(--primary-hover) !important;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-glow) !important;
+}
+
+.ant-btn-primary:active {
+  transform: translateY(0) !important;
 }
 
 .ant-btn-default {
@@ -366,11 +489,13 @@ pre {
   border: 1px solid var(--border) !important;
   color: var(--text-secondary) !important;
   border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
 }
 
 .ant-btn-default:hover {
   border-color: var(--primary) !important;
   color: var(--primary) !important;
+  box-shadow: var(--shadow-glow-sm) !important;
 }
 
 /* Select */
@@ -382,7 +507,7 @@ pre {
 }
 
 .ant-select-selection-placeholder {
-  color: var(--text-muted) !important;
+  color: var(--text-placeholder) !important;
 }
 
 .ant-select-arrow {
@@ -394,14 +519,17 @@ pre {
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-md) !important;
   box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 
 .ant-select-item {
   color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
 }
 
 .ant-select-item-option-active {
-  background: var(--primary-light) !important;
+  background: var(--primary-50) !important;
 }
 
 .ant-select-item-option-selected {
@@ -421,6 +549,7 @@ pre {
   background: var(--bg-card) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-fast) !important;
 }
 
 .ant-pagination .ant-pagination-item a {
@@ -430,6 +559,7 @@ pre {
 .ant-pagination .ant-pagination-item-active {
   background: var(--primary) !important;
   border-color: var(--primary) !important;
+  box-shadow: var(--shadow-glow-sm) !important;
 }
 
 .ant-pagination .ant-pagination-item-active a {
@@ -439,8 +569,10 @@ pre {
 /* Modal */
 .ant-modal-content {
   background: var(--bg-card) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-xl) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-2xl) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 
 .ant-modal-header {
@@ -459,11 +591,17 @@ pre {
 
 .ant-modal-close {
   color: var(--text-muted) !important;
+  transition: color var(--duration-fast) !important;
+}
+
+.ant-modal-close:hover {
+  color: var(--text-primary) !important;
 }
 
 /* Tabs */
 .ant-tabs .ant-tabs-tab {
   color: var(--text-muted) !important;
+  transition: color var(--duration-fast) !important;
 }
 
 .ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -487,10 +625,16 @@ pre {
   border-radius: var(--radius-md) !important;
   margin-bottom: 12px !important;
   overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
+}
+
+.ant-collapse-item:hover {
+  box-shadow: var(--shadow-md) !important;
 }
 
 .ant-collapse-header {
   color: var(--text-primary) !important;
+  font-weight: 500 !important;
 }
 
 .ant-collapse-content {
@@ -512,10 +656,12 @@ pre {
   background: var(--bg-card) !important;
   border: 2px dashed var(--border) !important;
   border-radius: var(--radius-lg) !important;
+  transition: all var(--duration-normal) var(--ease-smooth) !important;
 }
 
 .ant-upload-drag:hover {
   border-color: var(--primary) !important;
+  box-shadow: var(--shadow-glow-sm) !important;
 }
 
 /* Switch */
@@ -530,6 +676,8 @@ pre {
 /* Tree */
 .ant-tree .ant-tree-node-content-wrapper {
   color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--duration-fast) !important;
 }
 
 .ant-tree .ant-tree-node-selected .ant-tree-node-content-wrapper {
@@ -540,6 +688,11 @@ pre {
 /* List */
 .ant-list-item {
   border-bottom: 1px solid var(--border-light) !important;
+  transition: background var(--duration-fast) !important;
+}
+
+.ant-list-item:hover {
+  background: var(--primary-50) !important;
 }
 
 .ant-list-item-meta-title {
@@ -586,7 +739,7 @@ pre {
 }
 
 .ant-picker-input > input::placeholder {
-  color: var(--text-muted) !important;
+  color: var(--text-placeholder) !important;
 }
 
 .ant-picker-suffix {
@@ -604,6 +757,7 @@ pre {
 
 .ant-drawer-title {
   color: var(--text-primary) !important;
+  font-weight: 600 !important;
 }
 
 /* Popconfirm */
@@ -621,4 +775,17 @@ pre {
 /* Spin */
 .ant-spin-dot-item {
   background-color: var(--primary) !important;
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

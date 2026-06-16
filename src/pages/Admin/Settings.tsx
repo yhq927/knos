@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Form, Input, Button, Typography, message, Space, Tag, Row, Col } from 'antd'
+import { motion } from 'framer-motion'
 import { SaveOutlined, ApiOutlined, GlobalOutlined, MailOutlined, InfoCircleOutlined } from '@ant-design/icons'
 
 const { Title, Text } = Typography
@@ -57,10 +58,11 @@ const AdminSettings: React.FC = () => {
   }
 
   const cardStyle = {
-    background: '#FFFFFF',
-    border: '1px solid #E5E7EB',
-    borderRadius: 16,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+    background: 'rgba(255,255,255,0.7)',
+    backdropFilter: 'blur(12px)',
+    border: '1px solid rgba(229,231,235,0.5)',
+    borderRadius: 20,
+    boxShadow: 'var(--shadow-sm)',
   }
 
   const inputStyle = {
@@ -70,10 +72,10 @@ const AdminSettings: React.FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 900 }}>
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} style={{ maxWidth: 900 }}>
       <div style={{ marginBottom: 32 }}>
-        <Title level={2} style={{ color: '#111827', marginBottom: 4, fontWeight: 700 }}>系统设置</Title>
-        <Text style={{ color: '#6B7280' }}>管理平台全局配置</Text>
+        <Title level={2} style={{ color: 'var(--text-primary)', marginBottom: 4, fontWeight: 700 }}>系统设置</Title>
+        <Text style={{ color: 'var(--text-muted)' }}>管理平台全局配置</Text>
       </div>
 
       <Form
@@ -214,7 +216,7 @@ const AdminSettings: React.FC = () => {
           </Button>
         </div>
       </Form>
-    </div>
+    </motion.div>
   )
 }
 
